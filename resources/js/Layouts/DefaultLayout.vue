@@ -4,7 +4,7 @@
 
     <main class="grow w-full max-w-7xl mx-auto my-8 px-4 sm:px-6 lg:px-8">
 
-      <div class="pl-0 md:pl-8 min-h-[60vh]">
+      <div class="min-h-[60vh]">
         <slot />
       </div>
 
