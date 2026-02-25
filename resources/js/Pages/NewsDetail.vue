@@ -15,11 +15,7 @@ const article = {
 
 <template>
     <DefaultLayout>
-        <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-            <div class="fixed top-0 left-0 w-full h-1 bg-gray-100 dark:bg-gray-900 z-50">
-                <div class="bg-red-700 h-full w-1/3"></div>
-            </div>
-
+        <div class="min-h-screen transition-colors duration-300">
             <main class="max-w-7xl mx-auto py-8 lg:py-4">
                 <nav
                     class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8 overflow-x-auto whitespace-nowrap">
@@ -159,7 +155,7 @@ const article = {
                                 <Link href="#" v-for="i in 4" :key="i" class="block group">
                                     <div class="flex gap-4">
                                         <span
-                                            class="text-3xl font-black text-gray-100 dark:text-gray-800 group-hover:text-red-700/20 transition-colors leading-none">
+                                            class="text-3xl font-black text-gray-400 dark:text-gray-700 group-hover:text-red-700/20 transition-colors leading-none">
                                             0{{ i }}
                                         </span>
                                         <div class="space-y-2">

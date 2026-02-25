@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
-import { TrendingUp, Clock, ChevronRight, Mail } from 'lucide-vue-next'
+import { TrendingUp, Clock, ChevronRight, Mail, User } from 'lucide-vue-next'
 
 const mainNews = {
     id: 1,
@@ -11,7 +11,7 @@ const mainNews = {
     excerpt: 'Langkah besar diambil pemerintah untuk memastikan efisiensi birokrasi melalui sistem satu pintu berbasis AI yang diharapkan mampu memangkas waktu layanan hingga 80%...',
     author: 'Johan S. Putra',
     date: '2 Jam yang lalu',
-    image: 'https://plus.unsplash.com/premium_photo-1754752265556-77115945cde2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    image: 'https://plus.unsplash.com/premium_photo-1754752265556-77115945cde2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0'
 }
 
 const latestNews = [
@@ -43,8 +43,10 @@ const trendingNews = [
                         </div>
                         <Link href="/terkini"
                             class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-red-700 transition-colors">
-                            Lihat Semua</Link>
+                            Lihat Semua
+                        </Link>
                     </div>
+
                     <Link :href="`/news/${mainNews.slug}`" class="group block">
                         <article class="relative">
                             <div class="relative overflow-hidden shadow-2xl">
@@ -81,6 +83,7 @@ const trendingNews = [
                         </article>
                     </Link>
                 </section>
+
                 <section>
                     <div class="flex items-center gap-3 mb-8">
                         <div class="h-8 w-1.5 bg-gray-900 dark:bg-gray-100"></div>
@@ -91,84 +94,87 @@ const trendingNews = [
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
                         <Link v-for="news in latestNews" :key="news.id" :href="`/news/${news.slug}`"
                             class="group border-l border-gray-100 dark:border-gray-800 pl-6 hover:border-red-700 transition-all duration-300">
-                            <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">{{
-                                news.category }}</span>
+                            <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">
+                                {{ news.category }}
+                            </span>
                             <h3
                                 class="font-extrabold text-xl text-gray-900 dark:text-gray-100 group-hover:text-red-700 leading-tight transition-colors">
                                 {{ news.title }}
                             </h3>
                             <p
                                 class="text-[11px] text-gray-400 mt-3 font-bold uppercase tracking-tighter flex items-center gap-2">
-                                <Clock class="h-3 w-3" /> {{ news.date }}
+                                <Clock class="h-3 w-3" />
+                                {{ news.date }}
                             </p>
                         </Link>
                     </div>
                 </section>
             </div>
 
-            <aside class="lg:col-span-4 space-y-12">
-
-                <div class="bg-white dark:bg-gray-800 border-l-4 border-red-700 shadow-xl p-8 transition-all">
-                    <div class="flex items-center gap-2 mb-8 border-b border-gray-50 dark:border-gray-700 pb-4">
-                        <TrendingUp class="h-5 w-5 text-red-700" />
-                        <h2 class="font-black text-xl tracking-tighter uppercase dark:text-white">
-                            Beranda<span class="text-red-700">Viral</span>
-                        </h2>
+            <aside class="lg:col-span-4">
+                <div class="sticky top-24 space-y-12">
+                    <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-900 p-6 shadow-sm">
+                        <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">Akses Pembaca
+                        </h3>
+                        <Link href="/login" class="flex items-center gap-3 group">
+                            <div class="p-2 bg-gray-100 group-hover:bg-red-700 transition-colors">
+                                <User class="h-5 w-5 text-gray-600 group-hover:text-white" />
+                            </div>
+                            <span
+                                class="font-bold text-sm uppercase tracking-tighter group-hover:text-red-700 transition-colors">Masuk
+                                ke Akun Saya</span>
+                        </Link>
                     </div>
 
-                    <ul class="space-y-8">
-                        <li v-for="(trend, index) in trendingNews" :key="trend.id">
-                            <Link :href="`/news/${trend.slug}`" class="flex gap-5 items-start group">
-                                <span
-                                    class="text-4xl font-black text-gray-100 dark:text-gray-700 group-hover:text-red-700 transition-colors italic leading-none">
-                                    0{{ index + 1 }}
-                                </span>
-                                <div>
-                                    <h4
-                                        class="font-bold text-gray-900 dark:text-gray-100 group-hover:text-red-700 leading-snug transition-colors">
-                                        {{ trend.title }}
-                                    </h4>
-                                    <div class="flex items-center gap-2 mt-2">
-                                        <div class="h-px w-4 bg-red-700"></div>
-                                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
-                                            {{ trend.views }} Pembaca
-                                        </span>
+                    <div class="bg-white dark:bg-gray-800 border-l-4 border-red-700 shadow-xl p-8">
+                        <div class="flex items-center gap-2 mb-8 border-b border-gray-50 dark:border-gray-700 pb-4">
+                            <TrendingUp class="h-5 w-5 text-red-700" />
+                            <h2 class="font-black text-xl tracking-tighter uppercase dark:text-white">
+                                Beranda<span class="text-red-700">Viral</span>
+                            </h2>
+                        </div>
+                        <ul class="space-y-8">
+                            <li v-for="(trend, index) in trendingNews" :key="trend.id">
+                                <Link :href="`/news/${trend.slug}`" class="flex gap-5 items-start group">
+                                    <span
+                                        class="text-4xl font-black text-gray-400 dark:text-gray-700 group-hover:text-red-700 transition-colors italic leading-none">
+                                        0{{ index + 1 }}
+                                    </span>
+                                    <div>
+                                        <h4
+                                            class="font-bold text-gray-900 dark:text-gray-100 group-hover:text-red-700 leading-snug transition-colors">
+                                            {{ trend.title }}
+                                        </h4>
+                                        <div class="flex items-center gap-2 mt-2">
+                                            <div class="h-px w-4 bg-red-700"></div>
+                                            <span
+                                                class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                                {{ trend.views }} Pembaca
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
 
-                <div class="bg-gray-900 dark:bg-red-700 p-8 text-white relative overflow-hidden group shadow-2xl">
-                    <div class="relative z-10">
-                        <Mail class="h-8 w-8 mb-4 text-red-500 dark:text-white" />
-                        <h3 class="font-black text-2xl leading-none uppercase tracking-tighter">Tetap<br />Update.</h3>
-                        <p class="text-xs text-gray-400 dark:text-red-100 mt-4 leading-relaxed font-medium">
-                            Dapatkan kurasi berita terbaik langsung ke email Anda setiap pagi.
-                        </p>
-                        <div class="mt-6 space-y-3">
-                            <input type="email" placeholder="Alamat Email Anda"
-                                class="w-full bg-white/10 border-l-2 border-red-700 dark:border-white p-3 text-sm focus:bg-white/20 outline-none transition-all placeholder:text-gray-500 dark:placeholder:text-gray-200 placeholder:uppercase placeholder:text-[10px] placeholder:font-bold" />
-                            <button
-                                class="w-full bg-red-700 dark:bg-white dark:text-red-700 py-4 font-black text-xs transition-all uppercase tracking-[0.2em] hover:bg-red-600 dark:hover:bg-gray-100 shadow-lg cursor-pointer">
-                                Gabung Sekarang
-                            </button>
+                    <div class="bg-gray-900 dark:bg-red-700 p-8 text-white relative overflow-hidden group shadow-2xl">
+                        <div class="relative z-10">
+                            <Mail class="h-8 w-8 mb-4 text-red-500 dark:text-white" />
+                            <h3 class="font-black text-2xl leading-none uppercase tracking-tighter">Tetap<br />Update.
+                            </h3>
+                            <div class="mt-6 space-y-3">
+                                <input type="email" placeholder="Alamat Email"
+                                    class="w-full bg-white/10 border-l-2 border-red-700 p-3 text-sm focus:bg-white/20 outline-none placeholder:text-[10px]" />
+                                <button
+                                    class="w-full bg-red-700 dark:bg-white dark:text-red-700 py-4 font-black text-xs uppercase tracking-[0.2em] cursor-pointer">
+                                    Gabung Sekarang
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div
-                        class="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-red-700/10 dark:bg-white/5 rotate-45 transition-transform group-hover:scale-150 duration-700">
-                    </div>
-                </div>
 
-                <div
-                    class="bg-gray-50 dark:bg-gray-800 border border-dashed border-gray-200 dark:border-gray-700 p-10 flex flex-col items-center justify-center min-h-75 text-center">
-                    <span
-                        class="text-[10px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-[0.4em] mb-2">Space
-                        Advertisement</span>
-                    <p class="text-[9px] text-gray-400 uppercase font-medium">Hubungi Redaksi Untuk Pemasangan Iklan</p>
                 </div>
-
             </aside>
         </div>
     </DefaultLayout>
