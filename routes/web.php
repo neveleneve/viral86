@@ -23,7 +23,7 @@ Route::get('nasional', function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::inertia('login', 'Auth/Login');
+    Route::inertia('login', 'Auth/Login')->name('login');
     Route::inertia('register', 'Auth/Register');
 });
 
