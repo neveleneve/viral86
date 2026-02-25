@@ -14,22 +14,22 @@ const toggleSidebar = () => {
         <div class="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8">
             <Link href="/"
                 class="flex items-center text-2xl border-l-4 md:border-0 border-red-700 pl-3 md:pl-0 hover:opacity-90 group transition-all duration-300">
-                <span class="text-gray-900 font-bold tracking-tighter">Beranda</span>
-                <span class="font-extrabold tracking-tighter text-red-700">nesia</span>
+            <span class="text-gray-900 font-bold tracking-tighter">Beranda</span>
+            <span class="font-extrabold tracking-tighter text-red-700">nesia</span>
             </Link>
 
             <nav class="hidden md:flex items-center space-x-6">
-                <Link href="/"
+                <Link href="/terkini"
                     class="text-sm uppercase tracking-wider text-gray-600 hover:text-red-700 font-bold transition-colors">
-                    Terkini
+                Terkini
                 </Link>
                 <Link href="/daerah"
                     class="text-sm uppercase tracking-wider text-gray-600 hover:text-red-700 font-bold transition-colors">
-                    Daerah
+                Daerah
                 </Link>
                 <Link href="/nasional"
                     class="text-sm uppercase tracking-wider text-gray-600 hover:text-red-700 font-bold transition-colors">
-                    Nasional
+                Nasional
                 </Link>
             </nav>
 
@@ -42,9 +42,11 @@ const toggleSidebar = () => {
                     </div>
                 </div>
 
-                <Link href="/login" class="flex items-center space-x-2 px-3 py-1.5 border-l-2 border-transparent hover:border-red-700 hover:bg-gray-50 transition-all duration-200 group">
-                    <User class="h-5 w-5 text-gray-500 group-hover:text-red-700" />
-                    <span class="text-sm font-bold text-gray-700 group-hover:text-red-700 uppercase tracking-tight">Masuk / Daftar</span>
+                <Link href="/login"
+                    class="flex items-center space-x-2 px-3 py-1.5 border-l-2 border-transparent hover:border-red-700 hover:bg-gray-50 transition-all duration-200 group">
+                <User class="h-5 w-5 text-gray-500 group-hover:text-red-700" />
+                <span class="text-sm font-bold text-gray-700 group-hover:text-red-700 uppercase tracking-tight">Masuk /
+                    Daftar</span>
                 </Link>
             </div>
 
@@ -80,27 +82,30 @@ const toggleSidebar = () => {
             <nav class="flex flex-col space-y-4">
                 <Link @click="toggleSidebar" href="/"
                     class="text-xl font-bold text-gray-800 hover:text-red-700 flex items-center group">
-                    <span class="w-0 group-hover:w-2 h-6 bg-red-700 mr-0 group-hover:mr-3 transition-all duration-300"></span>
-                    Terkini
+                <span
+                    class="w-0 group-hover:w-2 h-6 bg-red-700 mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                Terkini
                 </Link>
                 <Link @click="toggleSidebar" href="/daerah"
                     class="text-xl font-bold text-gray-800 hover:text-red-700 flex items-center group">
-                    <span class="w-0 group-hover:w-2 h-6 bg-red-700 mr-0 group-hover:mr-3 transition-all duration-300"></span>
-                    Daerah
+                <span
+                    class="w-0 group-hover:w-2 h-6 bg-red-700 mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                Daerah
                 </Link>
                 <Link @click="toggleSidebar" href="/nasional"
                     class="text-xl font-bold text-gray-800 hover:text-red-700 flex items-center group">
-                    <span class="w-0 group-hover:w-2 h-6 bg-red-700 mr-0 group-hover:mr-3 transition-all duration-300"></span>
-                    Nasional
+                <span
+                    class="w-0 group-hover:w-2 h-6 bg-red-700 mr-0 group-hover:mr-3 transition-all duration-300"></span>
+                Nasional
                 </Link>
 
                 <hr class="border-gray-100 my-2">
 
                 <Link @click="toggleSidebar" href="/login"
                     class="text-xl font-bold text-red-700 flex items-center group bg-red-50/50 py-2">
-                    <span class="w-2 h-6 bg-red-700 mr-3 transition-all duration-300"></span>
-                    <User class="h-6 w-6 mr-2" />
-                    Akun Saya
+                <span class="w-2 h-6 bg-red-700 mr-3 transition-all duration-300"></span>
+                <User class="h-6 w-6 mr-2" />
+                Akun Saya
                 </Link>
             </nav>
 

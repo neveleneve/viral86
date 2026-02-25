@@ -50,13 +50,15 @@ const trendingNews = [
                                 <img :src="mainNews.image"
                                     class="w-full h-100 object-cover group-hover:scale-105 transition-transform duration-500" />
                                 <div class="absolute top-4 left-4">
-                                    <span class="bg-red-700 text-white text-xs font-bold px-3 py-1 uppercase tracking-widest italic">
+                                    <span
+                                        class="bg-red-700 text-white text-xs font-bold px-3 py-1 uppercase tracking-widest italic">
                                         {{ mainNews.category }}
                                     </span>
                                 </div>
                             </div>
                             <div class="mt-6">
-                                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-950 leading-tight group-hover:text-red-700 transition-colors">
+                                <h1
+                                    class="text-3xl md:text-4xl font-extrabold text-gray-950 leading-tight group-hover:text-red-700 transition-colors">
                                     {{ mainNews.title }}
                                 </h1>
                                 <p class="mt-4 text-gray-600 leading-relaxed text-lg">
@@ -80,10 +82,11 @@ const trendingNews = [
                         </h2>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-3">
                         <Link v-for="news in latestNews" :key="news.id" :href="`/news/${news.slug}`"
                             class="border-l-2 border-transparent hover:border-red-700 pl-0 hover:pl-4 transition-all duration-300 group block">
-                            <span class="text-xs font-bold text-red-700 uppercase tracking-wide group-hover:text-gray-700">
+                            <span
+                                class="text-xs font-bold text-red-700 uppercase tracking-wide group-hover:text-gray-700">
                                 {{ news.category }}
                             </span>
                             <h3 class="font-bold text-lg mt-1 group-hover:text-red-700 leading-snug transition-colors">
@@ -91,6 +94,9 @@ const trendingNews = [
                             </h3>
                             <p class="text-xs text-gray-400 mt-2">{{ news.date }}</p>
                         </Link>
+                    </div>
+                    <div class="bg-gray-50 border-l-4 border-gray-200 p-6 flex items-center justify-center min-h-62.5">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Ruang Iklan</span>
                     </div>
                 </section>
             </div>
@@ -106,12 +112,15 @@ const trendingNews = [
                     <ul class="space-y-6">
                         <li v-for="(trend, index) in trendingNews" :key="trend.id">
                             <Link :href="`/news/${trend.slug}`" class="flex gap-4 items-start group">
-                                <span class="text-3xl font-black text-gray-200 italic leading-none">0{{ index + 1 }}</span>
+                                <span class="text-3xl font-black text-gray-200 italic leading-none">0{{ index + 1
+                                }}</span>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 group-hover:text-red-700 leading-tight transition-colors">
+                                    <h4
+                                        class="font-bold text-gray-900 group-hover:text-red-700 leading-tight transition-colors">
                                         {{ trend.title }}
                                     </h4>
-                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1 block">
+                                    <span
+                                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1 block">
                                         {{ trend.views }} Pembaca
                                     </span>
                                 </div>
@@ -119,14 +128,18 @@ const trendingNews = [
                         </li>
                     </ul>
                 </div>
-
+                <div class="bg-gray-50 border-l-4 border-gray-200 p-6 flex items-center justify-center min-h-62.5">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Ruang Iklan</span>
+                </div>
                 <div class="p-6 bg-gray-900 text-white relative overflow-hidden">
                     <div class="relative z-10">
                         <h3 class="font-bold text-xl leading-tight">Jangan Ketinggalan Info Viral!</h3>
-                        <p class="text-sm text-gray-400 mt-2">Dapatkan update berita terpanas langsung di inbox Anda.</p>
+                        <p class="text-sm text-gray-400 mt-2">Dapatkan update berita terpanas langsung di inbox Anda.
+                        </p>
                         <input type="email" placeholder="Email Anda"
                             class="w-full mt-4 bg-gray-800 border-none text-white text-sm p-3 focus:ring-1 focus:ring-red-700 outline-none" />
-                        <button class="w-full mt-2 bg-gray-950 border border-red-500 hover:border-red-700 hover:bg-red-700 py-3 font-bold text-sm transition-colors uppercase text-red-500 hover:text-gray-50 tracking-widest cursor-pointer">Langganan</button>
+                        <button
+                            class="w-full mt-2 bg-gray-950 border border-red-500 hover:border-red-700 hover:bg-red-700 py-3 font-bold text-sm transition-colors uppercase text-red-500 hover:text-gray-50 tracking-widest cursor-pointer">Langganan</button>
                     </div>
                     <div class="absolute bottom-0 right-0 w-16 h-16 bg-red-700/20 -mr-8 -mb-8 rotate-45"></div>
                 </div>

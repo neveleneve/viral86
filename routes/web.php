@@ -6,8 +6,20 @@ Route::get('/', function () {
     return inertia('LandingPage');
 });
 
-Route::get('/news/{slug}', function ($slug) {
+Route::get('news/{slug}', function ($slug) {
     return inertia('NewsDetail', ['slug' => $slug]);
+});
+
+Route::get('terkini', function () {
+    return inertia('LatestNews');
+});
+
+Route::get('daerah', function () {
+    return inertia('RegionalNews');
+});
+
+Route::get('nasional', function () {
+    return inertia('NationalNews');
 });
 
 Route::middleware('guest')->group(function () {
