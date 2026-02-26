@@ -53,7 +53,8 @@ onMounted(() => {
             </Link>
 
             <nav class="items-center hidden space-x-8 md:flex">
-                <Link v-for="item in ['Terkini', 'Daerah', 'Nasional']" :key="item" :href="`/${item.toLowerCase()}`"
+                <Link v-for="item in ['Terkini', 'Daerah', 'Nasional', 'Redaksi']" :key="item"
+                    :href="`/${item.toLowerCase()}`"
                     class="text-[11px] uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 hover:text-red-700 dark:hover:text-red-500 font-black transition-colors">
                 {{ item }}
                 </Link>
@@ -112,7 +113,7 @@ onMounted(() => {
             </div>
 
             <nav class="flex flex-col space-y-6">
-                <Link v-for="item in ['Terkini', 'Daerah', 'Nasional']" :key="item" @click="toggleSidebar"
+                <Link v-for="item in ['Terkini', 'Daerah', 'Nasional', 'Redaksi']" :key="item" @click="toggleSidebar"
                     :href="`/${item.toLowerCase()}`"
                     class="flex items-center text-2xl font-black tracking-tighter text-gray-900 uppercase dark:text-white hover:text-red-700 dark:hover:text-red-500 group">
                 <span

@@ -22,6 +22,10 @@ Route::get('nasional', function () {
     return inertia('NationalNews');
 });
 
+Route::get('redaksi', function () {
+    return inertia('RedaksiPage');
+});
+
 Route::middleware('guest')->group(function () {
     Route::inertia('login', 'Auth/Login')->name('login');
     Route::inertia('register', 'Auth/Register');

@@ -1,7 +1,7 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
 import { Head } from '@inertiajs/vue3'
-import { TrendingUp, Clock, Mail, User } from 'lucide-vue-next'
+import { TrendingUp, Clock, Mail, User, Info } from 'lucide-vue-next'
 
 const mainNews = {
     id: 1,
@@ -54,46 +54,60 @@ const formatViewCount = (views) => {
                         </div>
                         <Link href="/terkini"
                             class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-red-700 transition-colors">
-                            Lihat Semua
+                        Lihat Semua
                         </Link>
                     </div>
 
                     <Link :href="`/news/${mainNews.slug}`" class="block group">
-                        <article class="relative">
-                            <div class="relative overflow-hidden shadow-2xl">
-                                <img :src="mainNews.image"
-                                    class="w-full h-112.5 object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                                <div
-                                    class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-60">
-                                </div>
-                                <div class="absolute left-0 top-6">
-                                    <span
-                                        class="bg-red-700 text-white text-[10px] font-black px-4 py-2 uppercase tracking-[0.2em] shadow-lg">
-                                        {{ mainNews.category }}
-                                    </span>
-                                </div>
+                    <article class="relative">
+                        <div class="relative overflow-hidden shadow-2xl">
+                            <img :src="mainNews.image"
+                                class="w-full h-112.5 object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                            <div
+                                class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-60">
                             </div>
-                            <div class="mt-8">
-                                <h1
-                                    class="text-3xl md:text-5xl font-black text-gray-950 dark:text-white leading-[1.1] tracking-tight group-hover:text-red-700 transition-colors duration-300">
-                                    {{ mainNews.title }}
-                                </h1>
-                                <p
-                                    class="mt-5 text-lg font-medium leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-3">
-                                    {{ mainNews.excerpt }}
-                                </p>
-                                <div
-                                    class="mt-6 flex items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                                    <span class="flex items-center gap-1">
-                                        <Clock class="h-3.5 w-3.5" /> {{ mainNews.date }}
-                                    </span>
-                                    <span class="text-gray-200 dark:text-gray-700">|</span>
-                                    <a href="#" class="italic">Oleh {{ mainNews.author }}</a>
-                                </div>
+                            <div class="absolute left-0 top-6">
+                                <span
+                                    class="bg-red-700 text-white text-[10px] font-black px-4 py-2 uppercase tracking-[0.2em] shadow-lg">
+                                    {{ mainNews.category }}
+                                </span>
                             </div>
-                        </article>
+                        </div>
+                        <div class="mt-8">
+                            <h1
+                                class="text-3xl md:text-5xl font-black text-gray-950 dark:text-white leading-[1.1] tracking-tight group-hover:text-red-700 transition-colors duration-300">
+                                {{ mainNews.title }}
+                            </h1>
+                            <p
+                                class="mt-5 text-lg font-medium leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-3">
+                                {{ mainNews.excerpt }}
+                            </p>
+                            <div
+                                class="mt-6 flex items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                                <span class="flex items-center gap-1">
+                                    <Clock class="h-3.5 w-3.5" /> {{ mainNews.date }}
+                                </span>
+                                <span class="text-gray-200 dark:text-gray-700">|</span>
+                                <a href="#" class="italic">Oleh {{ mainNews.author }}</a>
+                            </div>
+                        </div>
+                    </article>
                     </Link>
                 </section>
+                <div
+                    class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
+                    <div
+                        class="absolute top-0 right-0 flex items-center p-3 text-[9px] font-black uppercase tracking-widest text-gray-400">
+                        <Info class="w-3 h-3 mr-1.5 text-gray-400" />
+                        <span>Advertisement</span>
+                    </div>
+                    <div
+                        class="flex flex-col items-center justify-center transition-colors border-2 border-gray-200 border-dashed rounded-lg min-h-50 dark:border-gray-800 group-hover:border-red-700/30">
+                        <span class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">
+                            Ruang Iklan Strategis
+                        </span>
+                    </div>
+                </div>
                 <section>
                     <div class="flex items-center gap-3 mb-8">
                         <div class="h-8 w-1.5 bg-gray-900 dark:bg-gray-100"></div>
@@ -104,18 +118,18 @@ const formatViewCount = (views) => {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
                         <Link v-for="news in latestNews" :key="news.id" :href="`/news/${news.slug}`"
                             class="pl-6 transition-all duration-300 border-l border-gray-100 group dark:border-gray-800 hover:border-red-700">
-                            <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">
-                                {{ news.category }}
-                            </span>
-                            <h3
-                                class="text-xl font-extrabold leading-tight text-gray-900 transition-colors dark:text-gray-100 group-hover:text-red-700">
-                                {{ news.title }}
-                            </h3>
-                            <p
-                                class="text-[11px] text-gray-400 mt-3 font-bold uppercase tracking-tighter flex items-center gap-2">
-                                <Clock class="w-3 h-3" />
-                                {{ news.date }}
-                            </p>
+                        <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">
+                            {{ news.category }}
+                        </span>
+                        <h3
+                            class="text-xl font-extrabold leading-tight text-gray-900 transition-colors dark:text-gray-100 group-hover:text-red-700">
+                            {{ news.title }}
+                        </h3>
+                        <p
+                            class="text-[11px] text-gray-400 mt-3 font-bold uppercase tracking-tighter flex items-center gap-2">
+                            <Clock class="w-3 h-3" />
+                            {{ news.date }}
+                        </p>
                         </Link>
                     </div>
                 </section>
@@ -127,14 +141,14 @@ const formatViewCount = (views) => {
                             Akses Pembaca
                         </h3>
                         <Link href="/login" class="flex items-center gap-3 group">
-                            <div
-                                class="p-2 transition-colors bg-gray-100 group-hover:bg-red-700 dark:group-hover:bg-red-500">
-                                <User class="w-5 h-5 text-gray-600 group-hover:text-white" />
-                            </div>
-                            <span
-                                class="text-sm font-bold tracking-tighter uppercase transition-colors group-hover:text-red-500 dark:group-hover:bg-red-500">
-                                Masuk ke Akun Saya
-                            </span>
+                        <div
+                            class="p-2 transition-colors bg-gray-100 group-hover:bg-red-700 dark:group-hover:bg-red-500">
+                            <User class="w-5 h-5 text-gray-600 group-hover:text-white" />
+                        </div>
+                        <span
+                            class="text-sm font-bold tracking-tighter uppercase transition-colors group-hover:text-red-500 dark:group-hover:bg-red-500">
+                            Masuk ke Akun Saya
+                        </span>
                         </Link>
                     </div>
                     <div class="p-8 bg-white border-l-4 border-red-700 shadow-xl dark:border-red-500 dark:bg-gray-800">
@@ -147,26 +161,40 @@ const formatViewCount = (views) => {
                         <ul class="space-y-8">
                             <li v-for="(trend, index) in trendingNews" :key="trend.id">
                                 <Link :href="`/news/${trend.slug}`" class="flex items-start gap-5 group">
-                                    <span
-                                        class="text-4xl italic font-black leading-none text-gray-400 transition-colors dark:text-gray-700 group-hover:text-red-500">
-                                        0{{ index + 1 }}
-                                    </span>
-                                    <div>
-                                        <h4
-                                            class="font-bold leading-snug text-gray-900 transition-colors dark:text-gray-100 group-hover:text-red-500">
-                                            {{ trend.title }}
-                                        </h4>
-                                        <div class="flex items-center gap-2 mt-2">
-                                            <div class="w-4 h-px bg-red-700"></div>
-                                            <span
-                                                class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
-                                                {{ formatViewCount(trend.views) }} Pembaca
-                                            </span>
-                                        </div>
+                                <span
+                                    class="text-4xl italic font-black leading-none text-gray-400 transition-colors dark:text-gray-700 group-hover:text-red-500">
+                                    0{{ index + 1 }}
+                                </span>
+                                <div>
+                                    <h4
+                                        class="font-bold leading-snug text-gray-900 transition-colors dark:text-gray-100 group-hover:text-red-500">
+                                        {{ trend.title }}
+                                    </h4>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <div class="w-4 h-px bg-red-700"></div>
+                                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                            {{ formatViewCount(trend.views) }} Pembaca
+                                        </span>
                                     </div>
+                                </div>
                                 </Link>
                             </li>
                         </ul>
+                    </div>
+                    <div
+                        class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
+                        <div
+                            class="absolute top-0 right-0 flex items-center p-3 text-[9px] font-black uppercase tracking-widest text-gray-400">
+                            <Info class="w-3 h-3 mr-1.5 text-gray-400" />
+                            <span>Advertisement</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center transition-colors border-2 border-gray-200 border-dashed rounded-lg min-h-50 dark:border-gray-800 group-hover:border-red-700/30">
+                            <span
+                                class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">
+                                Ruang Iklan Strategis
+                            </span>
+                        </div>
                     </div>
                     <div class="relative p-8 overflow-hidden text-white bg-gray-900 shadow-2xl dark:bg-red-700 group">
                         <div class="relative z-10">

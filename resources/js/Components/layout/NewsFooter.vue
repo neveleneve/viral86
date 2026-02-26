@@ -25,7 +25,7 @@
                     Tentang Kami
                 </h3>
                 <ul class="space-y-2 text-sm font-medium text-gray-400 dark:text-gray-500">
-                    <li><a href="#" class="transition-colors hover:text-red-600">Redaksi</a></li>
+                    <li><Link href="/redaksi" class="transition-colors hover:text-red-600">Redaksi</Link></li>
                     <li><a href="#" class="transition-colors hover:text-red-600">Pedoman Media Siber</a></li>
                     <li><a href="#" class="transition-colors hover:text-red-600">Karir</a></li>
                     <li><a href="#" class="transition-colors hover:text-red-600">Kontak Kami</a></li>
