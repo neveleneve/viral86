@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller {
+class UserController extends Controller {
     public function __construct() {
         //
     }
@@ -22,19 +21,19 @@ class CategoryController extends Controller {
         //
     }
 
-    public function show(Category $category) {
+    public function show(string $id) {
         //
     }
 
-    public function edit(Category $category) {
+    public function edit(string $id) {
         //
     }
 
-    public function update(Request $request, Category $category) {
+    public function update(Request $request, string $id) {
         //
     }
 
-    public function destroy(Category $category) {
+    public function destroy(string $id) {
         //
     }
 }

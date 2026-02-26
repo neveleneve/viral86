@@ -9,11 +9,16 @@ Route::get('/', function () {
     return inertia('LandingPage');
 });
 
-Route::get('{category}/{slug}', function ($category, $slug) {
-    return inertia('NewsDetail', [
-        'category' => $category,
-        'slug' => $slug,
-    ]);
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthController::class, 'loginForm'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
+    Route::inertia('register', 'Auth/Register');
+});
+
+Route::middleware('auth')->prefix('admin')->group(function () {
+    Route::inertia('dashboard', 'Authenticated/Dashboard/Index');
+    Route::resource('tag', TagController::class);
+    Route::resource('category', CategoryController::class);
 });
 
 Route::get('terkini', function () {
@@ -32,14 +37,9 @@ Route::get('tag/{tag}', function ($tag) {
     return inertia('TagNews', ['tag' => $tag]);
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('login', [AuthController::class, 'loginForm'])->name('login');
-    Route::post('login', [AuthController::class, 'login']);
-    Route::inertia('register', 'Auth/Register');
-});
-
-Route::middleware('auth')->prefix('admin')->group(function () {
-    Route::inertia('dashboard', 'Authenticated/Dashboard/Index');
-    Route::resource('tag', TagController::class);
-    Route::resource('category', CategoryController::class);
+Route::get('{category}/{slug}', function ($category, $slug) {
+    return inertia('NewsDetail', [
+        'category' => $category,
+        'slug' => $slug,
+    ]);
 });

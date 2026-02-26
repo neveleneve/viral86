@@ -33,7 +33,7 @@ const editorialTeam = [
 
 const contactInfo = {
     address: 'Gedung Viral86 Media Group, Lantai 12. Jl. Jenderal Sudirman No. 86, Jakarta Selatan 12190',
-    email: 'redaksi@berandanesia.id',
+    email: 'redaksi@viral86.id',
     phone: '+62 21 555 1234'
 };
 </script>

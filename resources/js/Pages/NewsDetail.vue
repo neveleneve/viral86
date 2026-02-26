@@ -1,7 +1,6 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-import { Link } from '@inertiajs/vue3';
-import { Calendar, User, Share2, Clock, Bookmark, ChevronRight, Facebook, Twitter, Link as LinkIcon, Info } from 'lucide-vue-next'
+import { Calendar, User, Share2, Clock, Bookmark, ChevronRight, Twitter, Info, Facebook } from 'lucide-vue-next'
 
 const article = {
     category: 'Nasional',
@@ -15,6 +14,27 @@ const article = {
 
 <template>
     <DefaultLayout>
+        <div class="grid grid-cols-1 gap-12 mb-8 lg:grid-cols-12">
+            <div class="col-span-1 space-y-16 lg:col-span-12">
+                <div
+                    class="relative overflow-hidden transition-all duration-300 border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group hover:border-red-700">
+                    <div
+                        class="absolute top-0 right-0 z-10 flex items-center p-2 text-[8px] font-black uppercase tracking-widest text-white bg-gray-900/40 backdrop-blur-sm">
+                        <Info class="w-2.5 h-2.5 mr-1 text-white" />
+                        <span>Advertisement</span>
+                    </div>
+                    <div class="relative w-full overflow-hidden aspect-15/4">
+                        <img src="https://images.unsplash.com/photo-1549213821-4708d624e1d1?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Promosi Berandanesia"
+                            class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
+                        <div
+                            class="absolute inset-0 transition-opacity duration-300 opacity-0 bg-linear-to-t from-red-900/20 to-transparent group-hover:opacity-100">
+                        </div>
+                    </div>
+                    <a target="_blank" href="#" class="absolute inset-0 z-20" aria-label="Buka Iklan"></a>
+                </div>
+            </div>
+        </div>
         <div class="min-h-screen transition-colors duration-300">
             <main class="mx-auto max-w-7xl">
                 <nav
@@ -84,6 +104,14 @@ const article = {
                                     <button
                                         class="p-2.5 text-gray-400 hover:text-red-700 transition-colors rounded-full hover:bg-red-50 dark:hover:bg-red-950/30">
                                         <Bookmark class="w-5 h-5" />
+                                    </button>
+                                    <button
+                                        class="p-2.5 text-gray-400 hover:text-red-700 transition-colors rounded-full hover:bg-red-50 dark:hover:bg-red-950/30">
+                                        <Facebook class="w-5 h-5" />
+                                    </button>
+                                    <button
+                                        class="p-2.5 text-gray-400 hover:text-red-700 transition-colors rounded-full hover:bg-red-50 dark:hover:bg-red-950/30">
+                                        <Twitter class="w-5 h-5" />
                                     </button>
                                     <button
                                         class="p-2.5 text-gray-400 hover:text-red-700 transition-colors rounded-full hover:bg-red-50 dark:hover:bg-red-950/30">

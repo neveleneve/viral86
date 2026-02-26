@@ -1,12 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Search, TextAlignEnd, X, User, Sun, Moon } from 'lucide-vue-next'
+import { Search, TextAlignEnd, X, User, Sun, Moon, LogOut } from 'lucide-vue-next'
+import { usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
 
 const isSidebarOpen = ref(false)
 const isDark = ref(false)
 
+const page = usePage()
+
+const user = computed(() => page.props.auth.user)
+
 const toggleSidebar = () => {
-    isSidebarOpen.value = !isSidebarOpen.value;
+    isSidebarOpen.value = !isSidebarOpen.value
 }
 
 const toggleTheme = () => {
@@ -40,6 +46,8 @@ onMounted(() => {
         }
     }
 })
+const appName1 = page.props.appName1;
+const appName2 = page.props.appName2;
 </script>
 
 <template>
@@ -48,8 +56,8 @@ onMounted(() => {
         <div class="flex items-center justify-between px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 
             <Link href="/" class="flex items-center text-2xl transition-all hover:opacity-80">
-            <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">Beranda</span>
-            <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">nesia</span>
+            <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">{{ appName1 }}</span>
+            <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">{{ appName2 }}</span>
             </Link>
 
             <nav class="items-center hidden space-x-8 md:flex">
@@ -63,23 +71,44 @@ onMounted(() => {
             <div class="items-center hidden space-x-4 md:flex">
                 <div class="relative group">
                     <input type="text" placeholder="CARI BERITA..."
-                        class="pl-4 pr-10 py-2 border-l-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:border-red-700 dark:focus:border-red-500 transition-all outline-none w-40 lg:w-56 text-[10px] font-bold tracking-widest placeholder:text-gray-400" />
+                        class="pl-4 pr-10 py-2 border-l-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:border-red-700 transition-all outline-none w-40 lg:w-56 text-[10px] font-bold tracking-widest" />
                     <Search
                         class="absolute right-3 top-2.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 transition-colors" />
                 </div>
 
                 <button @click="toggleTheme"
-                    class="p-2 text-gray-500 transition-colors cursor-pointer dark:text-gray-400 hover:text-red-700 dark:hover:text-red-500">
+                    class="p-2 text-gray-500 transition-colors cursor-pointer dark:text-gray-400 hover:text-red-700">
                     <Sun v-if="isDark" class="w-5 h-5" />
                     <Moon v-else class="w-5 h-5" />
                 </button>
 
-                <Link href="/login"
-                    class="flex items-center gap-2 pl-4 border-l border-gray-100 group dark:border-gray-800">
-                <User class="w-5 h-5 text-gray-400 transition-colors group-hover:text-red-700" />
-                <span
-                    class="text-[10px] font-black text-gray-900 dark:text-gray-100 uppercase tracking-widest group-hover:text-red-700 transition-colors">Masuk</span>
-                </Link>
+                <div class="flex items-center pl-4 border-l border-gray-100 dark:border-gray-800">
+                    <Link v-if="!user" href="/login" class="flex items-center gap-2 group">
+                    <User class="w-5 h-5 text-gray-400 transition-colors group-hover:text-red-700" />
+                    <span
+                        class="text-[10px] font-black text-gray-900 dark:text-gray-100 uppercase tracking-widest group-hover:text-red-700 transition-colors">
+                        Masuk
+                    </span>
+                    </Link>
+
+                    <div v-else class="flex items-center gap-6">
+                        <Link href="/admin/dashboard" class="flex items-center gap-2 group text-right">
+                        <div class="flex flex-col">
+                            <span class="text-[8px] font-black text-red-700 uppercase tracking-tighter">Redaksi</span>
+                            <span
+                                class="text-[10px] font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest">
+                                {{ user.name.split(' ')[0] }}
+                            </span>
+                        </div>
+                        <!-- <LayoutDashboard class="w-5 h-5 text-gray-400 group-hover:text-red-700" /> -->
+                        </Link>
+
+                        <Link href="/logout" method="post" as="button"
+                            class="text-gray-400 hover:text-red-700 transition-colors">
+                        <LogOut class="w-4 h-4" />
+                        </Link>
+                    </div>
+                </div>
             </div>
 
             <div class="flex items-center space-x-4 md:hidden">
@@ -102,36 +131,43 @@ onMounted(() => {
     </Transition>
 
     <aside :class="isSidebarOpen ? 'translate-x-0' : 'translate-x-full'"
-        class="fixed top-0 right-0 w-full h-full transition-transform duration-500 ease-in-out transform bg-white border-l-4 border-red-700 shadow-2xl max-w-75 dark:bg-gray-900 z-70 md:hidden">
+        class="fixed top-0 right-0 w-full h-full transition-transform duration-500 transform bg-white border-l-4 border-red-700 shadow-2xl max-w-75 dark:bg-gray-900 z-70 md:hidden">
         <div class="flex flex-col h-full p-8">
             <div class="flex items-center justify-between mb-12">
-                <span class="font-black text-xs text-gray-400 tracking-[0.3em] uppercase">Navigasi</span>
+                <span class="font-black text-xs text-gray-400 tracking-[0.3em] uppercase">Menu Utama</span>
                 <button @click="toggleSidebar"
-                    class="p-2 text-gray-900 rounded-full bg-gray-50 dark:bg-gray-800 dark:text-white">
+                    class="p-2 bg-gray-50 dark:bg-gray-800 rounded-full text-gray-900 dark:text-white">
                     <X class="w-5 h-5" />
                 </button>
             </div>
-
             <nav class="flex flex-col space-y-6">
-                <Link v-for="item in ['Terkini', 'Daerah', 'Nasional', 'Redaksi']" :key="item" @click="toggleSidebar"
-                    :href="`/${item.toLowerCase()}`"
-                    class="flex items-center text-2xl font-black tracking-tighter text-gray-900 uppercase dark:text-white hover:text-red-700 dark:hover:text-red-500 group">
-                <span
-                    class="w-0 h-1 mr-0 transition-all duration-300 bg-red-700 group-hover:w-3 group-hover:mr-4"></span>
+                <Link v-for="item in ['Terkini', 'Daerah', 'Nasional', 'Redaksi']" :key="item"
+                    :href="`/${item.toLowerCase()}`" @click="toggleSidebar"
+                    class="text-2xl font-black tracking-tighter text-gray-900 uppercase dark:text-white hover:text-red-700 transition-all">
                 {{ item }}
                 </Link>
-
-                <div class="pt-6 mt-6 border-t border-gray-100 dark:border-gray-800">
-                    <Link @click="toggleSidebar" href="/login"
-                        class="flex items-center gap-3 text-lg font-black tracking-widest text-red-700 uppercase">
-                    <User class="w-5 h-5" />
-                    Akun Saya
+            </nav>
+            <div class="pt-6 mt-auto border-t border-gray-100 dark:border-gray-800">
+                <div v-if="user" class="space-y-6">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-red-700 text-white flex items-center justify-center font-black rounded-sm">
+                            {{ user.name.charAt(0) }}
+                        </div>
+                        <div>
+                            <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Login Sebagai</p>
+                            <p class="text-sm font-black text-gray-900 dark:text-white uppercase">{{ user.name }}</p>
+                        </div>
+                    </div>
+                    <Link href="/logout" method="post" as="button"
+                        class="flex items-center gap-2 text-xs font-black text-red-700 uppercase tracking-widest">
+                    <LogOut class="w-4 h-4" /> Keluar Sesi
                     </Link>
                 </div>
-            </nav>
-
-            <div class="mt-auto">
-                <p class="text-[9px] text-gray-400 font-bold tracking-[0.4em] uppercase">Berandanesia Media Group</p>
+                <Link v-else href="/login" @click="toggleSidebar"
+                    class="flex items-center gap-3 text-lg font-black text-red-700 uppercase tracking-widest">
+                <User class="w-6 h-6" /> Masuk Akun
+                </Link>
             </div>
         </div>
     </aside>

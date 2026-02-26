@@ -15,6 +15,13 @@ class HandleInertiaRequests extends Middleware {
     public function share(Request $request): array {
         return [
             ...parent::share($request),
+            'appName' => env('VITE_APP_NAME'),
+            'appName1' => env('VITE_APP_NAME_1'),
+            'appName2' => env('VITE_APP_NAME_2'),
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
             'auth' => [
                 'user' => $request->user() ? [
                     'id' => $request->user()->id,

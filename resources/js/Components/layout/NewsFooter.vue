@@ -1,9 +1,16 @@
+<script setup>
+import { usePage } from '@inertiajs/vue3'
+
+const appName1 = usePage().props.appName1;
+const appName2 = usePage().props.appName2;
+</script>
+
 <template>
     <footer class="pt-12 pb-6 text-gray-100 bg-gray-900 dark:bg-gray-950">
         <div class="grid grid-cols-1 gap-12 px-4 mx-auto max-w-7xl md:grid-cols-4 sm:px-6 lg:px-8">
             <div class="space-y-4">
                 <h3 class="text-sm lg:text-xl font-bold border-l-[3px] border-red-500 pl-3 tracking-tight">
-                    <span>Beranda</span><span class="font-extrabold text-red-700">nesia</span>
+                    <span>{{ appName1 }}</span><span class="font-extrabold text-red-700">{{ appName2 }}</span>
                 </h3>
                 <p class="text-sm leading-relaxed text-gray-400 dark:text-gray-500">
                     Portal berita online yang menyajikan informasi terkini, terpercaya, dan objektif bagi pembaca di seluruh Indonesia.
