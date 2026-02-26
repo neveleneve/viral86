@@ -1,7 +1,7 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
-import { TrendingUp, Clock, ChevronRight, Mail, User } from 'lucide-vue-next'
+import { Head } from '@inertiajs/vue3'
+import { TrendingUp, Clock, Mail, User } from 'lucide-vue-next'
 
 const mainNews = {
     id: 1,
@@ -22,22 +22,33 @@ const latestNews = [
 ]
 
 const trendingNews = [
-    { id: 1, slug: 'cara-cepat-cuan-ai', title: 'Cara Cepat Dapat Cuan dari AI di Tahun 2026', views: '12.4k' },
-    { id: 2, slug: 'resep-viral-mie-instan', title: 'Resep Viral Mie Instan Ala Berandanesia yang Disukai Chef Dunia', views: '8.9k' },
-    { id: 3, slug: 'update-cuaca-ekstrem', title: 'Update Cuaca Ekstrem Pekan Ini: Waspada Badai Tropis', views: '7.2k' },
+    { id: 1, slug: 'cara-cepat-cuan-ai', title: 'Cara Cepat Dapat Cuan dari AI di Tahun 2026', views: 12432 },
+    { id: 2, slug: 'resep-viral-mie-instan', title: 'Resep Viral Mie Instan Ala Berandanesia yang Disukai Chef Dunia', views: 8923 },
+    { id: 3, slug: 'update-cuaca-ekstrem', title: 'Update Cuaca Ekstrem Pekan Ini: Waspada Badai Tropis', views: 7243 },
 ]
+
+const formatViewCount = (views) => {
+    if (views >= 1000000000) {
+        return (views / 1000000000).toFixed(1) + 'b'
+    } else if (views >= 1000000) {
+        return (views / 1000000).toFixed(1) + 'm'
+    } else if (views >= 1000) {
+        return (views / 1000).toFixed(1) + 'k'
+    }
+    return views.toString()
+}
 </script>
 
 <template>
     <DefaultLayout>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div class="lg:col-span-8 space-y-16">
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            <div class="space-y-16 lg:col-span-8">
                 <section>
                     <div
-                        class="flex items-center justify-between mb-8 border-b border-gray-100 dark:border-gray-800 pb-4">
+                        class="flex items-center justify-between pb-4 mb-8 border-b border-gray-100 dark:border-gray-800">
                         <div class="flex items-center gap-3">
                             <div class="h-8 w-1.5 bg-red-700"></div>
-                            <h2 class="font-black text-2xl tracking-tighter uppercase dark:text-white">
+                            <h2 class="text-2xl font-black tracking-tighter uppercase dark:text-white">
                                 Beranda<span class="text-red-700">Terkini</span>
                             </h2>
                         </div>
@@ -47,7 +58,7 @@ const trendingNews = [
                         </Link>
                     </div>
 
-                    <Link :href="`/news/${mainNews.slug}`" class="group block">
+                    <Link :href="`/news/${mainNews.slug}`" class="block group">
                         <article class="relative">
                             <div class="relative overflow-hidden shadow-2xl">
                                 <img :src="mainNews.image"
@@ -55,7 +66,7 @@ const trendingNews = [
                                 <div
                                     class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-60">
                                 </div>
-                                <div class="absolute top-6 left-0">
+                                <div class="absolute left-0 top-6">
                                     <span
                                         class="bg-red-700 text-white text-[10px] font-black px-4 py-2 uppercase tracking-[0.2em] shadow-lg">
                                         {{ mainNews.category }}
@@ -68,7 +79,7 @@ const trendingNews = [
                                     {{ mainNews.title }}
                                 </h1>
                                 <p
-                                    class="mt-5 text-gray-600 dark:text-gray-400 leading-relaxed text-lg line-clamp-3 font-medium">
+                                    class="mt-5 text-lg font-medium leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-3">
                                     {{ mainNews.excerpt }}
                                 </p>
                                 <div
@@ -77,79 +88,79 @@ const trendingNews = [
                                         <Clock class="h-3.5 w-3.5" /> {{ mainNews.date }}
                                     </span>
                                     <span class="text-gray-200 dark:text-gray-700">|</span>
-                                    <span class="text-red-700 italic">Oleh {{ mainNews.author }}</span>
+                                    <a href="#" class="italic">Oleh {{ mainNews.author }}</a>
                                 </div>
                             </div>
                         </article>
                     </Link>
                 </section>
-
                 <section>
                     <div class="flex items-center gap-3 mb-8">
                         <div class="h-8 w-1.5 bg-gray-900 dark:bg-gray-100"></div>
-                        <h2 class="font-black text-2xl tracking-tighter uppercase dark:text-white">
-                            Beranda<span class="text-red-700">Terbaru</span>
+                        <h2 class="text-2xl font-black tracking-tighter uppercase dark:text-white">
+                            Beranda<span class="text-red-700">Nasional</span>
                         </h2>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
                         <Link v-for="news in latestNews" :key="news.id" :href="`/news/${news.slug}`"
-                            class="group border-l border-gray-100 dark:border-gray-800 pl-6 hover:border-red-700 transition-all duration-300">
+                            class="pl-6 transition-all duration-300 border-l border-gray-100 group dark:border-gray-800 hover:border-red-700">
                             <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">
                                 {{ news.category }}
                             </span>
                             <h3
-                                class="font-extrabold text-xl text-gray-900 dark:text-gray-100 group-hover:text-red-700 leading-tight transition-colors">
+                                class="text-xl font-extrabold leading-tight text-gray-900 transition-colors dark:text-gray-100 group-hover:text-red-700">
                                 {{ news.title }}
                             </h3>
                             <p
                                 class="text-[11px] text-gray-400 mt-3 font-bold uppercase tracking-tighter flex items-center gap-2">
-                                <Clock class="h-3 w-3" />
+                                <Clock class="w-3 h-3" />
                                 {{ news.date }}
                             </p>
                         </Link>
                     </div>
                 </section>
             </div>
-
             <aside class="lg:col-span-4">
-                <div class="sticky top-24 space-y-12">
-                    <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-900 p-6 shadow-sm">
-                        <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">Akses Pembaca
+                <div class="sticky space-y-12 top-24">
+                    <div class="p-6 bg-white border-l-4 border-red-700 shadow-sm dark:border-red-500 dark:bg-gray-800">
+                        <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">
+                            Akses Pembaca
                         </h3>
                         <Link href="/login" class="flex items-center gap-3 group">
-                            <div class="p-2 bg-gray-100 group-hover:bg-red-700 transition-colors">
-                                <User class="h-5 w-5 text-gray-600 group-hover:text-white" />
+                            <div
+                                class="p-2 transition-colors bg-gray-100 group-hover:bg-red-700 dark:group-hover:bg-red-500">
+                                <User class="w-5 h-5 text-gray-600 group-hover:text-white" />
                             </div>
                             <span
-                                class="font-bold text-sm uppercase tracking-tighter group-hover:text-red-700 transition-colors">Masuk
-                                ke Akun Saya</span>
+                                class="text-sm font-bold tracking-tighter uppercase transition-colors group-hover:text-red-500 dark:group-hover:bg-red-500">
+                                Masuk ke Akun Saya
+                            </span>
                         </Link>
                     </div>
-
-                    <div class="bg-white dark:bg-gray-800 border-l-4 border-red-700 shadow-xl p-8">
-                        <div class="flex items-center gap-2 mb-8 border-b border-gray-50 dark:border-gray-700 pb-4">
-                            <TrendingUp class="h-5 w-5 text-red-700" />
-                            <h2 class="font-black text-xl tracking-tighter uppercase dark:text-white">
-                                Beranda<span class="text-red-700">Viral</span>
+                    <div class="p-8 bg-white border-l-4 border-red-700 shadow-xl dark:border-red-500 dark:bg-gray-800">
+                        <div class="flex items-center gap-2 pb-4 mb-8 border-b border-gray-50 dark:border-gray-700">
+                            <TrendingUp class="w-5 h-5 text-red-700" />
+                            <h2 class="text-xl font-black tracking-tighter uppercase dark:text-white">
+                                Beranda<span class="text-red-700 dark:text-red-500">Viral</span>
                             </h2>
                         </div>
                         <ul class="space-y-8">
                             <li v-for="(trend, index) in trendingNews" :key="trend.id">
-                                <Link :href="`/news/${trend.slug}`" class="flex gap-5 items-start group">
+                                <Link :href="`/news/${trend.slug}`" class="flex items-start gap-5 group">
                                     <span
-                                        class="text-4xl font-black text-gray-400 dark:text-gray-700 group-hover:text-red-700 transition-colors italic leading-none">
+                                        class="text-4xl italic font-black leading-none text-gray-400 transition-colors dark:text-gray-700 group-hover:text-red-500">
                                         0{{ index + 1 }}
                                     </span>
                                     <div>
                                         <h4
-                                            class="font-bold text-gray-900 dark:text-gray-100 group-hover:text-red-700 leading-snug transition-colors">
+                                            class="font-bold leading-snug text-gray-900 transition-colors dark:text-gray-100 group-hover:text-red-500">
                                             {{ trend.title }}
                                         </h4>
                                         <div class="flex items-center gap-2 mt-2">
-                                            <div class="h-px w-4 bg-red-700"></div>
+                                            <div class="w-4 h-px bg-red-700"></div>
                                             <span
                                                 class="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em]">
-                                                {{ trend.views }} Pembaca
+                                                {{ formatViewCount(trend.views) }} Pembaca
                                             </span>
                                         </div>
                                     </div>
@@ -157,15 +168,14 @@ const trendingNews = [
                             </li>
                         </ul>
                     </div>
-
-                    <div class="bg-gray-900 dark:bg-red-700 p-8 text-white relative overflow-hidden group shadow-2xl">
+                    <div class="relative p-8 overflow-hidden text-white bg-gray-900 shadow-2xl dark:bg-red-700 group">
                         <div class="relative z-10">
-                            <Mail class="h-8 w-8 mb-4 text-red-500 dark:text-white" />
-                            <h3 class="font-black text-2xl leading-none uppercase tracking-tighter">Tetap<br />Update.
+                            <Mail class="w-8 h-8 mb-4 text-red-500 dark:text-white" />
+                            <h3 class="text-2xl font-black leading-none tracking-tighter uppercase">Tetap<br />Update.
                             </h3>
                             <div class="mt-6 space-y-3">
                                 <input type="email" placeholder="Alamat Email"
-                                    class="w-full bg-white/10 border-l-2 border-red-700 p-3 text-sm focus:bg-white/20 outline-none placeholder:text-[10px]" />
+                                    class="w-full bg-white/10 border-l-2 border-red-700 dark:border-red-500 p-3 text-sm focus:bg-white/20 outline-none placeholder:text-[10px]" />
                                 <button
                                     class="w-full bg-red-700 dark:bg-white dark:text-red-700 py-4 font-black text-xs uppercase tracking-[0.2em] cursor-pointer">
                                     Gabung Sekarang
@@ -173,7 +183,6 @@ const trendingNews = [
                             </div>
                         </div>
                     </div>
-
                 </div>
             </aside>
         </div>

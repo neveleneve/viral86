@@ -16,17 +16,17 @@ const article = {
 <template>
     <DefaultLayout>
         <div class="min-h-screen transition-colors duration-300">
-            <main class="max-w-7xl mx-auto py-8 lg:py-4">
+            <main class="py-8 mx-auto max-w-7xl lg:py-4">
                 <nav
                     class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8 overflow-x-auto whitespace-nowrap">
                     <Link href="/" class="hover:text-red-700">Beranda</Link>
-                    <ChevronRight class="h-3 w-3" />
+                    <ChevronRight class="w-3 h-3" />
                     <Link href="/nasional" class="hover:text-red-700">{{ article.category }}</Link>
-                    <ChevronRight class="h-3 w-3" />
+                    <ChevronRight class="w-3 h-3" />
                     <span class="text-gray-300 dark:text-gray-700">Detail Berita</span>
                 </nav>
 
-                <div class="flex flex-col lg:flex-row gap-12">
+                <div class="flex flex-col gap-12 lg:flex-row">
                     <article class="lg:w-2/3">
                         <span
                             class="inline-block border-l-4 border-red-700 pl-4 text-xs font-black uppercase tracking-[0.3em] text-red-700 dark:text-red-500 mb-6">
@@ -39,54 +39,54 @@ const article = {
                         </h1>
 
                         <div
-                            class="flex flex-wrap items-center justify-between border-y border-gray-100 dark:border-gray-800 py-4 mb-10 gap-6">
+                            class="flex flex-wrap items-center justify-between gap-6 py-4 mb-10 border-gray-100 border-y dark:border-gray-800">
                             <div
                                 class="flex flex-wrap items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-                                <div class="flex items-center group cursor-pointer">
+                                <div class="flex items-center cursor-pointer group">
                                     <div
-                                        class="p-2 bg-gray-50 dark:bg-gray-900 rounded-full mr-3 group-hover:bg-red-50 dark:group-hover:bg-red-950 transition-colors">
-                                        <User class="h-4 w-4 text-red-700" />
+                                        class="p-2 mr-3 transition-colors rounded-full bg-gray-50 dark:bg-gray-900 group-hover:bg-red-50 dark:group-hover:bg-red-950">
+                                        <User class="w-4 h-4 text-red-700" />
                                     </div>
-                                    <span class="dark:group-hover:text-white transition-colors">{{ article.author
-                                    }}</span>
+                                    <span class="transition-colors dark:group-hover:text-white">{{ article.author
+                                        }}</span>
                                 </div>
                                 <div class="flex items-center">
-                                    <Calendar class="h-4 w-4 mr-2 text-gray-400" />
+                                    <Calendar class="w-4 h-4 mr-2 text-gray-400" />
                                     {{ article.date }}
                                 </div>
                                 <div class="flex items-center">
-                                    <Clock class="h-4 w-4 mr-2 text-gray-400" />
+                                    <Clock class="w-4 h-4 mr-2 text-gray-400" />
                                     {{ article.readingTime }}
                                 </div>
                             </div>
 
                             <div class="flex items-center space-x-2">
-                                <button class="p-2 hover:text-red-700 dark:text-gray-400 transition-colors">
-                                    <Bookmark class="h-5 w-5" />
+                                <button class="p-2 transition-colors hover:text-red-700 dark:text-gray-400">
+                                    <Bookmark class="w-5 h-5" />
                                 </button>
-                                <button class="p-2 hover:text-red-700 dark:text-gray-400 transition-colors">
-                                    <Share2 class="h-5 w-5" />
+                                <button class="p-2 transition-colors hover:text-red-700 dark:text-gray-400">
+                                    <Share2 class="w-5 h-5" />
                                 </button>
                             </div>
                         </div>
 
-                        <figure class="mb-12 relative">
-                            <div class="aspect-video overflow-hidden rounded-sm border-l-8 border-red-700">
+                        <figure class="relative mb-12">
+                            <div class="overflow-hidden border-l-8 border-red-700 rounded-sm aspect-video">
                                 <img :src="article.image" :alt="article.title"
-                                    class="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" />
+                                    class="object-cover w-full h-full transition-transform duration-1000 hover:scale-105" />
                             </div>
                             <figcaption
                                 class="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mt-4 flex justify-between items-center">
                                 <span>Sumber: Unsplash Editorial</span>
-                                <span class="text-gray-300 dark:text-gray-700 italic">Berandanesia Exclusive</span>
+                                <span class="italic text-gray-300 dark:text-gray-700">Berandanesia Exclusive</span>
                             </figcaption>
                         </figure>
 
                         <div class="prose prose-lg dark:prose-invert max-w-none">
-                            <p class="text-gray-800 dark:text-gray-200 text-xl leading-relaxed font-serif mb-8">
+                            <p class="mb-8 font-serif text-xl leading-relaxed text-gray-800 dark:text-gray-200">
 
                                 <strong
-                                    class="font-sans text-sm uppercase tracking-widest text-gray-900 dark:text-white border-b-2 border-red-700 pb-1">
+                                    class="pb-1 font-sans text-sm tracking-widest text-gray-900 uppercase border-b-2 border-red-700 dark:text-white">
                                     Jakarta, Berandanesia —
                                 </strong>
                                 Pemerintah secara resmi telah mengesahkan regulasi terbaru mengenai percepatan transisi
@@ -94,19 +94,19 @@ const article = {
                                 net-zero emission yang ditargetkan tercapai lebih cepat.
                             </p>
 
-                            <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-8">
+                            <p class="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                                 Dalam konferensi pers siang ini, kementerian terkait menegaskan bahwa investasi di
                                 sektor energi hijau akan mendapatkan insentif pajak khusus, yang diharapkan dapat
                                 menarik lebih banyak investor domestik maupun internasional.
                             </p>
 
                             <div
-                                class="my-12 p-8 bg-gray-50 dark:bg-gray-900/50 border-l-4 border-gray-200 dark:border-gray-800 relative group overflow-hidden">
+                                class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
                                 <div
                                     class="absolute top-0 right-0 p-2 text-[9px] font-black uppercase tracking-tighter text-gray-300">
                                     Advertisement</div>
                                 <div
-                                    class="flex flex-col items-center justify-center min-h-50 border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-lg group-hover:border-red-700/30 transition-colors">
+                                    class="flex flex-col items-center justify-center transition-colors border-2 border-gray-200 border-dashed rounded-lg min-h-50 dark:border-gray-800 group-hover:border-red-700/30">
                                     <span
                                         class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">Ruang
                                         Iklan Strategis</span>
@@ -114,9 +114,9 @@ const article = {
                             </div>
 
                             <blockquote
-                                class="my-12 border-l-4 border-red-700 pl-8 py-4 bg-red-50/30 dark:bg-red-950/10 relative">
+                                class="relative py-4 pl-8 my-12 border-l-4 border-red-700 bg-red-50/30 dark:bg-red-950/10">
                                 <p
-                                    class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white leading-tight italic tracking-tight">
+                                    class="text-2xl italic font-black leading-tight tracking-tight text-gray-900 md:text-3xl dark:text-white">
                                     "Ini bukan sekadar regulasi, ini adalah komitmen nyata kita untuk masa depan yang
                                     lebih bersih dan ekonomi yang tangguh di tahun 2026."
                                 </p>
@@ -127,14 +127,14 @@ const article = {
                                 </footer>
                             </blockquote>
 
-                            <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-8">
+                            <p class="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
                                 Kebijakan ini juga akan berdampak langsung pada sektor industri manufaktur yang
                                 diwajibkan secara bertahap menggunakan persentase energi terbarukan dalam operasional
                                 mereka mulai akhir kuartal ketiga tahun ini.
                             </p>
                         </div>
 
-                        <div class="flex items-center gap-2 mt-12 pb-12 border-b border-gray-100 dark:border-gray-800">
+                        <div class="flex items-center gap-2 pb-12 mt-12 border-b border-gray-100 dark:border-gray-800">
                             <span class="text-[10px] font-black uppercase text-gray-400 mr-4">Tags:</span>
                             <Link href="#" v-for="tag in ['Energi', 'Regulasi', '2026']" :key="tag"
                                 class="px-3 py-1 bg-gray-100 dark:bg-gray-900 text-[10px] font-bold uppercase tracking-widest hover:bg-red-700 hover:text-white transition-all">
@@ -143,11 +143,11 @@ const article = {
                         </div>
                     </article>
 
-                    <aside class="lg:w-1/3 space-y-12">
+                    <aside class="space-y-12 lg:w-1/3">
                         <div class="sticky top-28">
                             <h3
                                 class="flex items-center text-sm font-black text-gray-900 dark:text-white tracking-[0.2em] uppercase mb-8">
-                                <span class="w-3 h-3 bg-red-700 mr-3"></span>
+                                <span class="w-3 h-3 mr-3 bg-red-700"></span>
                                 Terpopuler
                             </h3>
 
@@ -155,34 +155,34 @@ const article = {
                                 <Link href="#" v-for="i in 4" :key="i" class="block group">
                                     <div class="flex gap-4">
                                         <span
-                                            class="text-3xl font-black text-gray-400 dark:text-gray-700 group-hover:text-red-700/20 transition-colors leading-none">
+                                            class="text-3xl font-black leading-none text-gray-400 transition-colors dark:text-gray-700 group-hover:text-red-700/20">
                                             0{{ i }}
                                         </span>
                                         <div class="space-y-2">
                                             <span
                                                 class="text-[9px] font-black uppercase tracking-widest text-red-700 dark:text-red-500">Ekonomi</span>
                                             <h4
-                                                class="font-bold text-gray-800 dark:text-gray-200 group-hover:text-red-700 dark:group-hover:text-red-500 transition-colors leading-snug tracking-tight">
+                                                class="font-bold leading-snug tracking-tight text-gray-800 transition-colors dark:text-gray-200 group-hover:text-red-700 dark:group-hover:text-red-500">
                                                 Pembangunan Infrastruktur Tol Baru di Sumatera Akan Dimulai Bulan Depan
                                             </h4>
                                         </div>
                                     </div>
-                                    <div class="mt-4 border-b border-gray-50 dark:border-gray-900 w-full"></div>
+                                    <div class="w-full mt-4 border-b border-gray-50 dark:border-gray-900"></div>
                                 </Link>
                             </div>
 
-                            <div class="mt-12 p-6 bg-gray-900 dark:bg-red-950 rounded-sm overflow-hidden relative">
+                            <div class="relative p-6 mt-12 overflow-hidden bg-gray-900 rounded-sm dark:bg-red-950">
                                 <div class="relative z-10">
                                     <span class="text-[9px] font-bold text-red-500 tracking-[0.3em] uppercase">Edisi
                                         Premium</span>
-                                    <h4 class="text-white font-black mt-2 leading-tight">Berlangganan Newsletter
+                                    <h4 class="mt-2 font-black leading-tight text-white">Berlangganan Newsletter
                                         Eksklusif Berandanesia</h4>
                                     <button
                                         class="mt-4 w-full py-3 bg-red-700 text-white text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all">Daftar
                                         Sekarang</button>
                                 </div>
                                 <div class="absolute -right-4 -bottom-4 opacity-10">
-                                    <Share2 class="h-32 w-32 text-white" />
+                                    <Share2 class="w-32 h-32 text-white" />
                                 </div>
                             </div>
                         </div>
@@ -191,6 +191,23 @@ const article = {
             </main>
         </div>
     </DefaultLayout>
+
+    <Head>
+        <title>{{ `${article.title} | Berandanesia` }}</title>
+        <meta name="description" :content="article.title" />
+
+        <meta property="og:type" content="article" />
+        <meta property="og:title" :content="article.title" />
+        <meta property="og:description"
+            content="Baca berita selengkapnya di Berandanesia - Portal berita terpercaya 2026." />
+        <meta property="og:image" :content="article.image" />
+        <meta property="og:url" :content="'https://berandanesia.id/news/' + article.category.toLowerCase()" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" :content="article.title" />
+        <meta name="twitter:description" content="Baca berita selengkapnya di Berandanesia." />
+        <meta name="twitter:image" :content="article.image" />
+    </Head>
 </template>
 
 <style scoped>
