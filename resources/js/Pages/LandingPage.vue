@@ -41,6 +41,27 @@ const formatViewCount = (views) => {
 
 <template>
     <DefaultLayout>
+        <div class="grid grid-cols-1 gap-12 mb-8 lg:grid-cols-12">
+            <div class="col-span-1 space-y-16 lg:col-span-12">
+                <div
+                    class="relative overflow-hidden transition-all duration-300 border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group hover:border-red-700">
+                    <div
+                        class="absolute top-0 right-0 z-10 flex items-center p-2 text-[8px] font-black uppercase tracking-widest text-white bg-gray-900/40 backdrop-blur-sm">
+                        <Info class="w-2.5 h-2.5 mr-1 text-white" />
+                        <span>Advertisement</span>
+                    </div>
+                    <div class="relative w-full overflow-hidden aspect-15/4">
+                        <img src="https://images.unsplash.com/photo-1549213821-4708d624e1d1?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Promosi Berandanesia"
+                            class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
+                        <div
+                            class="absolute inset-0 transition-opacity duration-300 opacity-0 bg-linear-to-t from-red-900/20 to-transparent group-hover:opacity-100">
+                        </div>
+                    </div>
+                    <a target="_blank" href="#" class="absolute inset-0 z-20" aria-label="Buka Iklan"></a>
+                </div>
+            </div>
+        </div>
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
             <div class="space-y-16 lg:col-span-8">
                 <section>
@@ -94,19 +115,22 @@ const formatViewCount = (views) => {
                     </article>
                     </Link>
                 </section>
-                <div
-                    class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
+               <div
+                    class="relative overflow-hidden transition-all duration-300 border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group hover:border-red-700">
                     <div
-                        class="absolute top-0 right-0 flex items-center p-3 text-[9px] font-black uppercase tracking-widest text-gray-400">
-                        <Info class="w-3 h-3 mr-1.5 text-gray-400" />
+                        class="absolute top-0 right-0 z-10 flex items-center p-2 text-[8px] font-black uppercase tracking-widest text-white bg-gray-900/40 backdrop-blur-sm">
+                        <Info class="w-2.5 h-2.5 mr-1 text-white" />
                         <span>Advertisement</span>
                     </div>
-                    <div
-                        class="flex flex-col items-center justify-center transition-colors border-2 border-gray-200 border-dashed rounded-lg min-h-50 dark:border-gray-800 group-hover:border-red-700/30">
-                        <span class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">
-                            Ruang Iklan Strategis
-                        </span>
+                    <div class="relative w-full overflow-hidden aspect-15/4">
+                        <img src="https://images.unsplash.com/photo-1549213821-4708d624e1d1?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Promosi Berandanesia"
+                            class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" />
+                        <div
+                            class="absolute inset-0 transition-opacity duration-300 opacity-0 bg-linear-to-t from-red-900/20 to-transparent group-hover:opacity-100">
+                        </div>
                     </div>
+                    <a target="_blank" href="#" class="absolute inset-0 z-20" aria-label="Buka Iklan"></a>
                 </div>
                 <section>
                     <div class="flex items-center gap-3 mb-8">
@@ -181,21 +205,6 @@ const formatViewCount = (views) => {
                             </li>
                         </ul>
                     </div>
-                    <div
-                        class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
-                        <div
-                            class="absolute top-0 right-0 flex items-center p-3 text-[9px] font-black uppercase tracking-widest text-gray-400">
-                            <Info class="w-3 h-3 mr-1.5 text-gray-400" />
-                            <span>Advertisement</span>
-                        </div>
-                        <div
-                            class="flex flex-col items-center justify-center transition-colors border-2 border-gray-200 border-dashed rounded-lg min-h-50 dark:border-gray-800 group-hover:border-red-700/30">
-                            <span
-                                class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">
-                                Ruang Iklan Strategis
-                            </span>
-                        </div>
-                    </div>
                     <div class="relative p-8 overflow-hidden text-white bg-gray-900 shadow-2xl dark:bg-red-700 group">
                         <div class="relative z-10">
                             <Mail class="w-8 h-8 mb-4 text-red-500 dark:text-white" />
@@ -209,6 +218,21 @@ const formatViewCount = (views) => {
                                     Gabung Sekarang
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                    <div
+                        class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
+                        <div
+                            class="absolute top-0 right-0 flex items-center p-3 text-[9px] font-black uppercase tracking-widest text-gray-400">
+                            <Info class="w-3 h-3 mr-1.5 text-gray-400" />
+                            <span>Advertisement</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center transition-colors border-2 border-gray-200 border-dashed rounded-lg min-h-50 dark:border-gray-800 group-hover:border-red-700/30">
+                            <span
+                                class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">
+                                Ruang Iklan Strategis
+                            </span>
                         </div>
                     </div>
                 </div>

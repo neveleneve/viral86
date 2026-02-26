@@ -5,17 +5,14 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
-class HandleInertiaRequests extends Middleware
-{
+class HandleInertiaRequests extends Middleware {
     protected $rootView = 'app';
 
-    public function version(Request $request): ?string
-    {
+    public function version(Request $request): ?string {
         return parent::version($request);
     }
 
-    public function share(Request $request): array
-    {
+    public function share(Request $request): array {
         return [
             ...parent::share($request),
             'auth' => [
@@ -24,6 +21,8 @@ class HandleInertiaRequests extends Middleware
                     'username' => $request->user()->username,
                     'name' => $request->user()->name,
                     'email' => $request->user()->email,
+                    'roles' => $request->user()->getRoleNames(),
+                    'permissions' => $request->user()->getAllPermissions()->pluck('name'),
                 ] : null,
             ],
         ];

@@ -20,13 +20,12 @@ const article = {
                 <nav
                     class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8 overflow-x-auto whitespace-nowrap">
                     <Link href="/" class="hover:text-red-700">Beranda</Link>
-                    <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-300" />
+                    <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-100" />
                     <Link href="/nasional" class="hover:text-red-700">{{ article.category }}</Link>
-                    <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-300" />
+                    <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-100" />
                     <span class="inline-block text-gray-900 truncate dark:text-gray-100 max-w-200">
                         {{ article.title }}
                     </span>
-                    <!-- <span class="text-gray-700 dark:text-gray-300">{{ article.title }}</span> -->
                 </nav>
                 <div class="flex flex-col gap-12 lg:flex-row">
                     <article class="lg:w-2/3">
@@ -35,7 +34,7 @@ const article = {
                             {{ article.category }}
                         </span>
                         <h1
-                            class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-[1.1] mb-8">
+                            class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-[1.1] mb-2">
                             {{ article.title }}
                         </h1>
                         <div
@@ -156,7 +155,7 @@ const article = {
                         </div>
                         <div class="flex items-center gap-2 pb-12 mt-12 border-b border-gray-100 dark:border-gray-800">
                             <span class="text-[10px] font-black uppercase text-gray-400 mr-4">Tags:</span>
-                            <Link href="#" v-for="tag in ['Energi', 'Regulasi', '2026']" :key="tag"
+                            <Link :href="`/tag/${tag}`" v-for="tag in ['Energi', 'Regulasi', '2026']" :key="tag"
                                 class="px-3 py-1 bg-gray-100 dark:bg-gray-900 text-[10px] font-bold uppercase tracking-widest hover:bg-red-700 hover:text-white transition-all">
                                 #{{ tag }}
                             </Link>
@@ -188,6 +187,21 @@ const article = {
                                     <div class="w-full mt-4 border-b border-gray-50 dark:border-gray-900"></div>
                                 </Link>
                             </div>
+
+                            <div class="relative p-6 mt-12 overflow-hidden bg-gray-900 rounded-sm dark:bg-red-950">
+                                <div class="relative z-10">
+                                    <span class="text-[9px] font-bold text-red-500 tracking-[0.3em] uppercase">Edisi
+                                        Premium</span>
+                                    <h4 class="mt-2 font-black leading-tight text-white">Berlangganan Newsletter
+                                        Eksklusif Berandanesia</h4>
+                                    <button
+                                        class="mt-4 w-full py-3 bg-red-700 text-white text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all">Daftar
+                                        Sekarang</button>
+                                </div>
+                                <div class="absolute -right-4 -bottom-4 opacity-10">
+                                    <Share2 class="w-32 h-32 text-white" />
+                                </div>
+                            </div>
                             <div
                                 class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
                                 <div
@@ -201,20 +215,6 @@ const article = {
                                         class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">
                                         Ruang Iklan Strategis
                                     </span>
-                                </div>
-                            </div>
-                            <div class="relative p-6 mt-12 overflow-hidden bg-gray-900 rounded-sm dark:bg-red-950">
-                                <div class="relative z-10">
-                                    <span class="text-[9px] font-bold text-red-500 tracking-[0.3em] uppercase">Edisi
-                                        Premium</span>
-                                    <h4 class="mt-2 font-black leading-tight text-white">Berlangganan Newsletter
-                                        Eksklusif Berandanesia</h4>
-                                    <button
-                                        class="mt-4 w-full py-3 bg-red-700 text-white text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all">Daftar
-                                        Sekarang</button>
-                                </div>
-                                <div class="absolute -right-4 -bottom-4 opacity-10">
-                                    <Share2 class="w-32 h-32 text-white" />
                                 </div>
                             </div>
                         </div>
