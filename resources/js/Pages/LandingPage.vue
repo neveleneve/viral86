@@ -164,7 +164,7 @@ const formatViewCount = (views) => {
             </div>
             <aside class="lg:col-span-4">
                 <div class="sticky space-y-12 top-24">
-                    <div v-if="!user"  class="p-6 bg-white border-l-4 border-red-700 shadow-sm dark:border-red-500 dark:bg-gray-800">
+                    <div v-if="!user"  class="hidden p-6 bg-white border-l-4 border-red-700 shadow-sm dark:border-red-500 dark:bg-gray-800 lg:block">
                         <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">
                             Akses Pembaca
                         </h3>

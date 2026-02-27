@@ -10,7 +10,7 @@ class UserController extends Controller {
     }
 
     public function index() {
-        //
+        return inertia('Authenticated/Users/Index');
     }
 
     public function create() {

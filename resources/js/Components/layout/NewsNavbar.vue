@@ -29,7 +29,9 @@ const toggleTheme = () => {
         localStorage.setItem('theme', 'light')
     }
 }
+
 const logout = () => {
+    isSidebarOpen.value = false
     const isDarkMode = document.documentElement.classList.contains('dark');
     Swal.fire({
         title: 'Konfirmasi Keluar?',
@@ -171,13 +173,15 @@ onMounted(() => {
                         </div>
                         <div>
                             <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Login Sebagai</p>
-                            <p class="text-sm font-black text-gray-900 uppercase dark:text-white">{{ user.name }}</p>
+                            <Link href="/admin/dashboard"
+                                class="text-sm font-black text-gray-900 uppercase dark:text-white">{{ user.name }}
+                            </Link>
                         </div>
                     </div>
-                    <Link href="/logout" method="post" as="button"
+                    <button @click="logout" href="/logout" method="post" as="button"
                         class="flex items-center gap-2 text-xs font-black tracking-widest text-red-700 uppercase">
-                    <LogOut class="w-4 h-4" /> Keluar Sesi
-                    </Link>
+                        <LogOut class="w-4 h-4" /> Keluar Sesi
+                    </button>
                 </div>
                 <Link v-else href="/login" @click="toggleSidebar"
                     class="flex items-center gap-3 text-lg font-black tracking-widest text-red-700 uppercase">

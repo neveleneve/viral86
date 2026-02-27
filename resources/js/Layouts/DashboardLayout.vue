@@ -20,14 +20,22 @@ onMounted(() => {
         isDark.value = true
         document.documentElement.classList.add('dark')
     }
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth < 1024) {
+            isSidebarOpen.value = false
+        } else {
+            isSidebarOpen.value = true
+        }
+    })
 })
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-950 flex transition-colors duration-300">
-        <AdminSidebar :is-open="isSidebarOpen" />
-        <div :class="[isSidebarOpen ? 'ml-64' : 'ml-20']"
-            class="flex-1 flex flex-col transition-all duration-300 min-h-screen">
+    <div class="flex min-h-screen transition-colors duration-300 bg-gray-50 dark:bg-gray-950">
+        <AdminSidebar :isOpen="isSidebarOpen" @close="isSidebarOpen = false" />
+        <div :class="[isSidebarOpen ? 'ml-64' : 'ml-0 lg:ml-20']"
+            class="flex flex-col flex-1 min-h-screen transition-all duration-300">
             <AdminNavbar :is-sidebar-open="isSidebarOpen" @toggle-sidebar="toggleSidebar" @toggle-theme="toggleTheme">
                 <template #theme-icon>
                     <Sun v-if="isDark" class="w-5 h-5" />
