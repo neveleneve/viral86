@@ -1,7 +1,11 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, usePage } from '@inertiajs/vue3'
 import { TrendingUp, Clock, Mail, User, Info } from 'lucide-vue-next'
+import { computed } from 'vue'
+
+const page = usePage()
+const user = computed(() => page.props.auth.user)
 
 const mainNews = {
     id: 1,
@@ -160,7 +164,7 @@ const formatViewCount = (views) => {
             </div>
             <aside class="lg:col-span-4">
                 <div class="sticky space-y-12 top-24">
-                    <div class="p-6 bg-white border-l-4 border-red-700 shadow-sm dark:border-red-500 dark:bg-gray-800">
+                    <div v-if="!user"  class="p-6 bg-white border-l-4 border-red-700 shadow-sm dark:border-red-500 dark:bg-gray-800">
                         <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">
                             Akses Pembaca
                         </h3>

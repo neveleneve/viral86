@@ -17,7 +17,7 @@ const appName2 = usePage().props.appName2;
                 </p>
             </div>
             <div class="space-y-4">
-                <h3 class="text-sm lg:text-xl font-bold border-l-[3px] border-red-500 pl-3 uppercase tracking-tighter">
+                <h3 class="text-sm lg:text-base font-bold border-l-[3px] border-red-500 pl-3 uppercase tracking-tighter">
                     Kategori
                 </h3>
                 <ul class="space-y-2 text-sm font-medium text-gray-400 dark:text-gray-500">
@@ -28,7 +28,7 @@ const appName2 = usePage().props.appName2;
                 </ul>
             </div>
             <div class="space-y-4">
-                <h3 class="text-sm lg:text-xl font-bold border-l-[3px] border-red-500 pl-3 uppercase tracking-tighter">
+                <h3 class="text-sm lg:text-base font-bold border-l-[3px] border-red-500 pl-3 uppercase tracking-tighter">
                     Tentang Kami
                 </h3>
                 <ul class="space-y-2 text-sm font-medium text-gray-400 dark:text-gray-500">
@@ -39,7 +39,7 @@ const appName2 = usePage().props.appName2;
                 </ul>
             </div>
             <div class="space-y-4">
-                <h3 class="text-sm lg:text-xl font-bold border-l-[3px] border-red-500 pl-3 uppercase tracking-tighter">
+                <h3 class="text-sm lg:text-base font-bold border-l-[3px] border-red-500 pl-3 uppercase tracking-tighter">
                     Newsletter
                 </h3>
                 <div class="flex flex-col gap-2">

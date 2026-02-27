@@ -15,12 +15,14 @@ class HandleInertiaRequests extends Middleware {
     public function share(Request $request): array {
         return [
             ...parent::share($request),
-            'appName' => env('VITE_APP_NAME'),
-            'appName1' => env('VITE_APP_NAME_1'),
-            'appName2' => env('VITE_APP_NAME_2'),
+            'appName' => env('VITE_APP_NAME', 'Berandanesia'),
+            'appName1' => env('VITE_APP_NAME_1', 'Beranda'),
+            'appName2' => env('VITE_APP_NAME_2', 'nesia'),
             'flash' => [
-                'success' => $request->session()->get('success'),
-                'error' => $request->session()->get('error'),
+                'toast' => $request->session()->get('toast'),
+                'icon' => $request->session()->get('icon'),
+                'title' => $request->session()->get('title'),
+                'message' => $request->session()->get('message'),
             ],
             'auth' => [
                 'user' => $request->user() ? [

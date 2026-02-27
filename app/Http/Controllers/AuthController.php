@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller {
     public function login(Request $request) {
         $request->validate([
-            'email' => ['required', 'string'], // Ini field inputnya
+            'email' => ['required', 'string'],
             'password' => ['required', 'string'],
             'remember' => ['boolean'],
         ]);
@@ -20,12 +20,19 @@ class AuthController extends Controller {
 
             return redirect()
                 ->intended('/')
-                ->with('success', 'Selamat Datang Kembali!');
+                ->with([
+                    'toast' => true,
+                    'title' => 'Berhasil!',
+                    'message' => 'Login Berhasil! Selamat datang kembali!',
+                    'icon' => 'success',
+                ]);
         }
 
-        // 4. Jika Gagal
-        return back()->with('error', 'Login Gagal! Email atau Password salah.')
-            ->withErrors(['email' => 'Kredensial tidak cocok.']);
+        return back()
+            ->with('error', 'Login Gagal! Email atau Password salah.')
+            ->withErrors([
+                'email' => 'Kredensial tidak cocok.'
+            ]);
     }
 
     public function register(Request $request) {
@@ -34,5 +41,20 @@ class AuthController extends Controller {
 
     public function loginForm() {
         return inertia('Auth/Login');
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')
+            ->with([
+                'toast' => true,
+                'title' => 'Berhasil Keluar!',
+                'message' => 'Berhasil keluar dari akun Anda!',
+                'icon' => 'success',
+            ]);
     }
 }

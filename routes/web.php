@@ -21,6 +21,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('category', CategoryController::class);
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+});
+
 Route::get('terkini', function () {
     return inertia('LatestNews');
 });
