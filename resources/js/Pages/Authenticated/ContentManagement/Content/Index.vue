@@ -1,8 +1,9 @@
 <template>
     <DashboardLayout>
+        Halo
     </DashboardLayout>
 
-    <Head :title="`Dashboard | ${appName1}${appName2}`" />
+    <Head :title="`Konten | ${appName1}${appName2}`" />
 </template>
 
 <script setup>

@@ -1,5 +1,6 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+import { Head, Link } from '@inertiajs/vue3';
 import { ChevronRight, Info, MapPin, Phone, Mail, Share2 } from 'lucide-vue-next';
 
 const editorialTeam = [

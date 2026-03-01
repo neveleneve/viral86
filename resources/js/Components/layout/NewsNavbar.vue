@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Search, TextAlignEnd, X, User, Sun, Moon, LogOut } from 'lucide-vue-next'
-import { router, usePage } from '@inertiajs/vue3'
+import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import Swal from 'sweetalert2'
 
@@ -83,14 +83,14 @@ onMounted(() => {
         class="sticky top-0 z-50 py-4 transition-all duration-300 border-b border-gray-100 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md dark:border-gray-800">
         <div class="flex items-center justify-between px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <Link href="/" class="flex items-center text-2xl transition-all hover:opacity-80">
-            <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">{{ appName1 }}</span>
-            <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">{{ appName2 }}</span>
+                <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">{{ appName1 }}</span>
+                <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">{{ appName2 }}</span>
             </Link>
             <nav class="items-center hidden space-x-8 md:flex">
                 <Link v-for="item in ['Terkini', 'Daerah', 'Nasional', 'Redaksi']" :key="item"
                     :href="`/${item.toLowerCase()}`"
                     class="text-[11px] uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 hover:text-red-700 dark:hover:text-red-500 font-black transition-colors">
-                {{ item }}
+                    {{ item }}
                 </Link>
             </nav>
             <div class="items-center hidden space-x-4 md:flex">
@@ -107,21 +107,22 @@ onMounted(() => {
                 </button>
                 <div class="flex items-center pl-4 border-l border-gray-100 dark:border-gray-800">
                     <Link v-if="!user" href="/login" class="flex items-center gap-2 group">
-                    <User class="w-5 h-5 text-gray-400 transition-colors group-hover:text-red-700" />
-                    <span
-                        class="text-[10px] font-black text-gray-900 dark:text-gray-100 uppercase tracking-widest group-hover:text-red-700 transition-colors">
-                        Masuk
-                    </span>
+                        <User class="w-5 h-5 text-gray-400 transition-colors group-hover:text-red-700" />
+                        <span
+                            class="text-[10px] font-black text-gray-900 dark:text-gray-100 uppercase tracking-widest group-hover:text-red-700 transition-colors">
+                            Masuk
+                        </span>
                     </Link>
                     <div v-else class="flex items-center gap-6">
                         <Link href="/admin/dashboard" class="flex items-center gap-2 text-right group">
-                        <div class="flex flex-col">
-                            <span class="text-[8px] font-black text-red-700 uppercase tracking-tighter">Redaksi</span>
-                            <span
-                                class="text-[10px] font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest">
-                                {{ user.name.split(' ')[0] }}
-                            </span>
-                        </div>
+                            <div class="flex flex-col">
+                                <span
+                                    class="text-[8px] font-black text-red-700 uppercase tracking-tighter">Redaksi</span>
+                                <span
+                                    class="text-[10px] font-bold text-gray-900 dark:text-gray-100 uppercase tracking-widest">
+                                    {{ user.name.split(' ')[0] }}
+                                </span>
+                            </div>
                         </Link>
                         <button @click="logout"
                             class="text-gray-400 transition-colors cursor-pointer hover:text-red-700">
@@ -161,7 +162,7 @@ onMounted(() => {
                 <Link v-for="item in ['Terkini', 'Daerah', 'Nasional', 'Redaksi']" :key="item"
                     :href="`/${item.toLowerCase()}`" @click="toggleSidebar"
                     class="text-2xl font-black tracking-tighter text-gray-900 uppercase transition-all dark:text-white hover:text-red-700">
-                {{ item }}
+                    {{ item }}
                 </Link>
             </nav>
             <div class="pt-6 mt-auto border-t border-gray-100 dark:border-gray-800">
@@ -185,7 +186,7 @@ onMounted(() => {
                 </div>
                 <Link v-else href="/login" @click="toggleSidebar"
                     class="flex items-center gap-3 text-lg font-black tracking-widest text-red-700 uppercase">
-                <User class="w-6 h-6" /> Masuk Akun
+                    <User class="w-6 h-6" /> Masuk Akun
                 </Link>
             </div>
         </div>

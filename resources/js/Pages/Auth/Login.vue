@@ -1,6 +1,6 @@
 <script setup>
 import { watch } from 'vue'
-import { usePage, useForm, router } from '@inertiajs/vue3'
+import { usePage, useForm, router, Link, Head } from '@inertiajs/vue3'
 import { ArrowRight, Loader2, Lock, Mail } from 'lucide-vue-next'
 
 const page = usePage()
@@ -25,8 +25,8 @@ const submit = () => {
         <div class="w-full max-w-md mx-auto">
             <div class="flex justify-center mb-8">
                 <Link href="/" class="flex items-center text-3xl transition-all hover:opacity-80">
-                <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">{{ appName1 }}</span>
-                <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">{{ appName2 }}</span>
+                    <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">{{ appName1 }}</span>
+                    <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">{{ appName2 }}</span>
                 </Link>
             </div>
 

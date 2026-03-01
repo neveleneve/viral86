@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller {
-    public function __construct() {
-        //
-    }
-
+class EditorialController extends Controller {
     public function index() {
-        // 
+        return inertia('Authenticated/Users/Redaksi/Index');
     }
 
     public function create() {
@@ -33,6 +29,9 @@ class UserController extends Controller {
         //
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id) {
         //
     }

@@ -1,5 +1,6 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+import { Head, Link } from '@inertiajs/vue3';
 import { Calendar, User, Share2, Clock, Bookmark, ChevronRight, Twitter, Info, Facebook } from 'lucide-vue-next'
 
 const article = {
@@ -14,7 +15,7 @@ const article = {
 
 <template>
     <DefaultLayout>
-        <div class="grid grid-cols-1 gap-12 mb-8 lg:grid-cols-12">
+        <!-- <div class="grid grid-cols-1 gap-12 mb-8 lg:grid-cols-12">
             <div class="col-span-1 space-y-16 lg:col-span-12">
                 <div
                     class="relative overflow-hidden transition-all duration-300 border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group hover:border-red-700">
@@ -34,7 +35,7 @@ const article = {
                     <a target="_blank" href="#" class="absolute inset-0 z-20" aria-label="Buka Iklan"></a>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="min-h-screen transition-colors duration-300">
             <main class="mx-auto max-w-7xl">
                 <nav

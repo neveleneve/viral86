@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller {
-    public function __construct() {
-        //
-    }
-
+class ContentController extends Controller {
     public function index() {
-        // 
+        return inertia('Authenticated/ContentManagement/Content/Index');
     }
 
     public function create() {

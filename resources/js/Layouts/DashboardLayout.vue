@@ -40,19 +40,12 @@ onBeforeUnmount(() => {
     <div class="relative flex min-h-screen transition-colors duration-300 bg-gray-50 dark:bg-gray-950">
         <AdminSidebar :isOpen="isSidebarOpen" @close="isSidebarOpen = false" />
 
-        <div
-            class="absolute inset-0 z-40 bg-gray-950/40 backdrop-blur-[1px] transition-opacity duration-300 lg:hidden"
+        <div class="absolute inset-0 z-40 bg-gray-950/40 backdrop-blur-[1px] transition-opacity duration-300 lg:hidden"
             :class="isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
-            @click="isSidebarOpen = false"
-        />
+            @click="isSidebarOpen = false" />
 
-        <div
-            :class="[
-                isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20',
-                'w-full'
-            ]"
-            class="relative z-10 flex flex-col flex-1 min-h-screen transition-all duration-300"
-        >
+        <div class="relative z-10 flex flex-col flex-1 min-h-screen transition-all duration-300"
+            :class="[isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20', 'w-full']">
             <AdminNavbar :is-sidebar-open="isSidebarOpen" @toggle-sidebar="toggleSidebar" @toggle-theme="toggleTheme">
                 <template #theme-icon>
                     <Sun v-if="isDark" class="w-5 h-5" />

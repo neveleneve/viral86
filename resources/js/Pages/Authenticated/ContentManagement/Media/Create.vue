@@ -3,12 +3,12 @@
         Halo
     </DashboardLayout>
 
-    <Head :title="`Pengguna | ${appName1}${appName2}`" />
+    <Head :title="`Tambah Media | ${appName1}${appName2}`" />
 </template>
 
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
-import { usePage } from '@inertiajs/vue3'
+import { Head, usePage } from '@inertiajs/vue3'
 
 const page = usePage()
 

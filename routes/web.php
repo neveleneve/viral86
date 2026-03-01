@@ -1,9 +1,15 @@
 <?php
 
+use App\Http\Controllers\ActiveAdsController;
+use App\Http\Controllers\AdsRequestController;
+use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\EditorialController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\ReaderController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,12 +22,26 @@ Route::middleware('guest')->group(function () {
     Route::inertia('register', 'Auth/Register');
 });
 
-Route::middleware('auth')->prefix('admin')->group(function () {
-    Route::inertia('dashboard', 'Authenticated/Dashboard/Index');
-    Route::resource('tag', TagController::class);
-    Route::resource('category', CategoryController::class);
-    Route::resource('users', UserController::class);
-});
+Route::middleware('auth')
+    ->prefix('admin')
+    ->group(function () {
+        Route::resource('tag', TagController::class);
+        Route::resource('kategori', CategoryController::class);
+
+        Route::inertia('dashboard', 'Authenticated/Dashboard/Index');
+
+        Route::resource('konten', ContentController::class);
+        Route::resource('media', MediaController::class);
+
+        Route::resource('iklan-aktif', ActiveAdsController::class);
+        Route::resource('permintaan-iklan', AdsRequestController::class);
+
+        Route::resource('redaksi', EditorialController::class);
+        Route::resource('pembaca', ReaderController::class);
+        Route::resource('pengiklan', AdvertiserController::class);
+
+        Route::inertia('pengaturan', 'Authenticated/Settings/Index');
+    });
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');

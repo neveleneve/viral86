@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller {
-    public function __construct() {
-        //
-    }
-
+class ReaderController extends Controller {
     public function index() {
-        // 
+        return inertia('Authenticated/Users/Pembaca/Index');
     }
 
     public function create() {
