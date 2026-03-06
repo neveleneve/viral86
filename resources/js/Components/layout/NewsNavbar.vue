@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Search, TextAlignEnd, X, User, Sun, Moon, LogOut } from 'lucide-vue-next'
+import { Search, TextAlignEnd, X, User, Sun, Moon, LogOut, UserPlus } from 'lucide-vue-next'
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import Swal from 'sweetalert2'
@@ -184,10 +184,16 @@ onMounted(() => {
                         <LogOut class="w-4 h-4" /> Keluar Sesi
                     </button>
                 </div>
-                <Link v-else href="/login" @click="toggleSidebar"
-                    class="flex items-center gap-3 text-lg font-black tracking-widest text-red-700 uppercase">
-                    <User class="w-6 h-6" /> Masuk Akun
-                </Link>
+                <div v-else>
+                    <Link href="/login" @click="toggleSidebar"
+                        class="flex items-center gap-3 text-lg font-black tracking-widest text-red-700 uppercase">
+                        <User class="w-6 h-6" /> Masuk
+                    </Link>
+                    <Link href="/register" @click="toggleSidebar"
+                        class="flex items-center gap-3 text-lg font-black tracking-widest text-gray-500 uppercase">
+                        <UserPlus class="w-6 h-6" /> Daftar
+                    </Link>
+                </div>
             </div>
         </div>
     </aside>

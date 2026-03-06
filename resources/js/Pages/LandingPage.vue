@@ -86,7 +86,7 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
 <template>
     <DefaultLayout>
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
-            <div class="space-y-16 lg:col-span-8">
+            <div class="lg:col-span-12">
                 <section class="relative overflow-hidden group/slider">
                     <Swiper :modules="swiperModules" :slides-per-view="1" :loop="true" :effect="'fade'"
                         :fade-effect="{ crossFade: true }" :autoplay="{ delay: 5000, disableOnInteraction: false }"
@@ -95,7 +95,7 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                         <SwiperSlide v-for="news in sliderNews" :key="news.id">
                             <Link :href="`/news/${news.slug}`" class="block group">
                                 <article class="relative">
-                                    <div class="relative overflow-hidden shadow-2xl h-75 md:h-100">
+                                    <div class="relative overflow-hidden shadow-2xl h-100 md:h-150">
                                         <img :src="news.image"
                                             class="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105" />
                                         <div
@@ -142,6 +142,9 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                     </Swiper>
                     <div class="static! flex gap-2 mt-6 custom-pagination"></div>
                 </section>
+            </div>
+            <div class="space-y-16 lg:col-span-8">
+
                 <div
                     class="relative overflow-hidden transition-all duration-300 border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group hover:border-red-700">
                     <div
@@ -251,8 +254,9 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                             <input type="email" placeholder="Alamat Email"
                                 class="w-full p-3 text-sm border-l-2 border-red-700 outline-none bg-white/10 focus:bg-white/20" />
                             <button
-                                class="w-full bg-red-700 dark:bg-white dark:text-red-700 py-4 font-black text-xs uppercase tracking-[0.2em]">Gabung
-                                Sekarang</button>
+                                class="w-full bg-red-700 dark:bg-white dark:text-red-700 py-4 font-black text-xs uppercase tracking-[0.2em]">
+                                Gabung Sekarang
+                            </button>
                         </div>
                     </div>
                 </div>

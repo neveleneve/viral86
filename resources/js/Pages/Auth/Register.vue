@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, usePage } from '@inertiajs/vue3'
 import { User, Mail, Lock, ArrowRight, ChevronLeft } from 'lucide-vue-next'
 
 const form = ref({
@@ -10,28 +10,30 @@ const form = ref({
     password: '',
     password_confirmation: ''
 })
+
+const page = usePage()
+
+const appName1 = page.props.appName1;
+const appName2 = page.props.appName2;
 </script>
 
 <template>
     <div
         class="flex flex-col justify-center min-h-screen px-4 py-12 transition-colors duration-300 bg-gray-50 dark:bg-gray-900">
         <div class="w-full max-w-md mx-auto">
-
             <div class="flex justify-center mb-8">
                 <Link href="/" class="flex items-center text-3xl transition-all hover:opacity-80">
-                    <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">Beranda</span>
-                    <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">nesia</span>
+                    <span class="font-bold tracking-tighter text-gray-900 dark:text-gray-100">{{ appName1 }}</span>
+                    <span class="font-extrabold tracking-tighter text-red-700 dark:text-red-500">{{ appName2 }}</span>
                 </Link>
             </div>
-
             <div class="p-8 transition-all bg-white border-l-4 border-red-700 shadow-xl dark:bg-gray-800 md:p-10">
-
                 <div class="mb-8">
                     <h1 class="text-2xl font-black tracking-tight text-gray-900 uppercase dark:text-white">Daftar</h1>
                     <p class="mt-1 text-xs font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">Buat
-                        Akun Pembaca Baru</p>
+                        Akun Pembaca Baru
+                    </p>
                 </div>
-
                 <form @submit.prevent="" class="space-y-5">
                     <div>
                         <label

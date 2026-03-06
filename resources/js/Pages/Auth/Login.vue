@@ -1,12 +1,11 @@
 <script setup>
-import { watch } from 'vue'
-import { usePage, useForm, router, Link, Head } from '@inertiajs/vue3'
-import { ArrowRight, Loader2, Lock, Mail } from 'lucide-vue-next'
+import { usePage, useForm, Link, Head } from '@inertiajs/vue3'
+import { ArrowRight, ChevronLeft, Loader2, Lock, Mail } from 'lucide-vue-next'
 
 const page = usePage()
 
-const appName1 = usePage().props.appName1;
-const appName2 = usePage().props.appName2;
+const appName1 = page.props.appName1;
+const appName2 = page.props.appName2;
 
 const form = useForm({
     email: '',
@@ -54,7 +53,6 @@ const submit = () => {
                             class="text-[10px] text-red-600 font-bold mt-1 uppercase tracking-tight">{{
                                 form.errors.email }}</p>
                     </div>
-
                     <div>
                         <div class="flex justify-between mb-2">
                             <label
@@ -97,7 +95,22 @@ const submit = () => {
                         </span>
                     </button>
                 </form>
+                <div class="flex flex-col items-center pt-6 mt-8 border-t border-gray-100 dark:border-gray-700">
+                    <p class="text-[11px] text-gray-500 dark:text-gray-400 font-medium italic">Belum memiliki akun?</p>
+                    <Link href="/register"
+                        class="mt-2 text-xs font-black tracking-widest text-gray-900 uppercase transition-colors dark:text-white hover:text-red-700 dark:hover:text-red-500">
+                        Daftar Akun
+                    </Link>
 
+                    <div class="flex justify-center w-full mt-6">
+                        <Link href="/"
+                            class="group flex items-center text-[10px] font-bold uppercase text-gray-400 dark:text-gray-500 hover:text-red-700 dark:hover:text-red-500 transition-colors tracking-[0.15em]">
+                            <ChevronLeft
+                                class="w-3 h-3 mr-1 transition-transform transform group-hover:-translate-x-1" />
+                            Kembali ke Laman Utama
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

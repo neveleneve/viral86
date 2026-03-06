@@ -9,6 +9,7 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\EditorialController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ReaderController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,7 +41,9 @@ Route::middleware('auth')
         Route::resource('pembaca', ReaderController::class);
         Route::resource('pengiklan', AdvertiserController::class);
 
-        Route::inertia('pengaturan', 'Authenticated/Settings/Index');
+        Route::get('pengaturan', [SettingController::class, 'index']);
+        Route::post('pengaturan/chenge-profile', [SettingController::class, 'changeProfile']);
+        Route::post('pengaturan/chenge-password', [SettingController::class, 'changePassword']);
     });
 
 Route::middleware('auth')->group(function () {
