@@ -1,7 +1,7 @@
 <template>
     Halo
 
-    <Head :title="`Redaksi | ${appName1}${appName2}`" />
+    <Head :title="`Tag | ${appName1}${appName2}`" />
 </template>
 
 <script setup>

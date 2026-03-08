@@ -1,7 +1,5 @@
 <template>
-    <DashboardLayout>
-        Halo
-    </DashboardLayout>
+    Halo
 
     <Head :title="`Media | ${appName1}${appName2}`" />
 </template>
@@ -11,6 +9,8 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import { Head, usePage } from '@inertiajs/vue3'
 
 const page = usePage()
+
+defineOptions({ layout: DashboardLayout })
 
 const appName1 = page.props.appName1;
 const appName2 = page.props.appName2;

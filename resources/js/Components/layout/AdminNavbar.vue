@@ -28,11 +28,11 @@ const emit = defineEmits(['toggleSidebar', 'toggleTheme'])
                 <slot name="theme-icon" />
             </button>
 
-            <button
+            <!-- <button
                 class="relative hidden p-2 text-gray-400 transition-colors rounded-lg sm:block hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-700">
                 <Bell class="w-5 h-5" />
                 <span class="absolute block w-2 h-2 bg-red-700 rounded-full -right-0.5 -top-0.5" />
-            </button>
+            </button> -->
 
 
             <div class="flex items-center gap-3 pl-3 border-l border-gray-100 md:pl-4 dark:border-gray-800">

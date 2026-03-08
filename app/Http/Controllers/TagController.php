@@ -11,7 +11,7 @@ class TagController extends Controller {
     }
 
     public function index() {
-        //
+        return inertia('Authenticated/ContentManagement/Tag/Index');
     }
 
     public function create() {

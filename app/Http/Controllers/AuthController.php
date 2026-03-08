@@ -2,37 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller {
     public function login(Request $request) {
-        $request->validate([
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string'],
-            'remember' => ['boolean'],
-        ]);
+        try {
+            $request->validate([
+                'email' => ['required', 'string'],
+                'password' => ['required', 'string'],
+                'remember' => ['boolean'],
+            ]);
 
-        $login_type = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+            $login_type = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if (Auth::attempt([$login_type => $request->email, 'password' => $request->password], $request->remember)) {
-            $request->session()->regenerate();
+            if (Auth::attempt([$login_type => $request->email, 'password' => $request->password], $request->remember)) {
+                $request->session()->regenerate();
 
-            return redirect()
-                ->intended('/')
+                return redirect()
+                    ->intended('/')
+                    ->with([
+                        'toast' => true,
+                        'message' => 'Login Berhasil! Selamat datang kembali!',
+                        'icon' => 'success',
+                    ]);
+            }
+
+            return back()
                 ->with([
                     'toast' => true,
-                    'title' => 'Berhasil!',
-                    'message' => 'Login Berhasil! Selamat datang kembali!',
-                    'icon' => 'success',
+                    'message' => 'Login Gagal!',
+                    'icon' => 'error',
+                ])
+                ->withErrors([
+                    'email' => 'Kredensial tidak cocok.'
+                ]);
+        } catch (Exception $e) {
+            return back()
+                ->with([
+                    'toast' => false,
+                    'title' => 'Gagal!',
+                    'message' => 'Login Gagal! ' . $e->getMessage(),
+                    'icon' => 'error',
                 ]);
         }
-
-        return back()
-            ->with('error', 'Login Gagal! Email atau Password salah.')
-            ->withErrors([
-                'email' => 'Kredensial tidak cocok.'
-            ]);
     }
 
     public function register(Request $request) {

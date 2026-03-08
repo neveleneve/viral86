@@ -1,6 +1,7 @@
 <script setup>
 import { usePage, useForm, Link, Head } from '@inertiajs/vue3'
-import { ArrowRight, ChevronLeft, Loader2, Lock, Mail } from 'lucide-vue-next'
+import { ArrowRight, ChevronLeft, Loader2, Lock, Mail, Eye, EyeOff } from 'lucide-vue-next'
+import { ref } from 'vue';
 
 const page = usePage()
 
@@ -16,6 +17,7 @@ const form = useForm({
 const submit = () => {
     form.post('/login')
 }
+const showPassword = ref(false)
 </script>
 
 <template>
@@ -56,21 +58,31 @@ const submit = () => {
                     <div>
                         <div class="flex justify-between mb-2">
                             <label
-                                class="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Kata
-                                Sandi</label>
+                                class="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                                Kata Sandi
+                            </label>
                             <a href="#"
                                 class="text-[10px] font-bold text-red-700 dark:text-red-500 hover:text-gray-900 uppercase tracking-tighter transition-colors">Lupa?</a>
                         </div>
+
                         <div class="relative group">
                             <Lock :class="{ 'text-red-700': form.errors.password }"
-                                class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 transition-colors" />
-                            <input v-model="form.password" type="password" required
-                                class="w-full py-3 pl-10 pr-4 text-sm text-gray-900 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700"
+                                class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 transition-colors z-10" />
+
+                            <input v-model="form.password" :type="showPassword ? 'text' : 'password'" required
+                                class="w-full py-3 pl-10 pr-10 text-sm text-gray-900 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700"
                                 :class="{ 'border-red-700': form.errors.password }" />
+
+                            <button type="button" @click="showPassword = !showPassword"
+                                class="absolute right-3 top-3.5 h-4 w-4 text-gray-400 hover:text-red-700 transition-colors z-10">
+                                <component :is="showPassword ? EyeOff : Eye" />
+                            </button>
                         </div>
+
                         <p v-if="form.errors.password"
-                            class="text-[10px] text-red-600 font-bold mt-1 uppercase tracking-tight">{{
-                                form.errors.password }}</p>
+                            class="text-[10px] text-red-600 font-bold mt-1 uppercase tracking-tight">
+                            {{ form.errors.password }}
+                        </p>
                     </div>
 
                     <div class="flex items-center mb-6">
@@ -85,7 +97,7 @@ const submit = () => {
                     </div>
 
                     <button type="submit" :disabled="form.processing"
-                        class="w-full bg-gray-900 dark:bg-red-700 hover:bg-red-700 text-white font-bold py-4 text-sm uppercase tracking-[0.2em] flex items-center justify-center transition-all duration-300 group disabled:opacity-70">
+                        class="w-full bg-gray-900 dark:bg-red-700 hover:bg-red-700 cursor-pointer text-white font-bold py-4 text-sm uppercase tracking-[0.2em] flex items-center justify-center transition-all duration-300 group disabled:opacity-70">
                         <span v-if="form.processing" class="flex items-center">
                             <Loader2 class="w-4 h-4 mr-2 animate-spin" /> Menghubungkan...
                         </span>

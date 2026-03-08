@@ -9,12 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use SoftDeletes, HasRoles;
 
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -24,8 +24,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
-    {
+    protected function casts(): array {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',

@@ -26,13 +26,13 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
-        Route::resource('tag', TagController::class);
-        Route::resource('kategori', CategoryController::class);
 
         Route::inertia('dashboard', 'Authenticated/Dashboard/Index');
 
         Route::resource('konten', ContentController::class);
         Route::resource('media', MediaController::class);
+        Route::resource('kategori', CategoryController::class);
+        Route::resource('tag', TagController::class);
 
         Route::resource('iklan-aktif', ActiveAdsController::class);
         Route::resource('permintaan-iklan', AdsRequestController::class);
@@ -42,8 +42,8 @@ Route::middleware('auth')
         Route::resource('pengiklan', AdvertiserController::class);
 
         Route::get('pengaturan', [SettingController::class, 'index']);
-        Route::post('pengaturan/chenge-profile', [SettingController::class, 'changeProfile']);
-        Route::post('pengaturan/chenge-password', [SettingController::class, 'changePassword']);
+        Route::post('pengaturan/change-profile', [SettingController::class, 'changeProfile']);
+        Route::post('pengaturan/change-password', [SettingController::class, 'changePassword']);
     });
 
 Route::middleware('auth')->group(function () {

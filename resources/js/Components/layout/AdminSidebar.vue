@@ -2,7 +2,7 @@
 import { LayoutDashboard, FileText, BarChart3, Users, Settings, LogOut, X, ChevronDown, ChevronRight } from 'lucide-vue-next'
 import { Link, router, usePage } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const page = usePage()
 
@@ -15,6 +15,16 @@ const emit = defineEmits(['close'])
 
 const close = () => {
     emit('close')
+}
+
+const checkActiveMenus = () => {
+    menuItems.forEach((item) => {
+        if (item.children && isChildActive(item.children)) {
+            if (!expandedMenus.value.includes(item.name)) {
+                expandedMenus.value.push(item.name)
+            }
+        }
+    })
 }
 
 const logout = () => {
@@ -46,16 +56,12 @@ const logout = () => {
 const expandedMenus = ref([])
 
 const isChildActive = (children) => {
-    return children.some((child) => page.url === child.href)
+    return children.some((child) => page.url.startsWith(child.href))
 }
 
-onMounted(() => {
-    menuItems.forEach((item) => {
-        if (item.children && isChildActive(item.children) && !expandedMenus.value.includes(item.name)) {
-            expandedMenus.value.push(item.name)
-        }
-    })
-})
+const isMenuActive = (href) => {
+    return href === '/admin/dashboard' ? page.url === href : page.url.startsWith(href)
+}
 
 const toggleMenu = (menuName) => {
     if (expandedMenus.value.includes(menuName)) {
@@ -73,6 +79,8 @@ const menuItems = [
         children: [
             { name: 'Konten', href: '/admin/konten' },
             { name: 'Media', href: '/admin/media' },
+            { name: 'Kategori Postingan', href: '/admin/kategori' },
+            { name: 'Tag Postingan', href: '/admin/tag' },
         ],
     },
     {
@@ -94,6 +102,15 @@ const menuItems = [
     },
     { name: 'Pengaturan', href: '/admin/pengaturan', icon: Settings },
 ]
+
+onMounted(() => {
+    checkActiveMenus
+})
+
+watch(() => page.url, () => {
+    checkActiveMenus()
+})
+
 </script>
 
 <template>
@@ -147,9 +164,7 @@ const menuItems = [
                         <Link v-for="child in item.children" :key="child.name" :href="child.href"
                             class="block py-2 pl-6 text-[9px] font-bold uppercase tracking-[0.2em] transition-all"
                             :class="[
-                                $page.url === child.href
-                                    ? 'text-red-700'
-                                    : 'text-gray-400 hover:text-gray-900 dark:hover:text-white',
+                                page.url.startsWith(child.href) ? 'text-red-700' : 'text-gray-400 hover:text-gray-900 dark:hover:text-white',
                             ]">
                             {{ child.name }}
                         </Link>
@@ -157,7 +172,7 @@ const menuItems = [
                 </div>
 
                 <Link v-else :href="item.href" class="flex items-center p-3 transition-all group rounded-xl" :class="[
-                    $page.url === item.href
+                    isMenuActive(item.href) // Gunakan helper baru
                         ? 'text-red-700 bg-red-50/60 dark:bg-red-950/40 ring-1 ring-red-100 dark:ring-red-900/40'
                         : 'text-gray-400 border-transparent hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
                     !isOpen && 'justify-center',

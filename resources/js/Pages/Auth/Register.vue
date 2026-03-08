@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import { Head, Link, usePage } from '@inertiajs/vue3'
-import { User, Mail, Lock, ArrowRight, ChevronLeft } from 'lucide-vue-next'
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
+import { User, Mail, Lock, ArrowRight, ChevronLeft, EyeOff, Eye } from 'lucide-vue-next'
 
-const form = ref({
+const form = useForm({
     name: '',
     email: '',
     username: '',
@@ -15,6 +15,9 @@ const page = usePage()
 
 const appName1 = page.props.appName1;
 const appName2 = page.props.appName2;
+
+const showPassword = ref(false)
+const showConfirmationPassword = ref(false)
 </script>
 
 <template>
@@ -30,15 +33,16 @@ const appName2 = page.props.appName2;
             <div class="p-8 transition-all bg-white border-l-4 border-red-700 shadow-xl dark:bg-gray-800 md:p-10">
                 <div class="mb-8">
                     <h1 class="text-2xl font-black tracking-tight text-gray-900 uppercase dark:text-white">Daftar</h1>
-                    <p class="mt-1 text-xs font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">Buat
-                        Akun Pembaca Baru
+                    <p class="mt-1 text-xs font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">
+                        Buat Akun Pembaca Baru
                     </p>
                 </div>
                 <form @submit.prevent="" class="space-y-5">
                     <div>
                         <label
-                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">Nama
-                            Lengkap</label>
+                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                            Nama Lengkap
+                        </label>
                         <div class="relative group">
                             <User
                                 class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 dark:group-focus-within:text-red-500 transition-colors" />
@@ -46,11 +50,11 @@ const appName2 = page.props.appName2;
                                 class="w-full py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700 dark:focus:border-red-500 dark:placeholder-gray-500" />
                         </div>
                     </div>
-
                     <div>
                         <label
-                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">Alamat
-                            Email</label>
+                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                            Alamat Email
+                        </label>
                         <div class="relative group">
                             <Mail
                                 class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 dark:group-focus-within:text-red-500 transition-colors" />
@@ -58,10 +62,11 @@ const appName2 = page.props.appName2;
                                 class="w-full py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700 dark:focus:border-red-500 dark:placeholder-gray-500" />
                         </div>
                     </div>
-
                     <div>
                         <label
-                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">Username</label>
+                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                            Username
+                        </label>
                         <div class="relative group">
                             <User
                                 class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 dark:group-focus-within:text-red-500 transition-colors" />
@@ -69,45 +74,67 @@ const appName2 = page.props.appName2;
                                 class="w-full py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700 dark:focus:border-red-500 dark:placeholder-gray-500" />
                         </div>
                     </div>
-
                     <div>
-                        <label
-                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">Kata
-                            Sandi</label>
-                        <div class="relative group">
-                            <Lock
-                                class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 dark:group-focus-within:text-red-500 transition-colors" />
-                            <input v-model="form.password" type="password" placeholder="••••••••"
-                                class="w-full py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700 dark:focus:border-red-500 dark:placeholder-gray-500" />
+                        <div class="flex justify-between mb-2">
+                            <label
+                                class="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                                Kata Sandi
+                            </label>
                         </div>
+                        <div class="relative group">
+                            <Lock :class="{ 'text-red-700': form.errors.password }"
+                                class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 transition-colors z-10" />
+                            <input v-model="form.password" :type="showPassword ? 'text' : 'password'" required
+                                class="w-full py-3 pl-10 pr-10 text-sm text-gray-900 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700"
+                                :class="{ 'border-red-700': form.errors.password }" />
+                            <button type="button" @click="showPassword = !showPassword"
+                                class="absolute right-3 top-3.5 h-4 w-4 text-gray-400 hover:text-red-700 transition-colors z-10">
+                                <component :is="showPassword ? EyeOff : Eye" />
+                            </button>
+                        </div>
+                        <p v-if="form.errors.password"
+                            class="text-[10px] text-red-600 font-bold mt-1 uppercase tracking-tight">
+                            {{ form.errors.password }}
+                        </p>
                     </div>
-
                     <div>
-                        <label
-                            class="block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">Konfirmasi
-                            Sandi</label>
-                        <div class="relative group">
-                            <Lock
-                                class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 dark:group-focus-within:text-red-500 transition-colors" />
-                            <input v-model="form.password_confirmation" type="password" placeholder="••••••••"
-                                class="w-full py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700 dark:focus:border-red-500 dark:placeholder-gray-500" />
+                        <div class="flex justify-between mb-2">
+                            <label
+                                class="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                                Konfirmasi Kata Sandi
+                            </label>
                         </div>
-                    </div>
+                        <div class="relative group">
+                            <Lock :class="{ 'text-red-700': form.errors.password_confirmation }"
+                                class="absolute left-3 top-3.5 h-4 w-4 text-gray-400 group-focus-within:text-red-700 transition-colors z-10" />
 
+                            <input v-model="form.password_confirmation"
+                                :type="showConfirmationPassword ? 'text' : 'password'"
+                                class="w-full py-3 pl-10 pr-10 text-sm text-gray-900 transition-all border-l-2 border-gray-200 outline-none bg-gray-50 dark:bg-gray-900/50 dark:text-white dark:border-gray-700 focus:border-red-700"
+                                required :class="{ 'border-red-700': form.errors.ppassword_confirmationd }" />
+
+                            <button type="button" @click="showConfirmationPassword = !showConfirmationPassword"
+                                class="absolute right-3 top-3.5 h-4 w-4 text-gray-400 hover:text-red-700 transition-colors z-10">
+                                <component :is="showConfirmationPassword ? EyeOff : Eye" />
+                            </button>
+                        </div>
+                        <p v-if="form.errors.password"
+                            class="text-[10px] text-red-600 font-bold mt-1 uppercase tracking-tight">
+                            {{ form.errors.password_confirmation }}
+                        </p>
+                    </div>
                     <button
                         class="w-full bg-gray-900 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-600 text-white font-bold py-4 text-sm uppercase tracking-[0.2em] flex items-center justify-center transition-all duration-300 group shadow-md shadow-gray-200 dark:shadow-none mt-6">
                         Daftar Sekarang
                         <ArrowRight class="w-4 h-4 ml-2 transition-transform transform group-hover:translate-x-1" />
                     </button>
                 </form>
-
                 <div class="flex flex-col items-center pt-6 mt-8 border-t border-gray-100 dark:border-gray-700">
                     <p class="text-[11px] text-gray-500 dark:text-gray-400 font-medium italic">Sudah memiliki akun?</p>
                     <Link href="/login"
                         class="mt-2 text-xs font-black tracking-widest text-gray-900 uppercase transition-colors dark:text-white hover:text-red-700 dark:hover:text-red-500">
                         Masuk ke Akun
                     </Link>
-
                     <div class="flex justify-center w-full mt-6">
                         <Link href="/"
                             class="group flex items-center text-[10px] font-bold uppercase text-gray-400 dark:text-gray-500 hover:text-red-700 dark:hover:text-red-500 transition-colors tracking-[0.15em]">
@@ -118,7 +145,6 @@ const appName2 = page.props.appName2;
                     </div>
                 </div>
             </div>
-
             <div class="mt-8 text-center">
                 <p class="text-[9px] text-gray-400 dark:text-gray-600 font-bold tracking-[0.4em] uppercase">Berandanesia
                     Media Group &copy; 2026</p>
