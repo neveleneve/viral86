@@ -13,6 +13,7 @@ class RoleSeeder extends Seeder {
             'redaktur',
             'reporter',
             'marketing-ads',
+
             'premium-subscriber',
             'free-member',
         ];
@@ -20,5 +21,7 @@ class RoleSeeder extends Seeder {
         foreach ($roles as $role) {
             Role::firstOrCreate(['name' => $role]);
         }
+
+        
     }
 }

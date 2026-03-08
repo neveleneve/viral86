@@ -17,7 +17,8 @@ class UserSeeder extends Seeder {
         ];
 
         foreach ($data as $item) {
-            User::create($item);
+            $user = User::create($item);
+            // $user->assignRole('super-admin');
         }
     }
 }

@@ -40,7 +40,7 @@ class CategoryController extends Controller {
                 'slug' => Str::slug($validated['slug']),
             ]);
 
-            return redirect()->route('admin.kategori.index')->with([
+            return redirect()->route('kategori.index')->with([
                 'toast'   => true,
                 'icon'    => 'success',
                 'message' => 'Kategori baru berhasil ditambahkan!'
@@ -52,7 +52,7 @@ class CategoryController extends Controller {
                 'toast'   => false,
                 'icon'    => 'error',
                 'title'   => 'Gagal!',
-                'message' => 'Terjadi kesalahan saat menyimpan data!'
+                'message' => 'Terjadi kesalahan saat menyimpan data!' . $e->getMessage()
             ]);
         }
     }
@@ -61,10 +61,6 @@ class CategoryController extends Controller {
         return inertia('Authenticated/ContentManagement/Category/Show', [
             'category' => $category
         ]);
-    }
-
-    public function edit(Category $category) {
-        //
     }
 
     public function update(Request $request, Category $category) {

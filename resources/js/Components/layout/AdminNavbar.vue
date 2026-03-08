@@ -1,6 +1,6 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3'
-import { Menu, X, Bell, Sparkles } from 'lucide-vue-next'
+import { Menu, Bell, Sparkles, PanelLeft, PanelLeftOpen, PanelLeftClose } from 'lucide-vue-next'
 import { computed } from 'vue'
 
 const page = usePage()
@@ -17,7 +17,8 @@ const emit = defineEmits(['toggleSidebar', 'toggleTheme'])
         <div class="flex items-center min-w-0 gap-4">
             <button @click="emit('toggleSidebar')"
                 class="p-2 text-gray-400 transition-all rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-red-700">
-                <Menu class="w-6 h-6" />
+                <PanelLeftOpen v-if="!isSidebarOpen" class="w-6 h-6" />
+                <PanelLeftClose v-if="isSidebarOpen" class="w-6 h-6" />
             </button>
         </div>
 

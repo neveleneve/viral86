@@ -11,7 +11,7 @@ const deleteCategory = (id) => {
     const isDarkMode = document.documentElement.classList.contains('dark')
     Swal.fire({
         title: 'Yakin mau hapus?',
-        text: "Data yang dihapus tidak bisa dikembalikan, Wak!",
+        text: "Data yang dihapus tidak bisa dikembalikan.",
         icon: 'warning',
         background: isDarkMode ? '#111827' : '#ffffff',
         color: isDarkMode ? '#ffffff' : '#111827',
@@ -24,6 +24,8 @@ const deleteCategory = (id) => {
         if (result.isConfirmed) {
             router.delete(`/admin/kategori/${id}`, {
                 preserveScroll: true,
+                onSuccess: () => { },
+                preserveState: false,
             })
         }
     })

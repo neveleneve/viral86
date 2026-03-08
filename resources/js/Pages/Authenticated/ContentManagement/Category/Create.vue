@@ -16,7 +16,6 @@ defineOptions({ layout: DashboardLayout })
 const appName1 = page.props.appName1;
 const appName2 = page.props.appName2;
 
-// Fitur Auto-Slug: Mengubah spasi menjadi strip dan huruf kecil semua
 watch(() => form.name, (newVal) => {
     form.slug = newVal
         .toLowerCase()

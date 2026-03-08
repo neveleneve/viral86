@@ -26,12 +26,11 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
-
         Route::inertia('dashboard', 'Authenticated/Dashboard/Index');
 
         Route::resource('konten', ContentController::class);
         Route::resource('media', MediaController::class);
-        Route::resource('kategori', CategoryController::class);
+        Route::resource('kategori', CategoryController::class)->except('edit');
         Route::resource('tag', TagController::class);
 
         Route::resource('iklan-aktif', ActiveAdsController::class);
