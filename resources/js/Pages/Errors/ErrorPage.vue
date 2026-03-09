@@ -8,7 +8,6 @@ const props = defineProps({
     title: String
 })
 
-// Ikon dinamis berdasarkan status
 const getIcon = () => {
     switch (props.status) {
         case 404: return SearchX;
@@ -19,23 +18,20 @@ const getIcon = () => {
 </script>
 
 <template>
-
-    <Head :title="`${status} - ${title}`" />
-
     <div class="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950">
         <div class="w-full max-w-sm p-8 bg-white border-l-8 border-red-700 shadow-2xl dark:bg-gray-900">
             <div class="flex flex-col items-center text-center">
-                <component :is="getIcon()" class="w-16 h-16 text-red-700 mb-6" />
+                <component :is="getIcon()" class="w-16 h-16 mb-6 text-red-700" />
 
-                <h1 class="text-6xl font-black tracking-tighter text-gray-900 dark:text-white mb-2">
+                <h1 class="mb-2 text-6xl font-black tracking-tighter text-gray-900 dark:text-white">
                     {{ status }}
                 </h1>
 
-                <p class="text-sm font-black text-gray-500 uppercase tracking-widest mb-2">
+                <p class="mb-2 text-sm font-black tracking-widest text-gray-500 uppercase">
                     {{ title }}
                 </p>
 
-                <p class="text-xs text-gray-400 mb-8 leading-relaxed">
+                <p class="mb-8 text-xs leading-relaxed text-gray-400">
                     {{ message }}
                 </p>
 
@@ -46,4 +42,6 @@ const getIcon = () => {
             </div>
         </div>
     </div>
+
+    <Head :title="`${status} - ${title}`" />
 </template>
