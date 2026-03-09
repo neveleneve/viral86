@@ -8,7 +8,6 @@ defineOptions({ layout: DashboardLayout })
 
 const props = defineProps({ category: Object })
 const page = usePage()
-const canEdit = page.props.auth.user.permissions.includes('edit-kategori')
 
 const form = useForm({
     name: props.category.name,
@@ -28,7 +27,7 @@ const submit = () => form.put(`/admin/kategori/${props.category.id}`)
 
     <div class="flex items-center justify-between mb-8">
         <h1 class="text-2xl font-black tracking-tighter text-gray-900 uppercase dark:text-white">
-            {{ canEdit ? 'Ubah' : 'Detail' }}<span class="text-red-700">Kategori</span>
+            {{ $can('edit-kategori') ? 'Ubah' : 'Detail' }}<span class="text-red-700">Kategori</span>
         </h1>
         <Link href="/admin/kategori"
             class="flex items-center gap-2 px-6 py-3 text-[10px] font-black text-white uppercase transition-colors bg-gray-900 hover:bg-red-700">
@@ -44,9 +43,9 @@ const submit = () => form.put(`/admin/kategori/${props.category.id}`)
                         class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
                         Nama Kategori
                     </label>
-                    <input type="text" v-model="form.name" :readonly="!canEdit"
+                    <input type="text" v-model="form.name" :readonly="!$can('edit-kategori')"
                         class="w-full px-4 py-3 text-sm border-l-2 outline-none transition-all" :class="[
-                            canEdit ? 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:border-red-700' : 'bg-gray-100 dark:bg-gray-900 text-gray-500 border-gray-100',
+                            $can('edit-kategori') ? 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:border-red-700' : 'bg-gray-100 dark:bg-gray-900 text-gray-500 border-gray-100',
                             form.errors.name ? 'border-red-700' : 'border-gray-200 dark:border-gray-700'
                         ]">
                     <div v-if="form.errors.name" class="mt-1 text-[9px] font-black text-red-700 uppercase italic">
@@ -67,7 +66,7 @@ const submit = () => form.put(`/admin/kategori/${props.category.id}`)
                 </div>
             </div>
 
-            <div v-if="canEdit" class="flex justify-end pt-4 mt-6 border-t border-gray-100 dark:border-gray-800">
+            <div v-if="$can('edit-kategori')" class="flex justify-end pt-4 mt-6 border-t border-gray-100 dark:border-gray-800">
                 <button type="submit" :disabled="form.processing || !form.isDirty"
                     class="flex items-center gap-2 px-8 py-3 text-[10px] font-black tracking-widest text-white uppercase transition-colors bg-gray-900 dark:bg-red-700 hover:bg-red-700 disabled:opacity-70"
                     :class="!form.isDirty ? 'cursor-not-allowed' : 'cursor-pointer'">

@@ -13,6 +13,9 @@ use League\Config\Exception\ValidationException;
 class CategoryController extends Controller {
     public function __construct() {
         $this->middleware('permission:edit-kategori')->only('update');
+        $this->middleware('permission:view-kategori')->only('index');
+        $this->middleware('permission:create-kategori')->only('create', 'store');
+        $this->middleware('permission:delete-kategori')->only('destroy');
     }
 
     public function index() {

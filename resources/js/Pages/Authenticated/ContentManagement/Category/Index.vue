@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 
 defineOptions({ layout: DashboardLayout })
 
+
 const deleteCategory = (id) => {
     const isDarkMode = document.documentElement.classList.contains('dark')
     Swal.fire({
@@ -32,6 +33,7 @@ const deleteCategory = (id) => {
 }
 const props = defineProps({ categories: Object })
 const page = usePage()
+
 const appName1 = page.props.appName1;
 const appName2 = page.props.appName2;
 </script>
@@ -43,7 +45,7 @@ const appName2 = page.props.appName2;
                 Kategori<span class="text-red-700">Postingan</span>
             </h1>
         </div>
-        <Link href="/admin/kategori/create"
+        <Link href="/admin/kategori/create" v-if="$can('create-kategori')"
             class="flex items-center gap-2 px-6 py-3 text-[10px] font-black text-white uppercase transition-colors bg-gray-900 hover:bg-red-700">
             <Plus class="w-4 h-4" /> Tambah Baru
         </Link>
@@ -66,7 +68,7 @@ const appName2 = page.props.appName2;
                             <Link :href="`/admin/kategori/${cat.id}`" class="text-gray-400 hover:text-red-700">
                                 <Edit class="w-4 h-4" />
                             </Link>
-                            <button @click="deleteCategory(cat.id)"
+                            <button v-if="$can('delete-kategori')" @click="deleteCategory(cat.id)"
                                 class="text-gray-400 transition-colors cursor-pointer hover:text-red-700">
                                 <Trash2 class="w-4 h-4" />
                             </button>
