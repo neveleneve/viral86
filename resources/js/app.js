@@ -1,5 +1,6 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
+import { usePermissions } from "@/Composables/usePermissions"; // Pastikan path benar
 
 createInertiaApp({
     resolve: (name) => {
@@ -7,8 +8,12 @@ createInertiaApp({
         return pages[`./Pages/${name}.vue`];
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .mount(el);
+        const app = createApp({ render: () => h(App, props) });
+        app.use(plugin);
+        const { can, canAny, canAll } = usePermissions();
+        app.config.globalProperties.$can = can;
+        app.config.globalProperties.$canAny = canAny;
+        app.config.globalProperties.$canAll = canAll;
+        app.mount(el);
     },
 });
