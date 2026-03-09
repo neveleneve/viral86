@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
-        Route::inertia('dashboard', 'Authenticated/Dashboard/Index');
+        Route::inertia('dashboard', 'Authenticated/Dashboard/Index')->name('dashboard.index');
 
         Route::resource('konten', ContentController::class);
         Route::resource('media', MediaController::class);
@@ -40,7 +40,7 @@ Route::middleware('auth')
         Route::resource('pembaca', ReaderController::class);
         Route::resource('pengiklan', AdvertiserController::class);
 
-        Route::get('pengaturan', [SettingController::class, 'index']);
+        Route::get('pengaturan', [SettingController::class, 'index'])->name('pengaturan.index');
         Route::post('pengaturan/change-profile', [SettingController::class, 'changeProfile']);
         Route::post('pengaturan/change-password', [SettingController::class, 'changePassword']);
     });

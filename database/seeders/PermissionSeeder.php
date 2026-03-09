@@ -19,13 +19,16 @@ class PermissionSeeder extends Seeder {
             'edit-konten',
             'delete-konten',
             'publish-konten',
+
             'view-media',
             'upload-media',
             'delete-media',
+
             'view-kategori',
             'create-kategori',
             'edit-kategori',
             'delete-kategori',
+
             'view-tag',
             'create-tag',
             'edit-tag',
@@ -39,8 +42,10 @@ class PermissionSeeder extends Seeder {
 
             'view-user-redaksi',
             'manage-user-redaksi',
+
             'view-user-pembaca',
             'manage-user-pembaca',
+
             'view-user-pengiklan',
             'manage-user-pengiklan',
 
