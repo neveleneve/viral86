@@ -1,12 +1,12 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import { Sun, Moon } from 'lucide-vue-next'
 import AdminSidebar from '@/Components/layout/AdminSidebar.vue'
 import AdminNavbar from '@/Components/layout/AdminNavbar.vue'
 import Swal from 'sweetalert2'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { Sun, Moon } from 'lucide-vue-next'
 import { usePage } from '@inertiajs/vue3'
 
-const isSidebarOpen = ref(true)
+const isSidebarOpen = ref(false)
 const isDark = ref(false)
 
 const syncSidebarByViewport = () => {

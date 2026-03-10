@@ -31,7 +31,7 @@ Route::middleware('auth')
         Route::resource('konten', ContentController::class);
         Route::resource('media', MediaController::class);
         Route::resource('kategori', CategoryController::class)->except('edit');
-        Route::resource('tag', TagController::class);
+        Route::resource('tag', TagController::class)->except('edit');
 
         Route::resource('iklan-aktif', ActiveAdsController::class);
         Route::resource('permintaan-iklan', AdsRequestController::class);
@@ -41,8 +41,8 @@ Route::middleware('auth')
         Route::resource('pengiklan', AdvertiserController::class);
 
         Route::get('pengaturan', [SettingController::class, 'index'])->name('pengaturan.index');
-        Route::post('pengaturan/change-profile', [SettingController::class, 'changeProfile']);
-        Route::post('pengaturan/change-password', [SettingController::class, 'changePassword']);
+        Route::post('pengaturan/change-profile', [SettingController::class, 'changeProfile'])->name('pengaturan.change-profile');
+        Route::post('pengaturan/change-password', [SettingController::class, 'changePassword'])->name('pengeturan.change-password');
     });
 
 Route::middleware('auth')->group(function () {
@@ -65,7 +65,7 @@ Route::get('tag/{tag}', function ($tag) {
     return inertia('TagNews', ['tag' => $tag]);
 });
 
-Route::get('{category}/{slug}', function ($category, $slug) {
+Route::get('news/{category}/{slug}', function ($category, $slug) {
     return inertia('NewsDetail', [
         'category' => $category,
         'slug' => $slug,

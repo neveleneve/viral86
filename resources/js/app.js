@@ -1,6 +1,6 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
-import { usePermissions } from "@/Composables/usePermissions"; // Pastikan path benar
+import { usePermissions } from "@/Composables/usePermissions";
 
 createInertiaApp({
     resolve: (name) => {

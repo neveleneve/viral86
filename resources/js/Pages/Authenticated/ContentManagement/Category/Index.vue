@@ -1,12 +1,13 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
-import { Head, usePage, Link, router } from '@inertiajs/vue3'
-import { Plus, Edit, Trash2 } from 'lucide-vue-next'
 import Swal from 'sweetalert2'
+import AdminPageHeader from '@/Components/AdminPageHeader.vue'
+import { Head, usePage, Link, router } from '@inertiajs/vue3'
+import { Plus, Edit, Trash2, Search } from 'lucide-vue-next'
+import { ref, watch } from 'vue'
 
 defineOptions({ layout: DashboardLayout })
-
 
 const deleteCategory = (id) => {
     const isDarkMode = document.documentElement.classList.contains('dark')
@@ -31,24 +32,56 @@ const deleteCategory = (id) => {
         }
     })
 }
-const props = defineProps({ categories: Object })
+
+const props = defineProps({
+    categories: Object,
+    filters: Object
+})
+
 const page = usePage()
+const search = ref(props.filters?.search || '')
+
+const debounce = (fn, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
+};
+
+watch(search, debounce((value) => {
+    router.get('/admin/kategori',
+        { search: value },
+        {
+            preserveState: true,
+            replace: true,
+            preserveScroll: true
+        }
+    )
+}, 500))
 
 const appName1 = page.props.appName1;
 const appName2 = page.props.appName2;
 </script>
 
 <template>
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-2xl font-black tracking-tighter text-gray-900 uppercase dark:text-white">
-                Kategori<span class="text-red-700">Postingan</span>
-            </h1>
+    <AdminPageHeader :show-action="$can('create-kategori')" title="Kategori" subtitle="Postingan" action-label="Tambah"
+        action-url="/admin/kategori/create" :breadcrumbs="[
+            { label: 'Dashboard', url: '/admin' },
+            { label: 'Kategori', url: '#' }
+        ]">
+        <template #action-icon>
+            <Plus class="w-4 h-4" />
+        </template>
+    </AdminPageHeader>
+    <div class="flex justify-end pb-3 mb-3 border-gray-900 not-md:border-b dark:border-gray-500">
+        <div class="relative w-full md:w-1/2 group">
+            <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                <Search class="w-4 h-4 text-gray-400 transition-colors group-focus-within:text-red-700" />
+            </div>
+            <input v-model="search" type="text" placeholder="Cari kategori..."
+                class="w-full py-3 pl-4 text-sm font-bold text-gray-900 bg-white border-l-4 border-red-700 outline-none focus:shadow-xl dark:focus:shadow-md not-md:shadow-gray-200 not-md:dark:shadow-gray-500 pr-11 dark:bg-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-400 placeholder:font-normal">
         </div>
-        <Link href="/admin/kategori/create" v-if="$can('create-kategori')"
-            class="flex items-center gap-2 px-6 py-3 text-[10px] font-black text-white uppercase transition-colors bg-gray-900 hover:bg-red-700">
-            <Plus class="w-4 h-4" /> Tambah Baru
-        </Link>
     </div>
     <div class="hidden overflow-hidden bg-white shadow-xl lg:block dark:bg-gray-900">
         <table class="w-full text-left">
@@ -78,7 +111,6 @@ const appName2 = page.props.appName2;
             </tbody>
         </table>
     </div>
-
     <div class="grid grid-cols-1 gap-4 lg:hidden">
         <div v-for="cat in categories.data" :key="cat.id"
             class="p-6 bg-white border-l-4 border-red-700 shadow-md dark:bg-gray-900">
@@ -91,7 +123,8 @@ const appName2 = page.props.appName2;
                     <Link :href="`/admin/kategori/${cat.id}`">
                         <Edit class="w-4 h-4 text-gray-400 hover:text-red-700" />
                     </Link>
-                    <button @click="deleteCategory(cat.id)" class="text-gray-400 cursor-pointer hover:text-red-700">
+                    <button v-if="$can('delete-kategori')" @click="deleteCategory(cat.id)"
+                        class="text-gray-400 cursor-pointer hover:text-red-700">
                         <Trash2 class="w-4 h-4" />
                     </button>
                 </div>

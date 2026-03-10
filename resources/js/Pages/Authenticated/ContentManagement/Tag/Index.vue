@@ -1,17 +1,154 @@
-<template>
-    Halo
-
-    <Head :title="`Tag | ${appName1}${appName2}`" />
-</template>
-
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
-import { Head, usePage } from '@inertiajs/vue3'
-
-const page = usePage()
+import Pagination from '@/Components/Pagination.vue'
+import Swal from 'sweetalert2'
+import AdminPageHeader from '@/Components/AdminPageHeader.vue'
+import { Head, usePage, Link, router } from '@inertiajs/vue3'
+import { Plus, Edit, Trash2, Search } from 'lucide-vue-next'
+import { ref, watch } from 'vue'
 
 defineOptions({ layout: DashboardLayout })
+
+const deleteTag = async (id) => {
+    const isDarkMode = document.documentElement.classList.contains('dark')
+
+    const result = await Swal.fire({
+        title: 'Yakin mau hapus?',
+        text: "Data yang dihapus tidak bisa dikembalikan.",
+        icon: 'warning',
+        background: isDarkMode ? '#111827' : '#ffffff',
+        color: isDarkMode ? '#ffffff' : '#111827',
+        showCancelButton: true,
+        confirmButtonColor: '#b91c1c',
+        cancelButtonColor: '#374151',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
+        try {
+            router.delete(`/admin/tag/${id}`, {
+                preserveScroll: true,
+                onError: (errors) => {
+                    console.error(errors);
+                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                }
+            });
+        } catch (error) {
+            Swal.fire('Oops!', 'Sesuatu yang salah terjadi di sistem.', 'error');
+        }
+    }
+}
+
+const props = defineProps({
+    tags: Object,
+    filters: Object
+})
+
+const page = usePage()
+const search = ref(props.filters?.search || '')
+
+const debounce = (fn, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
+};
+
+watch(search, debounce((value) => {
+    router.get('/admin/tag',
+        { search: value },
+        {
+            preserveState: true,
+            replace: true,
+            preserveScroll: true
+        }
+    )
+}, 500))
 
 const appName1 = page.props.appName1;
 const appName2 = page.props.appName2;
 </script>
+
+<template>
+    <AdminPageHeader :show-action="$can('create-tag')" title="Tag" subtitle="Postingan" action-label="Tambah"
+        action-url="/admin/tag/create" :breadcrumbs="[
+            { label: 'Dashboard', url: '/admin' },
+            { label: 'Tag', url: '#' }
+        ]">
+        <template #action-icon>
+            <Plus class="w-4 h-4" />
+        </template>
+    </AdminPageHeader>
+    <div class="flex justify-end pb-3 mb-3 border-gray-900 not-md:border-b dark:border-gray-500">
+        <div class="relative w-full md:w-1/2 group">
+            <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                <Search class="w-4 h-4 text-gray-400 transition-colors group-focus-within:text-red-700" />
+            </div>
+            <input v-model="search" type="text" placeholder="Cari tag..."
+                class="w-full py-3 pl-4 text-sm font-bold text-gray-900 bg-white border-l-4 border-red-700 outline-none focus:shadow-xl dark:focus:shadow-md not-md:shadow-gray-200 not-md:dark:shadow-gray-500 pr-11 dark:bg-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-400 placeholder:font-normal">
+        </div>
+    </div>
+    <div class="hidden overflow-hidden bg-white shadow-xl lg:block dark:bg-gray-900">
+        <table class="w-full text-left">
+            <thead class="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 dark:bg-gray-800">
+                <tr>
+                    <th class="p-6">Nama Tag</th>
+                    <th class="p-6 text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="border-l-2 border-red-700 divide-y divide-gray-100 dark:divide-gray-800">
+                <tr v-if="tags.data.length > 0" v-for="tag in tags.data" :key="tag.id"
+                    class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <td class="p-6 font-bold text-gray-900 dark:text-white">{{ tag.name }}</td>
+                    <td class="p-6 text-right">
+                        <div class="flex justify-end gap-3">
+                            <Link :href="`/admin/tag/${tag.id}`" class="text-gray-400 hover:text-red-700">
+                                <Edit class="w-4 h-4" />
+                            </Link>
+                            <button v-if="$can('delete-tag')" @click="deleteTag(tag.id + 1)"
+                                class="text-gray-400 transition-colors cursor-pointer hover:text-red-700">
+                                <Trash2 class="w-4 h-4" />
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr v-else>
+                    <td colspan="2" class="p-10 text-xs font-black tracking-widest text-center text-gray-400 uppercase">
+                        Tag tidak ditemukan, Wak!
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid grid-cols-1 gap-2 lg:hidden">
+        <div v-if="tags.data.length > 0" v-for="tag in tags.data" :key="tag.id"
+            class="p-6 bg-white border-l-4 border-red-700 shadow-md dark:bg-gray-900">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h3 class="font-black tracking-tighter text-gray-900 uppercase dark:text-white">
+                        {{ tag.name }}
+                    </h3>
+                </div>
+                <div class="flex gap-4">
+                    <Link :href="`/admin/tag/${tag.id}`">
+                        <Edit class="w-4 h-4 text-gray-400 hover:text-red-700" />
+                    </Link>
+                    <button v-if="$can('delete-tag')" @click="deleteTag(tag.id)"
+                        class="text-gray-400 cursor-pointer hover:text-red-700">
+                        <Trash2 class="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div v-else class="p-10 text-center bg-white border-l-4 border-gray-200 dark:bg-gray-900 dark:border-gray-800">
+            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Data Kosong</p>
+        </div>
+    </div>
+
+    <Pagination :links="tags.links" />
+
+    <Head :title="`Tag | ${appName1}${appName2}`" />
+</template>

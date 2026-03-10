@@ -1,5 +1,6 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
+import AdminPageHeader from '@/Components/AdminPageHeader.vue'
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
 import { ChevronLeft, Save, Loader2 } from 'lucide-vue-next'
 import { watch } from 'vue'
@@ -29,18 +30,16 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h1 class="text-2xl font-black tracking-tighter text-gray-900 uppercase dark:text-white">
-                Tambah<span class="text-red-700">Kategori</span>
-            </h1>
-        </div>
-        <Link href="/admin/kategori"
-            class="flex items-center gap-2 px-6 py-3 text-[10px] font-black text-white uppercase transition-colors bg-gray-900 hover:bg-red-700">
-            <ChevronLeft class="w-4 h-4" /> Kembali
-        </Link>
-    </div>
-
+    <AdminPageHeader :show-action="$can('view-kategori')" title="Kategori" subtitle="Postingan" action-label="Kembali"
+        action-url="/admin/kategori" :breadcrumbs="[
+            { label: 'Dashboard', url: '/admin' },
+            { label: 'Kategori', url: '/admin/kategori' },
+            { label: 'Tambah', url: '#' }
+        ]">
+        <template #action-icon>
+            <ChevronLeft class="w-4 h-4" />
+        </template>
+    </AdminPageHeader>
     <div class="p-6 bg-white border-l-4 border-red-700 shadow-xl dark:bg-gray-900">
         <form @submit.prevent="submit" class="space-y-6">
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">

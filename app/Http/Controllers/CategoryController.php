@@ -18,11 +18,32 @@ class CategoryController extends Controller {
         $this->middleware('permission:delete-kategori')->only('destroy');
     }
 
-    public function index() {
-        $categories = Category::latest()->paginate(5);
-        return inertia('Authenticated/ContentManagement/Category/Index', [
-            'categories' => $categories
-        ]);
+    public function index(Request $request) {
+        try {
+            $search = $request->search;
+
+            $categories = Category::query()
+                ->when($search, function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('slug', 'like', "%{$search}%");
+                })
+                ->latest()
+                ->paginate(10)
+                ->withQueryString();
+            return inertia('Authenticated/ContentManagement/Category/Index', [
+                'categories' => $categories,
+                'filters' => $request->only(['search'])
+            ]);
+        } catch (Exception $e) {
+            Log::error("Gagal memuat data kategori: " . $e->getMessage());
+            return back()
+                ->with([
+                    'toast'   => false,
+                    'icon'    => 'error',
+                    'title'   => 'Gagal!',
+                    'message' => 'Terjadi kesalahan saat mengambil data!' . $e->getMessage()
+                ]);
+        }
     }
 
     public function create() {
