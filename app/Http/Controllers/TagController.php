@@ -49,7 +49,16 @@ class TagController extends Controller {
     }
 
     public function store(Request $request) {
-        //
+        try {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255', 'unique:tags,name']
+            ], [
+                'name.required' => 'Nama kategori wajib diisi!',
+                'name.unique' => 'Nama kategori sudah ada!',
+            ]);
+        } catch (Exception $e) {
+            //throw $th;
+        }
     }
 
     public function show(Tag $tag) {

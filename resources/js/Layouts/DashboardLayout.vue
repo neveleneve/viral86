@@ -22,7 +22,9 @@ const toggleTheme = () => {
     document.documentElement.classList.toggle('dark')
     localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
 }
+
 const page = usePage()
+
 watch(() => page.props.flash, (flash) => {
     if (!flash) return;
     const isDarkMode = document.documentElement.classList.contains('dark');
@@ -62,6 +64,12 @@ watch(() => page.props.flash, (flash) => {
         });
     }
 }, { deep: true, immediate: true });
+
+watch(() => page.url, () => {
+    if (window.innerWidth < 1024) {
+        isSidebarOpen.value = false;
+    }
+});
 
 onMounted(() => {
     if (localStorage.getItem('theme') === 'dark') {

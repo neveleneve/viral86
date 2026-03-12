@@ -51,16 +51,16 @@ class CategoryController extends Controller {
     }
 
     public function store(Request $request) {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
-            'slug' => ['required', 'string', 'max:255', 'unique:categories,slug'],
-        ], [
-            'name.required' => 'Nama Kategori Wajib Diisi!',
-            'name.unique'   => 'Nama Kategori Sudah Ada!',
-            'slug.unique'   => 'Slug Sudah Digunakan.',
-        ]);
 
         try {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
+                'slug' => ['required', 'string', 'max:255', 'unique:categories,slug'],
+            ], [
+                'name.required' => 'Nama kategori wajib diisi!',
+                'name.unique'   => 'Nama kategori sudah ada!',
+                'slug.unique'   => 'Slug sudah digunakan.',
+            ]);
             Category::create([
                 'name' => $validated['name'],
                 'slug' => Str::slug($validated['slug']),
@@ -83,7 +83,7 @@ class CategoryController extends Controller {
                     'toast'   => false,
                     'icon'    => 'error',
                     'title'   => 'Gagal!',
-                    'message' => 'Terjadi kesalahan saat menyimpan data!' . $e->getMessage()
+                    'message' => 'Terjadi kesalahan saat menyimpan data! ' . $e->getMessage()
                 ]);
         }
     }
@@ -95,16 +95,17 @@ class CategoryController extends Controller {
     }
 
     public function update(Request $request, Category $kategori) {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
-            'slug' => ['required', 'string', 'max:255', 'unique:categories,slug'],
-        ], [
-            'name.required' => 'Nama Kategori Wajib Diisi!',
-            'name.unique'   => 'Nama Kategori Sudah Ada!',
-            'slug.unique'   => 'Slug Sudah Digunakan.',
-        ]);
 
         try {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
+                'slug' => ['required', 'string', 'max:255', 'unique:categories,slug'],
+            ], [
+                'name.required' => 'Nama kategori wajib diisi!',
+                'name.unique'   => 'Nama kategori sudah ada!',
+                'slug.unique'   => 'Slug sudah digunakan.',
+            ]);
+
             $kategori->update($validated);
 
             return redirect()
