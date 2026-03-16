@@ -1,7 +1,7 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import AdminPageHeader from '@/Components/AdminPageHeader.vue'
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
+import { Head, useForm, usePage } from '@inertiajs/vue3'
 import { ChevronLeft, Save, Loader2 } from 'lucide-vue-next'
 import { watch } from 'vue'
 

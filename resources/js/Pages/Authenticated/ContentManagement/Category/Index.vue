@@ -75,7 +75,7 @@ const appName2 = page.props.appName2;
         </template>
     </AdminPageHeader>
     <div class="flex justify-end pb-3 mb-3 border-gray-900 not-md:border-b dark:border-gray-500">
-        <div class="relative w-full md:w-1/2 group">
+        <div class="relative w-full md:w-1/2 lg:w-1/3 group">
             <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
                 <Search class="w-4 h-4 text-gray-400 transition-colors group-focus-within:text-red-700" />
             </div>
@@ -93,7 +93,8 @@ const appName2 = page.props.appName2;
                 </tr>
             </thead>
             <tbody class="border-l-2 border-red-700 divide-y divide-gray-100 dark:divide-gray-800">
-                <tr v-for="cat in categories.data" :key="cat.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                <tr v-if="categories.data.length > 0" v-for="cat in categories.data" :key="cat.id"
+                    class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                     <td class="p-6 font-bold text-gray-900 dark:text-white">{{ cat.name }}</td>
                     <td class="p-6 text-sm text-gray-500">{{ cat.slug }}</td>
                     <td class="p-6 text-right">
@@ -108,11 +109,16 @@ const appName2 = page.props.appName2;
                         </div>
                     </td>
                 </tr>
+                <tr v-else class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <td colspan="3" class="p-6 font-bold text-center text-gray-900 dark:text-white">
+                        Data Kosong
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
     <div class="grid grid-cols-1 gap-4 lg:hidden">
-        <div v-for="cat in categories.data" :key="cat.id"
+        <div v-if="categories.data.length > 0" v-for="cat in categories.data" :key="cat.id"
             class="p-6 bg-white border-l-4 border-red-700 shadow-md dark:bg-gray-900">
             <div class="flex items-start justify-between">
                 <div>
@@ -129,6 +135,9 @@ const appName2 = page.props.appName2;
                     </button>
                 </div>
             </div>
+        </div>
+        <div v-else class="p-10 text-center bg-white border-l-4 border-gray-200 dark:bg-gray-900 dark:border-gray-800">
+            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Data Kosong</p>
         </div>
     </div>
     <Pagination :links="categories.links" />

@@ -82,7 +82,7 @@ const appName2 = page.props.appName2;
         </template>
     </AdminPageHeader>
     <div class="flex justify-end pb-3 mb-3 border-gray-900 not-md:border-b dark:border-gray-500">
-        <div class="relative w-full md:w-1/2 group">
+        <div class="relative w-full md:w-1/2 lg:w-1/3 group">
             <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
                 <Search class="w-4 h-4 text-gray-400 transition-colors group-focus-within:text-red-700" />
             </div>
@@ -107,7 +107,7 @@ const appName2 = page.props.appName2;
                             <Link :href="`/admin/tag/${tag.id}`" class="text-gray-400 hover:text-red-700">
                                 <Edit class="w-4 h-4" />
                             </Link>
-                            <button v-if="$can('delete-tag')" @click="deleteTag(tag.id + 1)"
+                            <button v-if="$can('delete-tag')" @click="deleteTag(tag.id)"
                                 class="text-gray-400 transition-colors cursor-pointer hover:text-red-700">
                                 <Trash2 class="w-4 h-4" />
                             </button>
@@ -116,7 +116,7 @@ const appName2 = page.props.appName2;
                 </tr>
                 <tr v-else>
                     <td colspan="2" class="p-10 text-xs font-black tracking-widest text-center text-gray-400 uppercase">
-                        Tag tidak ditemukan, Wak!
+                        Data Kosong
                     </td>
                 </tr>
             </tbody>

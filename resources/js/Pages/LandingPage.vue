@@ -23,6 +23,7 @@ const sliderNews = [
         excerpt: 'Langkah besar diambil pemerintah untuk memastikan efisiensi birokrasi melalui sistem satu pintu berbasis AI yang diharapkan mampu memangkas waktu layanan hingga 80%...',
         author: 'Johan S. Putra',
         date: '2 Jam yang lalu',
+        link: '/news/xxx/gebrakan-baru-pemerintah-dalam-transformasi-digital-2026',
         image: 'https://plus.unsplash.com/premium_photo-1754752265556-77115945cde2?q=80&w=2070&auto=format&fit=crop'
     },
     {
@@ -33,6 +34,7 @@ const sliderNews = [
         excerpt: 'Laporan terbaru menunjukkan minat investor global terhadap ekosistem energi terbarukan di Indonesia mencapai puncaknya tahun ini dengan nilai kontrak triliunan rupiah...',
         author: 'Siska Amelia',
         date: '4 Jam yang lalu',
+        link: '/news/xxx/investasi-asing-meningkat-2026',
         image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop'
     },
     {
@@ -43,6 +45,7 @@ const sliderNews = [
         excerpt: 'Sejumlah partai besar mulai melakukan pertemuan tertutup untuk membahas strategi jangka panjang dan potensi penggabungan kekuatan menjelang kontestasi politik mendatang...',
         author: 'Bambang Heru',
         date: '6 Jam yang lalu',
+        link: '/news/xxx/peta-politik-menuju-pemilu-2029',
         image: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=2070&auto=format&fit=crop'
     },
     {
@@ -53,6 +56,7 @@ const sliderNews = [
         excerpt: 'Pemerintah bekerja sama dengan talenta lokal meluncurkan LLM pertama yang dioptimalkan untuk bahasa daerah dan kurikulum nasional guna mengakselerasi kualitas belajar...',
         author: 'Rina Wijaya',
         date: '8 Jam yang lalu',
+        link: '/news/xxx/kecerdasan-buatan-nasional-nusantara-1',
         image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop'
     },
     {
@@ -63,21 +67,68 @@ const sliderNews = [
         excerpt: 'Pembangunan infrastruktur inti di Ibu Kota Nusantara menunjukkan kemajuan signifikan dengan penerapan sistem transportasi otonom dan pengelolaan energi mandiri...',
         author: 'Aris Setiawan',
         date: '10 Jam yang lalu',
+        link: '/news/xxx/proyek-ikn-tahap-akhir-2026',
         image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070&auto=format&fit=crop'
     }
 ]
 
 const latestNews = [
-    { id: 2, category: 'Tekno', slug: 'smartphone-lipat-generasi-terbaru-2026', title: 'Smartphone Lipat Generasi Terbaru Segera Meluncur dengan Baterai Nuklir', date: '3 Jam yang lalu' },
-    { id: 3, category: 'Ekonomi', slug: 'harga-emas-rekor-tertinggi-2026', title: 'Harga Emas Mencapai Rekor Tertinggi di Awal Tahun 2026 Akibat Inflasi Global', date: '5 Jam yang lalu' },
-    { id: 4, category: 'Olahraga', slug: 'tim-nasional-laga-penentuan', title: 'Tim Nasional Siap Hadapi Laga Penentuan Malam Ini di Stadion Utama', date: '6 Jam yang lalu' },
-    { id: 5, category: 'Hiburan', slug: 'konser-dunia-jakarta-2026', title: 'Daftar Artis Internasional yang Akan Menggelar Konser di Jakarta Tahun Ini', date: '7 Jam yang lalu' },
+    {
+        id: 2,
+        category: 'Tekno',
+        slug: 'smartphone-lipat-generasi-terbaru-2026',
+        title: 'Smartphone Lipat Generasi Terbaru Segera Meluncur dengan Baterai Nuklir',
+        link: '/news/xxx/smartphone-lipat-generasi-terbaru-2026',
+        date: '3 Jam yang lalu'
+    },
+    {
+        id: 3,
+        category: 'Ekonomi',
+        slug: 'harga-emas-rekor-tertinggi-2026',
+        title: 'Harga Emas Mencapai Rekor Tertinggi di Awal Tahun 2026 Akibat Inflasi Global',
+        link: '/news/xxx/harga-emas-rekor-tertinggi-2026',
+        date: '5 Jam yang lalu'
+    },
+    {
+        id: 4,
+        category: 'Olahraga',
+        slug: 'tim-nasional-laga-penentuan',
+        title: 'Tim Nasional Siap Hadapi Laga Penentuan Malam Ini di Stadion Utama',
+        link: '/news/xxx/tim-nasional-laga-penentuan',
+        date: '6 Jam yang lalu'
+    },
+    {
+        id: 5,
+        category: 'Hiburan',
+        slug: 'konser-dunia-jakarta-2026',
+        title: 'Daftar Artis Internasional yang Akan Menggelar Konser di Jakarta Tahun Ini',
+        link: '/news/xxx/konser-dunia-jakarta-2026',
+        date: '7 Jam yang lalu'
+    },
 ]
 
 const trendingNews = [
-    { id: 1, slug: 'cara-cepat-cuan-ai', title: 'Cara Cepat Dapat Cuan dari AI di Tahun 2026', views: 12432 },
-    { id: 2, slug: 'resep-viral-mie-instan', title: 'Resep Viral Mie Instan Ala Berandanesia yang Disukai Chef Dunia', views: 8923 },
-    { id: 3, slug: 'update-cuaca-ekstrem', title: 'Update Cuaca Ekstrem Pekan Ini: Waspada Badai Tropis', views: 7243 },
+    {
+        id: 1,
+        slug: 'cara-cepat-cuan-ai',
+        title: 'Cara Cepat Dapat Cuan dari AI di Tahun 2026',
+        link: '/news/xxx/cara-cepat-cuan-ai',
+        views: 12432
+    },
+    {
+        id: 2,
+        slug: 'resep-viral-mie-instan',
+        title: 'Resep Viral Mie Instan Ala Berandanesia yang Disukai Chef Dunia',
+        link: '/news/xxx/resep-viral-mie-instan',
+        views: 8923
+    },
+    {
+        id: 3,
+        slug: 'update-cuaca-ekstrem',
+        title: 'Update Cuaca Ekstrem Pekan Ini: Waspada Badai Tropis',
+        link: '/news/xxx/update-cuaca-ekstrem',
+        views: 7243
+    },
 ]
 
 const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
@@ -93,7 +144,7 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                         :navigation="{ prevEl: '.prev-btn', nextEl: '.next-btn' }"
                         :pagination="{ clickable: true, el: '.custom-pagination', }">
                         <SwiperSlide v-for="news in sliderNews" :key="news.id">
-                            <Link :href="`/news/${news.slug}`" class="block group">
+                            <Link :href="news.link" class="block group">
                                 <article class="relative">
                                     <div class="relative overflow-hidden shadow-2xl h-100 md:h-150">
                                         <img :src="news.image"
@@ -144,7 +195,6 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                 </section>
             </div>
             <div class="space-y-16 lg:col-span-8">
-
                 <div
                     class="relative overflow-hidden transition-all duration-300 border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group hover:border-red-700">
                     <div
@@ -167,7 +217,7 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                         </h2>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
-                        <Link v-for="news in latestNews" :key="news.id" :href="`/news/${news.slug}`"
+                        <Link v-for="news in latestNews" :key="news.id" :href="news.link"
                             class="pl-6 transition-all duration-300 border-l border-gray-100 group dark:border-gray-800 hover:border-red-700">
                             <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">{{
                                 news.category }}</span>
@@ -210,7 +260,7 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                         </div>
                         <ul class="space-y-8">
                             <li v-for="(trend, index) in trendingNews" :key="trend.id">
-                                <Link :href="`/news/${trend.slug}`" class="flex items-start gap-5 group">
+                                <Link :href="trend.link" class="flex items-start gap-5 group">
                                     <span
                                         class="text-4xl italic font-black leading-none text-gray-400 transition-colors dark:text-gray-700 group-hover:text-red-500">
                                         0{{ index + 1 }}

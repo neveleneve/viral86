@@ -29,7 +29,7 @@ Route::middleware('auth')
         Route::inertia('dashboard', 'Authenticated/Dashboard/Index')->name('dashboard.index');
 
         Route::resource('konten', ContentController::class);
-        Route::resource('media', MediaController::class);
+        Route::resource('media', MediaController::class)->except('edit', 'show', 'update');
         Route::resource('kategori', CategoryController::class)->except('edit');
         Route::resource('tag', TagController::class)->except('edit');
 

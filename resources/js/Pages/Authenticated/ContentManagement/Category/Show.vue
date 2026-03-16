@@ -1,9 +1,9 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
-import { ChevronLeft, Save, Loader2, Edit3 } from 'lucide-vue-next'
-import { watch } from 'vue'
 import AdminPageHeader from '@/Components/AdminPageHeader.vue'
+import { Head, useForm, usePage } from '@inertiajs/vue3'
+import { ChevronLeft, Save, Loader2 } from 'lucide-vue-next'
+import { watch } from 'vue'
 
 defineOptions({ layout: DashboardLayout })
 
@@ -33,7 +33,6 @@ const submit = () => form.put(`/admin/kategori/${props.category.id}`)
             <ChevronLeft class="w-4 h-4" />
         </template>
     </AdminPageHeader>
-
     <div class="p-6 bg-white border-l-4 border-red-700 shadow-xl dark:bg-gray-900">
         <form class="space-y-6" @submit.prevent="submit">
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
