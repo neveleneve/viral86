@@ -13,6 +13,9 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
+            $table->string('color')->nullable()->default('#b91c1c');
             $table->timestamps();
             $table->softDeletes();
         });

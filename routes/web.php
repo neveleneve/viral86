@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\EditorialController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ReaderController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
@@ -65,9 +66,4 @@ Route::get('tag/{tag}', function ($tag) {
     return inertia('TagNews', ['tag' => $tag]);
 });
 
-Route::get('news/{category}/{slug}', function ($category, $slug) {
-    return inertia('NewsDetail', [
-        'category' => $category,
-        'slug' => $slug,
-    ]);
-});
+Route::get('news/{category}/{slug}', [NewsController::class, 'newsDetail']);

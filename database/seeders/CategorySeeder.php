@@ -4,9 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class CategorySeeder extends Seeder {
     public function run(): void {
+        $faker = Faker::create();
+
         $data = [
             ['name' => 'Nasional', 'slug' => 'nasional'],
             ['name' => 'Daerah', 'slug' => 'daerah'],
@@ -20,7 +23,11 @@ class CategorySeeder extends Seeder {
         ];
 
         foreach ($data as $item) {
-            Category::create($item);
+            Category::create([
+                'name'  => $item['name'],
+                'slug'  => $item['slug'],
+                'color' => $faker->safeHexColor(),
+            ]);
         }
     }
 }

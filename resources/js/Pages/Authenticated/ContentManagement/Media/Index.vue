@@ -3,11 +3,40 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import Pagination from '@/Components/Pagination.vue'
 import Swal from 'sweetalert2'
 import AdminPageHeader from '@/Components/AdminPageHeader.vue'
-import { Head, usePage, Link, router } from '@inertiajs/vue3'
-import { Edit, Trash2, Search, Upload } from 'lucide-vue-next'
-import { ref, watch } from 'vue'
+import { Head, usePage, router } from '@inertiajs/vue3'
+import { Trash2, Search, Upload, Eye } from 'lucide-vue-next'
+import { ref, watch, computed } from 'vue'
+
+import VueEasyLightbox from 'vue-easy-lightbox'
+import 'vue-easy-lightbox/dist/external-css/vue-easy-lightbox.css'
 
 defineOptions({ layout: DashboardLayout })
+
+const props = defineProps({
+    media: Object,
+    filters: Object
+})
+
+const page = usePage()
+const search = ref(props.filters?.search || '')
+
+const visibleRef = ref(false)
+const indexRef = ref(0)
+
+const imgsRef = computed(() => {
+    return props.media?.data?.map(item => '/storage/' + item.directory)
+})
+
+const showLightbox = (index) => {
+    if (imgsRef.value.length > 0 && imgsRef.value[index]) {
+        indexRef.value = index
+        visibleRef.value = true
+    }
+}
+
+const handleHide = () => {
+    visibleRef.value = false
+}
 
 const deleteMedia = async (id) => {
     const isDarkMode = document.documentElement.classList.contains('dark')
@@ -39,14 +68,6 @@ const deleteMedia = async (id) => {
         }
     }
 }
-
-const props = defineProps({
-    media: Object,
-    filters: Object
-})
-
-const page = usePage()
-const search = ref(props.filters?.search || '')
 
 const debounce = (fn, delay) => {
     let timeoutId;
@@ -88,7 +109,7 @@ const appName2 = page.props.appName2;
                 <Search class="w-4 h-4 text-gray-400 transition-colors group-focus-within:text-red-700" />
             </div>
             <input v-model="search" type="text" placeholder="Cari media postingan..."
-                class="w-full py-3 pl-4 text-sm font-bold text-gray-900 bg-white border-l-4 border-red-700 outline-none pr-11 focus:shadow-xl dark:focus:shadow-md not-md:shadow-gray-200 not-md:dark:shadow-gray-500 dark:bg-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-400 placeholder:font-normal">
+                class="w-full py-3 pl-4 text-sm font-bold text-gray-900 bg-white border-l-4 border-red-700 outline-none pr-11 focus:shadow-xl dark:focus:shadow-md dark:bg-gray-900 dark:text-white focus:ring-0 placeholder:text-gray-400 placeholder:font-normal">
         </div>
     </div>
 
@@ -104,13 +125,18 @@ const appName2 = page.props.appName2;
             </thead>
             <tbody class="border-l-2 border-red-700 divide-y divide-gray-100 dark:divide-gray-800">
                 <template v-if="media.data.length > 0">
-                    <tr v-for="mediax in media.data" :key="mediax.id"
+                    <tr v-for="(mediax, i) in media.data" :key="mediax.id"
                         class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                         <td class="p-4">
-                            <div
-                                class="w-24 h-24 overflow-hidden bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+                            <div @click="showLightbox(i)"
+                                class="relative w-40 overflow-hidden bg-gray-100 border border-gray-200 rounded-lg cursor-pointer group dark:bg-gray-800 dark:border-gray-700">
                                 <img :src="'/storage/' + mediax.directory" :alt="mediax.caption"
                                     class="object-cover w-full h-full" loading="lazy">
+
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center transition-opacity opacity-0 bg-black/30 group-hover:opacity-100">
+                                    <Eye class="w-6 h-6 text-white" />
+                                </div>
                             </div>
                         </td>
                         <td class="p-6">
@@ -145,18 +171,18 @@ const appName2 = page.props.appName2;
 
     <div class="grid grid-cols-1 gap-4 lg:hidden">
         <template v-if="media.data.length > 0">
-            <div v-for="mediax in media.data" :key="mediax.id"
+            <div v-for="(mediax, i) in media.data" :key="mediax.id"
                 class="p-4 bg-white border-l-4 border-red-700 shadow-md dark:bg-gray-900">
                 <div class="flex gap-4">
                     <div class="shrink-0">
-                        <div
-                            class="w-20 h-20 overflow-hidden bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
-                            <img :src="mediax.directory" :alt="mediax.caption" class="object-cover w-full h-full"
-                                loading="lazy">
+                        <div @click="showLightbox(i)"
+                            class="w-40 overflow-hidden bg-gray-100 border border-gray-200 rounded-lg cursor-pointer dark:bg-gray-800 dark:border-gray-700 hover:border-red-300">
+                            <img :src="'/storage/' + mediax.directory" :alt="mediax.caption"
+                                class="object-cover w-full h-full" loading="lazy">
                         </div>
                     </div>
 
-                    <div class="justify-between flex-1 min-w-0 flex-flex-col">
+                    <div class="flex flex-col justify-between flex-1 min-w-0">
                         <div>
                             <h3 class="text-sm font-black tracking-tight text-gray-900 dark:text-white line-clamp-2">
                                 {{ mediax.caption }}
@@ -184,4 +210,15 @@ const appName2 = page.props.appName2;
     <Pagination :links="media.links" />
 
     <Head :title="`Media | ${appName1}${appName2}`" />
+
+    <Teleport to="body">
+        <VueEasyLightbox v-if="imgsRef.length > 0" :visible="visibleRef" :imgs="imgsRef" :index="indexRef"
+            @hide="handleHide" :moveDisabled="false" :maskClosable="true" />
+    </Teleport>
 </template>
+
+<style>
+.vel-modal {
+    z-index: 9999 !important;
+}
+</style>

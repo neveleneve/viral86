@@ -3,8 +3,15 @@ import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { Calendar, User, Share2, Clock, Bookmark, ChevronRight, Twitter, Info, Facebook } from 'lucide-vue-next'
 
+
+const props = defineProps({
+    category: Object,
+    content: Object,
+})
+
 const article = {
-    category: 'Nasional',
+    category: props.category?.name,
+    category_color: props.category?.color,
     title: 'Pemerintah Sahkan Regulasi Baru Terkait Transisi Energi Terbarukan 2026',
     author: 'Johan S. Putra',
     date: '25 Februari 2026',
@@ -42,21 +49,28 @@ const article = {
                     class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8 overflow-x-auto whitespace-nowrap">
                     <Link href="/" class="hover:text-red-700">Beranda</Link>
                     <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-100" />
-                    <Link href="/nasional" class="hover:text-red-700">{{ article.category }}</Link>
+                    <Link :href="`/${content.category.slug}`" class="hover:text-red-700">
+                        {{ content.category.name }}
+                    </Link>
                     <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-100" />
                     <span class="inline-block text-gray-900 truncate dark:text-gray-100 max-w-200">
-                        {{ article.title }}
+                        {{ content.title }}
                     </span>
                 </nav>
                 <div class="flex flex-col gap-12 lg:flex-row">
                     <article class="lg:w-2/3">
                         <span
-                            class="inline-block border-l-4 border-red-700 pl-4 text-xs font-black uppercase tracking-[0.3em] text-red-700 dark:text-red-500 mb-6">
+                            class="inline-block px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] mb-6 rounded-sm"
+                            :style="{
+                                backgroundColor: content.category.color + '15',
+                                color: content.category.color,
+                                border: `1px solid ${content.category.color}30`
+                            }">
                             {{ article.category }}
                         </span>
                         <h1
                             class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-[1.1] mb-2">
-                            {{ article.title }}
+                            {{ content.title }}
                         </h1>
                         <div
                             class="flex flex-col gap-6 py-6 mb-10 border-gray-100 border-y dark:border-gray-800 md:flex-row md:items-center md:justify-between">
@@ -64,7 +78,7 @@ const article = {
                                 class="flex flex-wrap items-center gap-x-6 gap-y-4 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                                 <div class="flex items-center shrink-0">
                                     <Calendar class="w-3.5 h-3.5 mr-2 text-red-700/60" />
-                                    {{ article.date }}
+                                    {{ content.published_at }}
                                 </div>
                                 <div class="flex items-center shrink-0">
                                     <Clock class="w-3.5 h-3.5 mr-2 text-red-700/60" />

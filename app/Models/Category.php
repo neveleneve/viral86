@@ -8,5 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'parent_id',
+        'color'
+    ];
+
+    public function children() {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function parent() {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function contents() {
+        return $this->hasMany(Content::class);
+    }
 }

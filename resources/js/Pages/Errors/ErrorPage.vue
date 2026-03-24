@@ -35,9 +35,9 @@ const getIcon = () => {
                     {{ message }}
                 </p>
 
-                <Link href="/admin/dashboard"
+                <Link href="/"
                     class="flex items-center gap-2 px-8 py-4 text-[10px] font-black text-white uppercase transition-colors bg-gray-900 hover:bg-red-700">
-                    <Home class="w-4 h-4" /> Kembali ke Dashboard
+                    <Home class="w-4 h-4" /> Kembali ke Laman Utana
                 </Link>
             </div>
         </div>

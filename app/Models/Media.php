@@ -10,4 +10,8 @@ class Media extends Model {
         'caption',
         'source'
     ];
+
+    public function contents() {
+        return $this->hasMany(Content::class);
+    }
 }

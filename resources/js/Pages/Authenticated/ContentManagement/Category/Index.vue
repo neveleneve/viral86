@@ -88,6 +88,7 @@ const appName2 = page.props.appName2;
             <thead class="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 dark:bg-gray-800">
                 <tr>
                     <th class="p-6">Nama Kategori</th>
+                    <th class="p-6">Warna</th>
                     <th class="p-6">Slug</th>
                     <th class="p-6 text-right">Aksi</th>
                 </tr>
@@ -96,6 +97,15 @@ const appName2 = page.props.appName2;
                 <tr v-if="categories.data.length > 0" v-for="cat in categories.data" :key="cat.id"
                     class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                     <td class="p-6 font-bold text-gray-900 dark:text-white">{{ cat.name }}</td>
+                    <td class="p-6">
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 border border-gray-200 rounded-full dark:border-gray-700"
+                                :style="{ backgroundColor: cat.color || '#b91c1c' }"></div>
+                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-tight">
+                                {{ cat.color || '#b91c1c' }}
+                            </span>
+                        </div>
+                    </td>
                     <td class="p-6 text-sm text-gray-500">{{ cat.slug }}</td>
                     <td class="p-6 text-right">
                         <div class="flex justify-end gap-3">
@@ -110,7 +120,7 @@ const appName2 = page.props.appName2;
                     </td>
                 </tr>
                 <tr v-else class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                    <td colspan="3" class="p-6 font-bold text-center text-gray-900 dark:text-white">
+                    <td colspan="4" class="p-6 font-bold text-center text-gray-900 dark:text-white">
                         Data Kosong
                     </td>
                 </tr>
@@ -119,11 +129,19 @@ const appName2 = page.props.appName2;
     </div>
     <div class="grid grid-cols-1 gap-4 lg:hidden">
         <div v-if="categories.data.length > 0" v-for="cat in categories.data" :key="cat.id"
-            class="p-6 bg-white border-l-4 border-red-700 shadow-md dark:bg-gray-900">
+            class="p-6 bg-white border-l-4 shadow-md dark:bg-gray-900" :style="{ borderColor: cat.color || '#b91c1c' }">
             <div class="flex items-start justify-between">
-                <div>
-                    <h3 class="font-black text-gray-900 dark:text-white">{{ cat.name }}</h3>
-                    <p class="text-[10px] text-gray-500 mt-1">{{ cat.slug }}</p>
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full" :style="{ backgroundColor: cat.color || '#b91c1c' }"></div>
+                        <h3 class="text-xs font-black tracking-wider text-gray-900 uppercase dark:text-white">
+                            {{ cat.name }}
+                        </h3>
+                    </div>
+                    <p class="text-[10px] text-gray-500 font-mono">{{ cat.slug }}</p>
+                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-2">
+                        HEX: {{ cat.color || '#B91C1C' }}
+                    </span>
                 </div>
                 <div class="flex gap-4">
                     <Link :href="`/admin/kategori/${cat.id}`">
@@ -135,9 +153,6 @@ const appName2 = page.props.appName2;
                     </button>
                 </div>
             </div>
-        </div>
-        <div v-else class="p-10 text-center bg-white border-l-4 border-gray-200 dark:bg-gray-900 dark:border-gray-800">
-            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Data Kosong</p>
         </div>
     </div>
     <Pagination :links="categories.links" />
