@@ -1,10 +1,6 @@
 {
   "resources/css/app.css": {
-<<<<<<< HEAD
-    "file": "assets/app-DwSdlCHI.css",
-=======
-    "file": "assets/app-pYuUwe-K.css",
->>>>>>> 53d08234aa726d3ca9cdc2ef63645aaf41253244
+    "file": "assets/app-CX45XNIS.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -13,20 +9,12 @@
     ]
   },
   "resources/js/app.js": {
-<<<<<<< HEAD
     "file": "assets/app-Cf-WRj1D.js",
-=======
-    "file": "assets/app-DNe8W7hV.js",
->>>>>>> 53d08234aa726d3ca9cdc2ef63645aaf41253244
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-<<<<<<< HEAD
       "assets/app-BY9cSJNT.css"
-=======
-      "assets/app-CDJQy7c3.css"
->>>>>>> 53d08234aa726d3ca9cdc2ef63645aaf41253244
     ]
   }
 }
