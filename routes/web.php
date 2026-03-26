@@ -42,7 +42,7 @@ Route::middleware('auth')
         Route::get('pengaturan', [SettingController::class, 'index'])->name('pengaturan.index');
         Route::post('pengaturan/change-profile', [SettingController::class, 'changeProfile'])->name('pengaturan.change-profile');
         Route::post('pengaturan/change-password', [SettingController::class, 'changePassword'])->name('pengeturan.change-password');
-    });
+    }); 
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');

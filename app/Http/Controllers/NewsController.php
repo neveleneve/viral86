@@ -23,7 +23,7 @@ class NewsController extends Controller {
             // ->where('published_at', '>=', Carbon::now()->subDays(7))
             ->where('status', 'published')
             ->orderBy('views', 'desc')
-            ->limit(3)
+        ->limit(3)
             ->get();
 
         $latestNews = Content::with(['category', 'user', 'media'])

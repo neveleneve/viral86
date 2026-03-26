@@ -57,7 +57,9 @@ class ContentController extends Controller {
     }
 
     public function create() {
-        return inertia('Authenticated/ContentManagement/Content/Create');
+        return inertia('Authenticated/ContentManagement/Content/Create', [
+            'categories' => Category::select('id', 'name', 'slug')->get(),
+        ]);
     }
 
     public function store(Request $request) {
