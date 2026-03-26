@@ -2,7 +2,7 @@
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { Calendar, User, Share2, Clock, Bookmark, ChevronRight, Twitter, Info, Facebook } from 'lucide-vue-next'
-
+import { formatDate } from '@/Utils/formatters'
 
 const props = defineProps({
     category: Object,
@@ -49,7 +49,7 @@ const article = {
                     class="flex items-center space-x-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8 overflow-x-auto whitespace-nowrap">
                     <Link href="/" class="hover:text-red-700">Beranda</Link>
                     <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-100" />
-                    <Link :href="`/${content.category.slug}`" class="hover:text-red-700">
+                    <Link :href="`/category/${content.category.slug}`" class="hover:text-red-700">
                         {{ content.category.name }}
                     </Link>
                     <ChevronRight class="w-3 h-3 text-gray-800 dark:text-gray-100" />
@@ -66,7 +66,7 @@ const article = {
                                 color: content.category.color,
                                 border: `1px solid ${content.category.color}30`
                             }">
-                            {{ article.category }}
+                            {{ content.category.name }}
                         </span>
                         <h1
                             class="text-4xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-[1.1] mb-2">
@@ -78,13 +78,13 @@ const article = {
                                 class="flex flex-wrap items-center gap-x-6 gap-y-4 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                                 <div class="flex items-center shrink-0">
                                     <Calendar class="w-3.5 h-3.5 mr-2 text-red-700/60" />
-                                    {{ content.published_at }}
+                                    {{ formatDate(content.published_at) }}
                                 </div>
                                 <div class="flex items-center shrink-0">
                                     <Clock class="w-3.5 h-3.5 mr-2 text-red-700/60" />
-                                    {{ article.readingTime }}
+                                    {{ content.reading_time }}
                                 </div>
-                                <div class="items-center hidden cursor-pointer group shrink-0 lg:flex">
+                                <Link :href="``" class="items-center hidden cursor-pointer group shrink-0 lg:flex">
                                     <div
                                         class="p-1.5 mr-2.5 transition-all duration-300 rounded-full bg-gray-100 dark:bg-gray-800 group-hover:bg-red-700">
                                         <User
@@ -92,9 +92,9 @@ const article = {
                                     </div>
                                     <span
                                         class="transition-colors group-hover:text-red-700 dark:group-hover:text-white">
-                                        {{ article.author }}
+                                        {{ content.user.name }}
                                     </span>
-                                </div>
+                                </Link>
                             </div>
                             <div
                                 class="flex flex-wrap items-center gap-x-6 gap-y-4 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
@@ -137,7 +137,7 @@ const article = {
                         </div>
                         <figure class="relative mb-12">
                             <div class="overflow-hidden rounded-sm aspect-video">
-                                <img :src="article.image" :alt="article.title"
+                                <img :src="`/storage/${content.media.directory}`" :alt="article.title"
                                     class="object-cover w-full h-full transition-transform duration-1000 hover:scale-105" />
                             </div>
                             <figcaption
@@ -146,61 +146,13 @@ const article = {
                                 <span class="italic text-gray-300 dark:text-gray-700">Berandanesia Exclusive</span>
                             </figcaption>
                         </figure>
-                        <div class="prose prose-lg dark:prose-invert max-w-none">
-                            <p class="mb-8 font-serif text-xl leading-relaxed text-gray-800 dark:text-gray-200">
+                        <div class="prose prose-lg dark:prose-invert max-w-none" v-html="content.body" />
 
-                                <strong
-                                    class="pb-1 font-sans text-sm tracking-widest text-gray-900 uppercase border-b-2 border-red-700 dark:text-white">
-                                    Jakarta, Berandanesia —
-                                </strong>
-                                Pemerintah secara resmi telah mengesahkan regulasi terbaru mengenai percepatan transisi
-                                energi terbarukan. Langkah strategis ini diambil sebagai respons terhadap komitmen
-                                net-zero emission yang ditargetkan tercapai lebih cepat.
-                            </p>
-                            <p class="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                                Dalam konferensi pers siang ini, kementerian terkait menegaskan bahwa investasi di
-                                sektor energi hijau akan mendapatkan insentif pajak khusus, yang diharapkan dapat
-                                menarik lebih banyak investor domestik maupun internasional.
-                            </p>
-                            <div
-                                class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
-                                <div
-                                    class="absolute top-0 right-0 flex items-center p-3 text-[9px] font-black uppercase tracking-widest text-gray-400">
-                                    <Info class="w-3 h-3 mr-1.5 text-gray-400" />
-                                    <span>Advertisement</span>
-                                </div>
-                                <div
-                                    class="flex flex-col items-center justify-center transition-colors border-2 border-gray-200 border-dashed rounded-lg min-h-50 dark:border-gray-800 group-hover:border-red-700/30">
-                                    <span
-                                        class="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.4em]">
-                                        Ruang Iklan Strategis
-                                    </span>
-                                </div>
-                            </div>
-                            <blockquote
-                                class="relative py-4 pl-8 my-12 border-l-4 border-red-700 bg-red-50/30 dark:bg-red-950/10">
-                                <p
-                                    class="text-2xl italic font-black leading-tight tracking-tight text-gray-900 md:text-3xl dark:text-white">
-                                    "Ini bukan sekadar regulasi, ini adalah komitmen nyata kita untuk masa depan yang
-                                    lebih bersih dan ekonomi yang tangguh di tahun 2026."
-                                </p>
-                                <footer
-                                    class="text-xs font-black uppercase tracking-[0.2em] text-red-700 dark:text-red-500 mt-6 flex items-center">
-                                    <span class="w-8 h-0.5 bg-red-700 mr-3"></span>
-                                    Juru Bicara Kementerian
-                                </footer>
-                            </blockquote>
-                            <p class="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                                Kebijakan ini juga akan berdampak langsung pada sektor industri manufaktur yang
-                                diwajibkan secara bertahap menggunakan persentase energi terbarukan dalam operasional
-                                mereka mulai akhir kuartal ketiga tahun ini.
-                            </p>
-                        </div>
                         <div class="flex items-center gap-2 pb-12 mt-12 border-b border-gray-100 dark:border-gray-800">
                             <span class="text-[10px] font-black uppercase text-gray-400 mr-4">Tags:</span>
-                            <Link :href="`/tag/${tag}`" v-for="tag in ['Energi', 'Regulasi', '2026']" :key="tag"
+                            <Link :href="`/tag/${tag.name}`" v-for="tag in content.tags" :key="tag"
                                 class="px-3 py-1 bg-gray-100 dark:bg-gray-900 text-[10px] font-bold uppercase tracking-widest hover:bg-red-700 hover:text-white transition-all">
-                                #{{ tag }}
+                                #{{ tag.name }}
                             </Link>
                         </div>
                     </article>

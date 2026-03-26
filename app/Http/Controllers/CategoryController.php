@@ -28,7 +28,7 @@ class CategoryController extends Controller {
                         ->orWhere('slug', 'like', "%{$search}%");
                 })
                 ->latest()
-                ->paginate(10)
+                ->paginate(5)
                 ->withQueryString();
             return inertia('Authenticated/ContentManagement/Category/Index', [
                 'categories' => $categories,
@@ -47,32 +47,50 @@ class CategoryController extends Controller {
     }
 
     public function create() {
-        return inertia('Authenticated/ContentManagement/Category/Create');
+        $categories = Category::get();
+        return inertia('Authenticated/ContentManagement/Category/Create', [
+            'categories' => $categories
+        ]);
     }
 
     public function store(Request $request) {
-
         try {
             $validated = $request->validate([
-                'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
-                'slug' => ['required', 'string', 'max:255', 'unique:categories,slug'],
+                'name'          => ['required', 'string', 'max:255', 'unique:categories,name'],
+                'slug'          => ['required', 'string', 'max:255', 'unique:categories,slug'],
+                'description'   => ['nullable', 'string', 'max:500'],
+                'parent_id'     => ['nullable', 'integer', 'exists:categories,id'],
+                'color'         => ['nullable', 'regex:/^#([a-f0-9]{6})$/i'],
             ], [
-                'name.required' => 'Nama kategori wajib diisi!',
-                'name.unique'   => 'Nama kategori sudah ada!',
-                'slug.unique'   => 'Slug sudah digunakan.',
+                'name.required'     => 'Nama kategori jangan dikosongin!',
+                'name.unique'       => 'Nama kategori ini udah dipake!',
+
+                'slug.required'     => 'Slug kategori jangan dikosongin!',
+                'slug.unique'       => 'Slug kategori ini udah dipake!',
+
+                'color.regex'       => 'Format warna harus HEX yang bener (contoh: #B91C1C).',
+
+                'description.max'   => 'Deskripsinya kepanjangan!',
             ]);
-            Category::create([
-                'name' => $validated['name'],
-                'slug' => Str::slug($validated['slug']),
+            $create = Category::create([
+                'name'          => $validated['name'],
+                'slug'          => Str::slug($validated['slug']),
+                'description'   => $validated['description'] ?? null,
+                'parent_id'     => $validated['parent_id'] ?? null,
+                'color'         => $validated['color'] ?? '#b91c1c',
             ]);
 
-            return redirect()
-                ->back()
-                ->with([
-                    'toast'   => true,
-                    'icon'    => 'success',
-                    'message' => 'Kategori baru berhasil ditambahkan!'
-                ]);
+            if ($create) {
+                return redirect()
+                    ->back()
+                    ->with([
+                        'toast'     => true,
+                        'icon'      => 'success',
+                        'message'   => 'Kategori baru berhasil ditambahkan!'
+                    ]);
+            } else {
+                throw new Exception('Gagal menambahkan data kategori!');
+            }
         } catch (Exception $e) {
             Log::error("Gagal simpan kategori: " . $e->getMessage());
 
@@ -80,17 +98,19 @@ class CategoryController extends Controller {
                 ->back()
                 ->withInput()
                 ->with([
-                    'toast'   => false,
-                    'icon'    => 'error',
-                    'title'   => 'Gagal!',
-                    'message' => 'Terjadi kesalahan saat menyimpan data! ' . $e->getMessage()
+                    'toast'     => false,
+                    'icon'      => 'error',
+                    'title'     => 'Gagal!',
+                    'message'   => 'Terjadi kesalahan saat menyimpan data! ' . $e->getMessage()
                 ]);
         }
     }
 
     public function show(Category $kategori) {
+        $categories = Category::get();
         return inertia('Authenticated/ContentManagement/Category/Show', [
-            'category' => $kategori
+            'category'      => $kategori,
+            'categories'    => $categories
         ]);
     }
 
@@ -98,12 +118,21 @@ class CategoryController extends Controller {
 
         try {
             $validated = $request->validate([
-                'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
-                'slug' => ['required', 'string', 'max:255', 'unique:categories,slug'],
+                'name'          => ['required', 'string', 'max:255', 'unique:categories,name,' . $kategori->id],
+                'slug'          => ['required', 'string', 'max:255', 'unique:categories,slug,' . $kategori->id],
+                'description'   => ['nullable', 'string', 'max:500'],
+                'parent_id'     => ['nullable', 'integer', 'exists:categories,id'],
+                'color'         => ['nullable', 'regex:/^#([a-f0-9]{6})$/i'],
             ], [
-                'name.required' => 'Nama kategori wajib diisi!',
-                'name.unique'   => 'Nama kategori sudah ada!',
-                'slug.unique'   => 'Slug sudah digunakan.',
+                'name.required'     => 'Nama kategori jangan dikosongin!',
+                'name.unique'       => 'Nama kategori ini udah dipake!',
+
+                'slug.required'     => 'Slug kategori jangan dikosongin!',
+                'slug.unique'       => 'Slug kategori ini udah dipake!',
+
+                'color.regex'       => 'Format warna harus HEX yang bener (contoh: #B91C1C).',
+
+                'description.max'   => 'Deskripsinya kepanjangan!',
             ]);
 
             $kategori->update($validated);

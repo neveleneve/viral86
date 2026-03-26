@@ -26,7 +26,7 @@ class MediaController extends Controller {
                         ->orWhere('source', 'like', "%{$search}%");
                 })
                 ->latest()
-                ->paginate(10)
+                ->paginate(5)
                 ->withQueryString();
 
             return inertia('Authenticated/ContentManagement/Media/Index', [

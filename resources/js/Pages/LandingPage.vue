@@ -1,7 +1,7 @@
 <script setup>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
 import { Head, usePage, Link } from '@inertiajs/vue3'
-import { TrendingUp, Clock, Mail, User, Info, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { TrendingUp, Clock, Mail, User, Info, ChevronLeft, ChevronRight, ImageIcon } from 'lucide-vue-next'
 import { computed } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules'
@@ -9,127 +9,16 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
-import { formatViewCount } from '@/Utils/formatters'
+import { formatViewCount, formatRelativeTime, formatDate } from '@/Utils/formatters'
+
+const props = defineProps({
+    featuredNews: Array,
+    latestNews: Array,
+    trendingNews: Array
+})
 
 const page = usePage()
 const user = computed(() => page.props.auth.user)
-
-const sliderNews = [
-    {
-        id: 1,
-        category: 'Nasional',
-        slug: 'gebrakan-baru-pemerintah-dalam-transformasi-digital-2026',
-        title: 'Gebrakan Baru Pemerintah dalam Transformasi Digital 2026: Semua Layanan Publik Terintegrasi',
-        excerpt: 'Langkah besar diambil pemerintah untuk memastikan efisiensi birokrasi melalui sistem satu pintu berbasis AI yang diharapkan mampu memangkas waktu layanan hingga 80%...',
-        author: 'Johan S. Putra',
-        date: '2 Jam yang lalu',
-        link: '/news/xxx/gebrakan-baru-pemerintah-dalam-transformasi-digital-2026',
-        image: 'https://plus.unsplash.com/premium_photo-1754752265556-77115945cde2?q=80&w=2070&auto=format&fit=crop'
-    },
-    {
-        id: 2,
-        category: 'Ekonomi',
-        slug: 'investasi-asing-meningkat-2026',
-        title: 'Investasi Asing Meningkat Tajam, Sektor Teknologi Hijau Jadi Primadona di Kuartal I',
-        excerpt: 'Laporan terbaru menunjukkan minat investor global terhadap ekosistem energi terbarukan di Indonesia mencapai puncaknya tahun ini dengan nilai kontrak triliunan rupiah...',
-        author: 'Siska Amelia',
-        date: '4 Jam yang lalu',
-        link: '/news/xxx/investasi-asing-meningkat-2026',
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop'
-    },
-    {
-        id: 3,
-        category: 'Politik',
-        slug: 'peta-politik-menuju-pemilu-2029',
-        title: 'Peta Politik Menuju Pemilu 2029: Koalisi Besar Mulai Terbentuk di Awal Tahun Ini',
-        excerpt: 'Sejumlah partai besar mulai melakukan pertemuan tertutup untuk membahas strategi jangka panjang dan potensi penggabungan kekuatan menjelang kontestasi politik mendatang...',
-        author: 'Bambang Heru',
-        date: '6 Jam yang lalu',
-        link: '/news/xxx/peta-politik-menuju-pemilu-2029',
-        image: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=2070&auto=format&fit=crop'
-    },
-    {
-        id: 4,
-        category: 'Tekno',
-        slug: 'kecerdasan-buatan-nasional-nusantara-1',
-        title: 'Kecerdasan Buatan Nasional "Nusantara-1" Resmi Diluncurkan untuk Sektor Pendidikan',
-        excerpt: 'Pemerintah bekerja sama dengan talenta lokal meluncurkan LLM pertama yang dioptimalkan untuk bahasa daerah dan kurikulum nasional guna mengakselerasi kualitas belajar...',
-        author: 'Rina Wijaya',
-        date: '8 Jam yang lalu',
-        link: '/news/xxx/kecerdasan-buatan-nasional-nusantara-1',
-        image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop'
-    },
-    {
-        id: 5,
-        category: 'Lingkungan',
-        slug: 'proyek-ikn-tahap-akhir-2026',
-        title: 'Proyek IKN Tahap Akhir: Transformasi Kota Hutan Pintar Pertama di Dunia Hampir Rampung',
-        excerpt: 'Pembangunan infrastruktur inti di Ibu Kota Nusantara menunjukkan kemajuan signifikan dengan penerapan sistem transportasi otonom dan pengelolaan energi mandiri...',
-        author: 'Aris Setiawan',
-        date: '10 Jam yang lalu',
-        link: '/news/xxx/proyek-ikn-tahap-akhir-2026',
-        image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070&auto=format&fit=crop'
-    }
-]
-
-const latestNews = [
-    {
-        id: 2,
-        category: 'Tekno',
-        slug: 'smartphone-lipat-generasi-terbaru-2026',
-        title: 'Smartphone Lipat Generasi Terbaru Segera Meluncur dengan Baterai Nuklir',
-        link: '/news/xxx/smartphone-lipat-generasi-terbaru-2026',
-        date: '3 Jam yang lalu'
-    },
-    {
-        id: 3,
-        category: 'Ekonomi',
-        slug: 'harga-emas-rekor-tertinggi-2026',
-        title: 'Harga Emas Mencapai Rekor Tertinggi di Awal Tahun 2026 Akibat Inflasi Global',
-        link: '/news/xxx/harga-emas-rekor-tertinggi-2026',
-        date: '5 Jam yang lalu'
-    },
-    {
-        id: 4,
-        category: 'Olahraga',
-        slug: 'tim-nasional-laga-penentuan',
-        title: 'Tim Nasional Siap Hadapi Laga Penentuan Malam Ini di Stadion Utama',
-        link: '/news/xxx/tim-nasional-laga-penentuan',
-        date: '6 Jam yang lalu'
-    },
-    {
-        id: 5,
-        category: 'Hiburan',
-        slug: 'konser-dunia-jakarta-2026',
-        title: 'Daftar Artis Internasional yang Akan Menggelar Konser di Jakarta Tahun Ini',
-        link: '/news/xxx/konser-dunia-jakarta-2026',
-        date: '7 Jam yang lalu'
-    },
-]
-
-const trendingNews = [
-    {
-        id: 1,
-        slug: 'cara-cepat-cuan-ai',
-        title: 'Cara Cepat Dapat Cuan dari AI di Tahun 2026',
-        link: '/news/xxx/cara-cepat-cuan-ai',
-        views: 12432
-    },
-    {
-        id: 2,
-        slug: 'resep-viral-mie-instan',
-        title: 'Resep Viral Mie Instan Ala Berandanesia yang Disukai Chef Dunia',
-        link: '/news/xxx/resep-viral-mie-instan',
-        views: 8923
-    },
-    {
-        id: 3,
-        slug: 'update-cuaca-ekstrem',
-        title: 'Update Cuaca Ekstrem Pekan Ini: Waspada Badai Tropis',
-        link: '/news/xxx/update-cuaca-ekstrem',
-        views: 7243
-    },
-]
 
 const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
 </script>
@@ -142,36 +31,46 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                     <Swiper :modules="swiperModules" :slides-per-view="1" :loop="true" :effect="'fade'"
                         :fade-effect="{ crossFade: true }" :autoplay="{ delay: 5000, disableOnInteraction: false }"
                         :navigation="{ prevEl: '.prev-btn', nextEl: '.next-btn' }"
-                        :pagination="{ clickable: true, el: '.custom-pagination', }">
-                        <SwiperSlide v-for="news in sliderNews" :key="news.id">
-                            <Link :href="news.link" class="block group">
+                        :pagination="{ clickable: true, el: '.custom-pagination' }">
+                        <SwiperSlide v-for="news in featuredNews" :key="news.id">
+                            <Link :href="`/news/${news.category.slug}/${news.slug}`" class="block group">
                                 <article class="relative">
                                     <div class="relative overflow-hidden shadow-2xl h-100 md:h-150">
-                                        <img :src="news.image"
-                                            class="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105" />
-                                        <div
-                                            class="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-90">
+                                        <img v-if="news.media" :src="`/storage/${news.media.directory}`"
+                                            class="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105"
+                                            alt="featured-news" />
+                                        <div v-else class="flex items-center justify-center w-full h-full bg-gray-900">
+                                            <ImageIcon class="w-12 h-12 text-gray-700" />
                                         </div>
-                                        <div class="absolute left-0 z-10 top-2 lg:top-8">
+                                        <div
+                                            class="absolute inset-0 opacity-90 bg-linear-to-t from-black/95 via-black/50 to-transparent">
+                                        </div>
+                                        <div class="absolute left-0 z-10 top-4 lg:top-8">
                                             <span
                                                 class="bg-red-700 text-white text-[10px] font-black px-5 py-2.5 uppercase tracking-[0.2em] shadow-2xl">
-                                                {{ news.category }}
+                                                {{ news.category?.name }}
                                             </span>
                                         </div>
-                                        <div class="absolute bottom-0 left-0 right-0 z-10 px-6 py-10">
+                                        <div class="absolute bottom-0 left-0 right-0 z-10 p-10 px-6">
                                             <div class="max-w-4xl pl-6 border-l-4 border-red-700">
                                                 <h1
-                                                    class="text-xl md:text-2xl lg:text-3xl font-black text-white leading-[1.05] tracking-tight uppercase group-hover:text-red-500 transition-colors duration-300">
+                                                    class="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-[1.1] tracking-tight uppercase group-hover:text-red-500 transition-colors duration-300 line-clamp-2">
                                                     {{ news.title }}
                                                 </h1>
+                                                <p
+                                                    class="hidden mt-4 text-sm font-medium text-gray-300 md:block line-clamp-2">
+                                                    {{ news.excerpt }}
+                                                </p>
                                                 <div
-                                                    class="mt-6 hidden lg:flex items-center gap-5 text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">
+                                                    class="mt-6 flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
                                                     <span class="flex items-center gap-2">
-                                                        <Clock class="h-3.5 w-3.5 text-red-700" /> {{ news.date }}
+                                                        <Clock class="h-3.5 w-3.5 text-red-700" />
+                                                        {{ formatRelativeTime(news.published_at) }}
                                                     </span>
                                                     <span class="text-gray-600">/</span>
                                                     <span class="flex items-center gap-2">
-                                                        <User class="h-3.5 w-3.5 text-red-700" /> {{ news.author }}
+                                                        <User class="h-3.5 w-3.5 text-red-700" />
+                                                        {{ news.user?.name }}
                                                     </span>
                                                 </div>
                                             </div>
@@ -182,11 +81,11 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                         </SwiperSlide>
                         <div class="absolute bottom-0 right-0 z-20 flex items-center">
                             <button
-                                class="p-2 text-white transition-colors outline-none cursor-pointer prev-btn bg-gray-950/50 backdrop-blur-md hover:bg-red-700">
+                                class="p-3 text-white transition-colors outline-none cursor-pointer prev-btn bg-gray-950/60 backdrop-blur-md hover:bg-red-700">
                                 <ChevronLeft class="w-6 h-6" />
                             </button>
                             <button
-                                class="p-2 text-white transition-colors outline-none cursor-pointer next-btn bg-gray-950/50 backdrop-blur-md hover:bg-red-700">
+                                class="p-3 text-white transition-colors outline-none cursor-pointer next-btn bg-gray-950/60 backdrop-blur-md hover:bg-red-700">
                                 <ChevronRight class="w-6 h-6" />
                             </button>
                         </div>
@@ -213,21 +112,23 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                     <div class="flex items-center gap-3 mb-8">
                         <div class="h-8 w-1.5 bg-gray-900 dark:bg-gray-100"></div>
                         <h2 class="text-2xl font-black tracking-tighter uppercase dark:text-white">
-                            Beranda<span class="text-red-700">Nasional</span>
+                            Beranda<span class="text-red-700">Terkini</span>
                         </h2>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
-                        <Link v-for="news in latestNews" :key="news.id" :href="news.link"
+                        <Link v-for="news in latestNews" :key="news.id"
+                            :href="`/news/${news.category.slug}/${news.slug}`"
                             class="pl-6 transition-all duration-300 border-l border-gray-100 group dark:border-gray-800 hover:border-red-700">
-                            <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">{{
-                                news.category }}</span>
+                            <span class="text-[10px] font-black text-red-700 uppercase tracking-widest block mb-2">
+                                {{ news.category.name }}
+                            </span>
                             <h3
                                 class="text-xl font-extrabold leading-tight text-gray-900 transition-colors dark:text-gray-100 group-hover:text-red-700">
                                 {{ news.title }}
                             </h3>
                             <p
                                 class="text-[11px] text-gray-400 mt-3 font-bold uppercase tracking-tighter flex items-center gap-2">
-                                <Clock class="w-3 h-3" /> {{ news.date }}
+                                <Clock class="w-3 h-3" /> {{ formatDate(news.published_at) }}
                             </p>
                         </Link>
                     </div>
@@ -260,7 +161,8 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                         </div>
                         <ul class="space-y-8">
                             <li v-for="(trend, index) in trendingNews" :key="trend.id">
-                                <Link :href="trend.link" class="flex items-start gap-5 group">
+                                <Link :href="`/news/${trend.category.slug}/${trend.slug}`"
+                                    class="flex items-start gap-5 group">
                                     <span
                                         class="text-4xl italic font-black leading-none text-gray-400 transition-colors dark:text-gray-700 group-hover:text-red-500">
                                         0{{ index + 1 }}

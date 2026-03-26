@@ -90,6 +90,7 @@ const appName2 = page.props.appName2;
                     <th class="p-6">Nama Kategori</th>
                     <th class="p-6">Warna</th>
                     <th class="p-6">Slug</th>
+                    <th class="p-6">Deskripsi</th>
                     <th class="p-6 text-right">Aksi</th>
                 </tr>
             </thead>
@@ -107,9 +108,11 @@ const appName2 = page.props.appName2;
                         </div>
                     </td>
                     <td class="p-6 text-sm text-gray-500">{{ cat.slug }}</td>
+                    <td class="p-6 text-sm text-gray-500">{{ cat.description ?? '=' }}</td>
                     <td class="p-6 text-right">
                         <div class="flex justify-end gap-3">
-                            <Link :href="`/admin/kategori/${cat.id}`" class="text-gray-400 hover:text-red-700">
+                            <Link v-if="$can('edit-kategori')" :href="`/admin/kategori/${cat.id}`"
+                                class="text-gray-400 hover:text-red-700">
                                 <Edit class="w-4 h-4" />
                             </Link>
                             <button v-if="$can('delete-kategori')" @click="deleteCategory(cat.id)"
@@ -128,10 +131,10 @@ const appName2 = page.props.appName2;
         </table>
     </div>
     <div class="grid grid-cols-1 gap-4 lg:hidden">
-        <div v-if="categories.data.length > 0" v-for="cat in categories.data" :key="cat.id"
-            class="p-6 bg-white border-l-4 shadow-md dark:bg-gray-900" :style="{ borderColor: cat.color || '#b91c1c' }">
+        <div v-for="cat in categories.data" :key="cat.id" class="p-6 bg-white border-l-4 shadow-md dark:bg-gray-900"
+            :style="{ borderColor: cat.color || '#b91c1c' }">
             <div class="flex items-start justify-between">
-                <div class="flex flex-col gap-1">
+                <div class="flex flex-col flex-1 gap-1 pr-4">
                     <div class="flex items-center gap-2">
                         <div class="w-2 h-2 rounded-full" :style="{ backgroundColor: cat.color || '#b91c1c' }"></div>
                         <h3 class="text-xs font-black tracking-wider text-gray-900 uppercase dark:text-white">
@@ -139,12 +142,19 @@ const appName2 = page.props.appName2;
                         </h3>
                     </div>
                     <p class="text-[10px] text-gray-500 font-mono">{{ cat.slug }}</p>
+
+                    <p v-if="cat.description"
+                        class="mt-2 text-[11px] leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-2">
+                        {{ cat.description }}
+                    </p>
+
                     <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-2">
                         HEX: {{ cat.color || '#B91C1C' }}
                     </span>
                 </div>
+
                 <div class="flex gap-4">
-                    <Link :href="`/admin/kategori/${cat.id}`">
+                    <Link v-if="$can('edit-kategori')" :href="`/admin/kategori/${cat.id}`">
                         <Edit class="w-4 h-4 text-gray-400 hover:text-red-700" />
                     </Link>
                     <button v-if="$can('delete-kategori')" @click="deleteCategory(cat.id)"

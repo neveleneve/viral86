@@ -104,7 +104,8 @@ const appName2 = page.props.appName2;
                     <td class="p-6 font-bold text-gray-900 dark:text-white">{{ tag.name }}</td>
                     <td class="p-6 text-right">
                         <div class="flex justify-end gap-3">
-                            <Link :href="`/admin/tag/${tag.id}`" class="text-gray-400 hover:text-red-700">
+                            <Link v-if="$can('edit-tag')" :href="`/admin/tag/${tag.id}`"
+                                class="text-gray-400 hover:text-red-700">
                                 <Edit class="w-4 h-4" />
                             </Link>
                             <button v-if="$can('delete-tag')" @click="deleteTag(tag.id)"
@@ -133,7 +134,7 @@ const appName2 = page.props.appName2;
                     </h3>
                 </div>
                 <div class="flex gap-4">
-                    <Link :href="`/admin/tag/${tag.id}`">
+                    <Link v-if="$can('edit-tag')" :href="`/admin/tag/${tag.id}`">
                         <Edit class="w-4 h-4 text-gray-400 hover:text-red-700" />
                     </Link>
                     <button v-if="$can('delete-tag')" @click="deleteTag(tag.id)"

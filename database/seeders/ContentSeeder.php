@@ -14,7 +14,6 @@ class ContentSeeder extends Seeder {
     public function run(): void {
         $faker = \Faker\Factory::create('id_ID');
 
-        // Ambil ID yang sudah ada di database
         $userIds = User::pluck('id');
         $categoryIds = Category::pluck('id');
         $mediaIds = Media::pluck('id');
@@ -50,9 +49,6 @@ class ContentSeeder extends Seeder {
         }
     }
 
-    /**
-     * Helper untuk membuat isi berita yang lebih panjang (HTML)
-     */
     private function generateFakeBody($faker) {
         $paragraphs = $faker->paragraphs(5);
         $body = "";

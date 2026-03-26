@@ -14,9 +14,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return inertia('LandingPage');
-});
+Route::get('/', [NewsController::class, 'landingPage']);
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'loginForm'])->name('login');
@@ -29,7 +27,7 @@ Route::middleware('auth')
     ->group(function () {
         Route::inertia('dashboard', 'Authenticated/Dashboard/Index')->name('dashboard.index');
 
-        Route::resource('konten', ContentController::class);
+        Route::resource('konten', ContentController::class)->except('edit');
         Route::resource('media', MediaController::class)->except('edit', 'show', 'update');
         Route::resource('kategori', CategoryController::class)->except('edit');
         Route::resource('tag', TagController::class)->except('edit');
@@ -58,12 +56,10 @@ Route::get('redaksi', function () {
     return inertia('RedaksiPage');
 });
 
-Route::get('category/{category}', function ($category) {
-    return inertia('CategoryNews', ['category' => $category]);
-});
+Route::get('category/{category}', [NewsController::class, 'categoryPost']);
 
-Route::get('tag/{tag}', function ($tag) {
-    return inertia('TagNews', ['tag' => $tag]);
-});
+Route::get('tag/{tag}', [NewsController::class, 'tagPost']);
+
+Route::get('author/{username}', [NewsController::class, 'authorsPost']);
 
 Route::get('news/{category}/{slug}', [NewsController::class, 'newsDetail']);

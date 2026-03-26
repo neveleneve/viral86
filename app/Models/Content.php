@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Content extends Model {
@@ -18,6 +19,8 @@ class Content extends Model {
         'views',
         'published_at'
     ];
+
+    protected $appends = ['reading_time'];
 
     protected $casts = [
         'published_at' => 'datetime',
@@ -38,5 +41,21 @@ class Content extends Model {
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
+    }
+
+    protected function readingTime(): Attribute {
+        return Attribute::make(
+            get: function () {
+                if (!$this->body) return '1 Menit Baca';
+
+                $cleanText = strip_tags($this->body);
+
+                $wordCount = str_word_count($cleanText);
+
+                $minutes = ceil($wordCount / 200);
+
+                return $minutes . ' Menit Baca';
+            }
+        );
     }
 }

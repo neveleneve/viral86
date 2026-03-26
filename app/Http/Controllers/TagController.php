@@ -26,7 +26,7 @@ class TagController extends Controller {
                     $q->where('name', 'like', "%{$search}%");
                 })
                 ->latest()
-                ->paginate(10)
+                ->paginate(5)
                 ->withQueryString();
 
             return inertia('Authenticated/ContentManagement/Tag/Index', [
