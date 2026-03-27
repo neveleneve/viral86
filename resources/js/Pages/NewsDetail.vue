@@ -219,7 +219,7 @@ const article = {
         </div>
     </DefaultLayout>
 
-    <Head :title="`${article.title} | Berandanesia`" />
+    <Head :title="`${content.title} | Berandanesia`" />
 </template>
 
 <style scoped>

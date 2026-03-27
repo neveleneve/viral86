@@ -50,7 +50,7 @@ class ContentSeeder extends Seeder {
     }
 
     private function generateFakeBody($faker) {
-        $paragraphs = $faker->paragraphs(5);
+        $paragraphs = $faker->paragraphs(10);
         $body = "";
         foreach ($paragraphs as $p) {
             $body .= "<p class='mb-4'>{$p}</p>";
