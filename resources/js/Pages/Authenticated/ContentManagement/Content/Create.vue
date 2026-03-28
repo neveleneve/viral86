@@ -1,7 +1,119 @@
+<script setup>
+import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
+import { Head, usePage, useForm } from '@inertiajs/vue3';
+import { ImageIcon, ChevronDown, Star, Link as LinkIcon, ChevronLeft } from 'lucide-vue-next';
+import AdminPageHeader from '@/Components/AdminPageHeader.vue';
+import DashboardLayout from '@/Layouts/DashboardLayout.vue';
+import EditorJS from '@editorjs/editorjs';
+import edjsHTML from 'editorjs-html';
+import Header from '@editorjs/header';
+import List from '@editorjs/list';
+import MediaPicker from '@/Components/MediaPicker.vue';
+
+const page = usePage();
+const appName1 = page.props.appName1;
+const appName2 = page.props.appName2;
+const categories = page.props.categories || [];
+
+defineOptions({ layout: DashboardLayout })
+
+const showMediaModal = ref(false);
+const selectedImage = ref(null);
+
+const edjsParser = edjsHTML();
+
+let editorInstance = null;
+
+const form = useForm({
+    user_id: page.props.auth.user.id,
+    category_id: null,
+    media_id: null,
+    title: '',
+    slug: '',
+    body: '',
+    status: 'draft',
+    is_featured: false,
+});
+
+const selectedCategorySlug = computed(() => {
+    if (!form.category_id) return null;
+    const cat = categories.find(c => c.id === form.category_id);
+    return cat ? cat.slug : null;
+});
+
+const slugify = (text) => {
+    return text.toString().toLowerCase().trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/--+/g, '-');
+};
+
+watch(() => form.title, (val) => {
+    form.slug = slugify(val);
+});
+
+const onMediaSelected = (media) => {
+    selectedImage.value = media;
+    form.media_id = media.id;
+};
+
+const removeImage = () => {
+    selectedImage.value = null;
+    form.media_id = null;
+};
+
+const submit = () => {
+    form.post('/admin/konten', {
+        preserveScroll: true,
+    });
+};
+
+onMounted(() => {
+    editorInstance = new EditorJS({
+        holder: 'editorjs-container',
+        placeholder: 'Mulai menulis berita hari ini... (Ketik Tab untuk memunculkan menu)',
+        tools: {
+            header: {
+                class: Header,
+                config: {
+                    levels: [2, 3, 4],
+                    defaultLevel: 2
+                }
+            },
+            list: {
+                class: List,
+                inlineToolbar: true,
+            }
+        },
+        onChange: async () => {
+            try {
+                const content = await editorInstance.save();
+
+                const parsed = edjsParser.parse(content);
+
+                if (Array.isArray(parsed)) {
+                    form.body = parsed.join('');
+                } else if (typeof parsed === 'string') {
+                    form.body = parsed;
+                } else {
+                    form.body = '';
+                    console.warn('Data editor kosong atau tidak dikenali:', parsed);
+                }
+            } catch (error) {
+                console.error("Gagal menyimpan atau mem-parse data Editor.js:", error);
+            }
+        }
+    });
+});
+
+onBeforeUnmount(() => {
+    if (editorInstance) {
+        editorInstance.destroy();
+    }
+});
+</script>
+
 <template>
-
-    <Head :title="`Tambah Konten | ${appName1}${appName2}`" />
-
     <AdminPageHeader :show-action="$can('view-konten')" title="Konten" subtitle="Postingan" action-label="Kembali"
         action-url="/admin/konten" :breadcrumbs="[
             { label: 'Dashboard', url: '/admin' },
@@ -66,9 +178,12 @@
                     <label class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-4">
                         Isi Berita Lengkap
                     </label>
-                    <textarea v-model="form.body"
-                        class="w-full p-6 text-lg leading-relaxed transition-all border-none outline-none h-125 bg-gray-50 dark:bg-gray-950 rounded-2xl dark:text-gray-300 placeholder:text-gray-300 dark:placeholder:text-gray-600 focus:ring-2 focus:ring-red-700/10 custom-scrollbar"
-                        placeholder="Mulai menulis cerita hari ini..."></textarea>
+
+                    <div
+                        class="w-full p-6 text-lg leading-relaxed transition-all border-none outline-none min-h-125 bg-gray-50 dark:bg-gray-950 rounded-2xl dark:text-gray-300 focus-within:ring-2 focus-within:ring-red-700/10 custom-scrollbar">
+                        <div id="editorjs-container" class="prose max-w-none dark:prose-invert"></div>
+                    </div>
+
                     <div v-if="form.errors.body" class="mt-2 text-[10px] font-bold text-red-600 uppercase">
                         {{ form.errors.body }}
                     </div>
@@ -85,8 +200,9 @@
                         class="flex flex-col items-center justify-center transition-all border-2 border-gray-200 border-dashed shadow-inner cursor-pointer bg-gray-50 aspect-video dark:bg-gray-950 dark:border-gray-800 rounded-2xl hover:border-red-700 group">
                         <ImageIcon class="w-10 h-10 mb-3 text-gray-300 transition-colors group-hover:text-red-700" />
                         <span
-                            class="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-red-700">Buka
-                            Pustaka Media</span>
+                            class="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-red-700">
+                            Buka Pustaka Media
+                        </span>
                     </div>
 
                     <div v-else
@@ -150,72 +266,10 @@
             </div>
         </form>
     </div>
-
     <MediaPicker v-if="showMediaModal" @close="showMediaModal = false" @select="onMediaSelected" />
+
+    <Head :title="`Tambah Konten | ${appName1}${appName2}`" />
 </template>
-
-<script setup>
-import { ref, watch, computed } from 'vue';
-import { Head, usePage, useForm } from '@inertiajs/vue3';
-import { ImageIcon, ChevronDown, Star, Link as LinkIcon, ChevronLeft } from 'lucide-vue-next';
-import DashboardLayout from '@/Layouts/DashboardLayout.vue';
-import MediaPicker from '@/Components/MediaPicker.vue';
-import AdminPageHeader from '@/Components/AdminPageHeader.vue';
-
-const page = usePage();
-const appName1 = page.props.appName1;
-const appName2 = page.props.appName2;
-const categories = page.props.categories || [];
-
-defineOptions({ layout: DashboardLayout })
-
-const showMediaModal = ref(false);
-const selectedImage = ref(null);
-
-const form = useForm({
-    user_id: page.props.auth.user.id,
-    category_id: null,
-    media_id: null,
-    title: '',
-    slug: '',
-    body: '',
-    status: 'published',
-    is_featured: false,
-});
-
-const selectedCategorySlug = computed(() => {
-    if (!form.category_id) return null;
-    const cat = categories.find(c => c.id === form.category_id);
-    return cat ? cat.slug : null;
-});
-
-const slugify = (text) => {
-    return text.toString().toLowerCase().trim()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w-]+/g, '')
-        .replace(/--+/g, '-');
-};
-
-watch(() => form.title, (val) => {
-    form.slug = slugify(val);
-});
-
-const onMediaSelected = (media) => {
-    selectedImage.value = media;
-    form.media_id = media.id;
-};
-
-const removeImage = () => {
-    selectedImage.value = null;
-    form.media_id = null;
-};
-
-const submit = () => {
-    form.post(route('admin.content.store'), {
-        preserveScroll: true,
-    });
-};
-</script>
 
 <style lang="postcss" scoped>
 @reference "../../../../../css/app.css";
@@ -234,5 +288,39 @@ const submit = () => {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-red-700;
+}
+
+:deep(.codex-editor) {
+    @apply text-gray-900 dark:text-gray-200;
+}
+
+:deep(.ce-toolbar__content),
+:deep(.ce-block__content) {
+    max-width: 100%;
+}
+
+:deep(.ce-popover),
+:deep(.ce-inline-toolbar),
+:deep(.ce-conversion-toolbar) {
+    @apply bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white shadow-xl;
+}
+
+:deep(.ce-popover__item:hover),
+:deep(.ce-inline-toolbar__buttons .ce-inline-tool:hover) {
+    @apply bg-gray-100 dark:bg-gray-800;
+}
+
+:deep(.ce-inline-tool),
+:deep(.ce-toolbar__plus),
+:deep(.ce-toolbar__settings-btn) {
+    @apply text-gray-700 dark:text-gray-300;
+}
+
+:deep(.ce-paragraph[data-placeholder]:empty::before) {
+    @apply text-gray-400 dark:text-gray-600 font-medium;
+}
+
+:deep(.ce-block--selected .ce-block__content) {
+    @apply bg-red-700/10 dark:bg-red-700/30 rounded;
 }
 </style>

@@ -64,7 +64,17 @@ class ContentController extends Controller {
 
     public function store(Request $request) {
         try {
-            // code...
+            dd($request->all());
+            $validated = $request->validate([
+                "user_id"     => ['required', 'exists:users,id'],
+                "category_id" => ['required', 'exists:categories,id'],
+                "media_id"    => ['required', 'exists:media,id'],
+                "title"       => ['required', 'string', 'max:255', 'min:5'],
+                "slug"        => ['required', 'string', 'max:255', 'unique:contents,slug'],
+                "body"        => ['required', 'string', 'min:20'],
+                "status"      => ['required', 'string', 'in:draft,published,archived'],
+                "is_featured" => ['required', 'boolean'],
+            ]);
         } catch (Exception $e) {
             // code...
         }
