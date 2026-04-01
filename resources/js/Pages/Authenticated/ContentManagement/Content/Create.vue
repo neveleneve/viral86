@@ -1,14 +1,19 @@
 <script setup>
-import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { Head, usePage, useForm } from '@inertiajs/vue3';
-import { ImageIcon, ChevronDown, Star, Link as LinkIcon, ChevronLeft } from 'lucide-vue-next';
+import {
+    ImageIcon, ChevronDown, Star, Link as LinkIcon,
+    ChevronLeft, Bold, Italic, List as ListIcon,
+    Heading2, Heading3, Type
+} from 'lucide-vue-next';
 import AdminPageHeader from '@/Components/AdminPageHeader.vue';
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
-import EditorJS from '@editorjs/editorjs';
-import edjsHTML from 'editorjs-html';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
 import MediaPicker from '@/Components/MediaPicker.vue';
+
+import { useEditor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
+import Placeholder from '@tiptap/extension-placeholder';
+import TiptapLink from '@tiptap/extension-link';
 
 const page = usePage();
 const appName1 = page.props.appName1;
@@ -20,10 +25,6 @@ defineOptions({ layout: DashboardLayout })
 const showMediaModal = ref(false);
 const selectedImage = ref(null);
 
-const edjsParser = edjsHTML();
-
-let editorInstance = null;
-
 const form = useForm({
     user_id: page.props.auth.user.id,
     category_id: null,
@@ -33,6 +34,30 @@ const form = useForm({
     body: '',
     status: 'draft',
     is_featured: false,
+});
+
+const editor = useEditor({
+    content: form.body,
+    extensions: [
+        StarterKit,
+        TiptapLink.configure({
+            openOnClick: false,
+            HTMLAttributes: {
+                class: 'text-red-600 dark:text-red-400 underline decoration-red-500/30',
+            },
+        }),
+        Placeholder.configure({
+            placeholder: 'Mulai menulis berita hari ini...',
+        }),
+    ],
+    onUpdate: ({ editor }) => {
+        form.body = editor.getHTML();
+    },
+    editorProps: {
+        attributes: {
+            class: 'prose dark:prose-invert max-w-none focus:outline-none min-h-[400px] p-8 text-lg leading-relaxed text-gray-900 dark:text-gray-100',
+        },
+    },
 });
 
 const selectedCategorySlug = computed(() => {
@@ -62,58 +87,18 @@ const removeImage = () => {
     form.media_id = null;
 };
 
-const submit = () => {
+const submit = (status) => {
+    form.status = status; // Update status sebelum posting
     form.post('/admin/konten', {
         preserveScroll: true,
     });
 };
-
-onMounted(() => {
-    editorInstance = new EditorJS({
-        holder: 'editorjs-container',
-        placeholder: 'Mulai menulis berita hari ini... (Ketik Tab untuk memunculkan menu)',
-        tools: {
-            header: {
-                class: Header,
-                config: {
-                    levels: [2, 3, 4],
-                    defaultLevel: 2
-                }
-            },
-            list: {
-                class: List,
-                inlineToolbar: true,
-            }
-        },
-        onChange: async () => {
-            try {
-                const content = await editorInstance.save();
-
-                const parsed = edjsParser.parse(content);
-
-                if (Array.isArray(parsed)) {
-                    form.body = parsed.join('');
-                } else if (typeof parsed === 'string') {
-                    form.body = parsed;
-                } else {
-                    form.body = '';
-                    console.warn('Data editor kosong atau tidak dikenali:', parsed);
-                }
-            } catch (error) {
-                console.error("Gagal menyimpan atau mem-parse data Editor.js:", error);
-            }
-        }
-    });
-});
-
-onBeforeUnmount(() => {
-    if (editorInstance) {
-        editorInstance.destroy();
-    }
-});
 </script>
 
 <template>
+
+    <Head :title="`Tambah Konten | ${appName1}${appName2}`" />
+
     <AdminPageHeader :show-action="$can('view-konten')" title="Konten" subtitle="Postingan" action-label="Kembali"
         action-url="/admin/konten" :breadcrumbs="[
             { label: 'Dashboard', url: '/admin' },
@@ -136,8 +121,7 @@ onBeforeUnmount(() => {
         <form @submit.prevent="submit" class="grid grid-cols-1 gap-6 md:col-span-2 lg:col-span-4 lg:grid-cols-3">
 
             <div class="space-y-6 lg:col-span-2">
-                <div
-                    class="overflow-hidden transition-all bg-white border-l-4 border-red-700 shadow-xl dark:bg-gray-900 rounded-r-xl">
+                <div class="overflow-hidden bg-white border-l-4 border-red-700 shadow-xl dark:bg-gray-900 rounded-r-xl">
                     <div class="p-8 border-b dark:border-gray-800">
                         <label class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-3">
                             Judul Berita
@@ -174,17 +158,54 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div
-                    class="p-8 transition-all bg-white border-l-4 border-gray-200 shadow-xl dark:bg-gray-900 rounded-xl dark:border-gray-700">
-                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-4">
-                        Isi Berita Lengkap
-                    </label>
+                    class="overflow-hidden bg-white border-l-4 border-gray-200 shadow-xl dark:bg-gray-900 rounded-r-xl dark:border-gray-700">
+                    <div class="p-8 border-b dark:border-gray-800">
+                        <label class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-4">
+                            Isi Berita Lengkap
+                        </label>
 
-                    <div
-                        class="w-full p-6 text-lg leading-relaxed transition-all border-none outline-none min-h-125 bg-gray-50 dark:bg-gray-950 rounded-2xl dark:text-gray-300 focus-within:ring-2 focus-within:ring-red-700/10 custom-scrollbar">
-                        <div id="editorjs-container" class="prose max-w-none dark:prose-invert"></div>
+                        <div v-if="editor"
+                            class="flex flex-wrap items-center gap-1 p-2 mb-4 bg-gray-100 border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-xl">
+                            <button @click.prevent="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+                                :class="{ 'bg-red-700 text-white': editor.isActive('heading', { level: 2 }) }"
+                                class="p-2 transition-all rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:text-gray-300">
+                                <Heading2 class="w-4 h-4" />
+                            </button>
+                            <button @click.prevent="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+                                :class="{ 'bg-red-700 text-white': editor.isActive('heading', { level: 3 }) }"
+                                class="p-2 transition-all rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:text-gray-300">
+                                <Heading3 class="w-4 h-4" />
+                            </button>
+                            <div class="w-px h-6 mx-1 bg-gray-300 dark:bg-gray-600"></div>
+                            <button @click.prevent="editor.chain().focus().toggleBold().run()"
+                                :class="{ 'bg-red-700 text-white': editor.isActive('bold') }"
+                                class="p-2 transition-all rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:text-gray-300">
+                                <Bold class="w-4 h-4" />
+                            </button>
+                            <button @click.prevent="editor.chain().focus().toggleItalic().run()"
+                                :class="{ 'bg-red-700 text-white': editor.isActive('italic') }"
+                                class="p-2 transition-all rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:text-gray-300">
+                                <Italic class="w-4 h-4" />
+                            </button>
+                            <button @click.prevent="editor.chain().focus().toggleBulletList().run()"
+                                :class="{ 'bg-red-700 text-white': editor.isActive('bulletList') }"
+                                class="p-2 transition-all rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:text-gray-300">
+                                <ListIcon class="w-4 h-4" />
+                            </button>
+                            <div class="w-px h-6 mx-1 bg-gray-300 dark:bg-gray-600"></div>
+                            <button @click.prevent="showMediaModal = true"
+                                class="flex items-center gap-2 px-3 py-2 text-[9px] font-black uppercase text-red-700 hover:bg-red-50 dark:hover:bg-red-950 rounded transition-all">
+                                <ImageIcon class="w-3.5 h-3.5" /> Media
+                            </button>
+                        </div>
+
+                        <div
+                            class="w-full overflow-y-auto bg-gray-50 dark:bg-gray-950 rounded-2xl min-h-125 focus-within:ring-2 focus-within:ring-red-700/10 custom-scrollbar">
+                            <EditorContent :editor="editor" />
+                        </div>
                     </div>
 
-                    <div v-if="form.errors.body" class="mt-2 text-[10px] font-bold text-red-600 uppercase">
+                    <div v-if="form.errors.body" class="p-4 text-[10px] font-bold text-red-600 uppercase">
                         {{ form.errors.body }}
                     </div>
                 </div>
@@ -195,7 +216,6 @@ onBeforeUnmount(() => {
                     class="p-6 bg-white border-l-4 border-gray-200 shadow-xl dark:bg-gray-900 rounded-r-xl dark:border-gray-700">
                     <label class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-4">Featured
                         Image</label>
-
                     <div v-if="!selectedImage" @click="showMediaModal = true"
                         class="flex flex-col items-center justify-center transition-all border-2 border-gray-200 border-dashed shadow-inner cursor-pointer bg-gray-50 aspect-video dark:bg-gray-950 dark:border-gray-800 rounded-2xl hover:border-red-700 group">
                         <ImageIcon class="w-10 h-10 mb-3 text-gray-300 transition-colors group-hover:text-red-700" />
@@ -204,7 +224,6 @@ onBeforeUnmount(() => {
                             Buka Pustaka Media
                         </span>
                     </div>
-
                     <div v-else
                         class="relative overflow-hidden shadow-2xl group aspect-video rounded-2xl ring-4 ring-red-700">
                         <img :src="`/storage/${selectedImage.directory}`" class="object-cover w-full h-full"
@@ -212,9 +231,13 @@ onBeforeUnmount(() => {
                         <div
                             class="absolute inset-0 flex items-center justify-center gap-3 transition-all opacity-0 bg-gray-950/80 backdrop-blur-sm group-hover:opacity-100">
                             <button @click="showMediaModal = true" type="button"
-                                class="px-4 py-2 bg-white text-black text-[10px] font-black uppercase rounded-lg hover:bg-red-700 hover:text-white transition-all shadow-lg">Ganti</button>
+                                class="px-4 py-2 bg-white text-black text-[10px] font-black uppercase rounded-lg hover:bg-red-700 hover:text-white transition-all shadow-lg">
+                                Ganti
+                            </button>
                             <button @click="removeImage" type="button"
-                                class="px-4 py-2 bg-red-700 text-white text-[10px] font-black uppercase rounded-lg hover:bg-red-800 transition-all shadow-lg">Hapus</button>
+                                class="px-4 py-2 bg-red-700 text-white text-[10px] font-black uppercase rounded-lg hover:bg-red-800 transition-all shadow-lg">
+                                Hapus
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -227,18 +250,15 @@ onBeforeUnmount(() => {
                         </label>
                         <div class="relative group">
                             <select v-model="form.category_id"
-                                class="w-full px-4 py-3 text-xs font-bold tracking-wider uppercase transition-all bg-white border-l-4 border-gray-200 rounded-r-lg shadow-sm outline-none appearance-none dark:bg-gray-900 dark:border-gray-700 focus:ring-0 focus:border-red-700 dark:text-white focus:shadow-lg">
+                                class="w-full px-4 py-3 text-xs font-bold tracking-wider uppercase transition-all bg-white border-l-4 border-gray-200 rounded-r-lg shadow-sm outline-none appearance-none dark:bg-gray-900 dark:border-gray-700 focus:ring-0 focus:border-red-700 dark:text-white">
                                 <option :value="null" disabled>-- Pilih Kategori --</option>
-                                <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}
-                                </option>
+                                <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                             </select>
                             <ChevronDown
                                 class="absolute w-4 h-4 text-gray-400 -translate-y-1/2 pointer-events-none right-4 top-1/2 group-focus-within:text-red-700" />
                         </div>
                     </div>
-
                     <div class="h-px bg-gray-100 dark:bg-gray-800"></div>
-
                     <div
                         class="flex items-center justify-between p-4 transition-all border border-transparent shadow-inner bg-gray-50 dark:bg-gray-950 rounded-xl hover:border-red-700/30">
                         <div class="flex items-center gap-3">
@@ -254,21 +274,35 @@ onBeforeUnmount(() => {
                             class="w-6 h-6 text-red-700 border-gray-300 rounded-lg shadow-sm focus:ring-red-700 dark:bg-gray-900 dark:border-gray-800" />
                     </div>
                 </div>
-
-                <div class="p-2 transition-all shadow-2xl bg-gray-950 dark:bg-red-700/10 rounded-2xl">
-                    <button type="submit" :disabled="form.processing"
-                        class="w-full bg-red-700 py-5 font-black uppercase tracking-[0.3em] text-white hover:bg-red-600 transition-all rounded-xl flex items-center justify-center gap-3 disabled:opacity-50 shadow-lg shadow-red-900/40 transform active:scale-95">
-                        <span v-if="form.processing"
-                            class="w-4 h-4 border-2 rounded-full border-white/30 border-t-white animate-spin"></span>
-                        <span v-else>Publish Berita</span>
-                    </button>
+                <div class="space-y-4">
+                    <div
+                        class="p-1.5 transition-all bg-gray-50 border border-gray-200 dark:bg-gray-800/50 dark:border-gray-700 rounded-2xl">
+                        <button type="button" @click="submit('draft')" :disabled="form.processing"
+                            class="flex items-center justify-center w-full gap-2 py-4 text-xs font-bold tracking-widest text-gray-500 uppercase transition-all border border-transparent hover:text-gray-900 hover:bg-white dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 rounded-xl disabled:opacity-50">
+                            <span v-if="form.processing && form.status === 'draft'"
+                                class="w-4 h-4 border-2 border-gray-400 rounded-full border-t-transparent animate-spin"></span>
+                            <span>Simpan ke Draft</span>
+                        </button>
+                    </div>
+                    <div
+                        class="p-1.5 transition-all shadow-xl bg-gray-950 dark:bg-red-900/20 rounded-2xl border border-transparent dark:border-red-800/30">
+                        <button type="button" @click="submit('published')" :disabled="form.processing"
+                            class="w-full bg-red-700 py-4 text-xs font-black uppercase tracking-[0.2em] text-white hover:bg-red-600 transition-all rounded-xl flex items-center justify-center gap-3 disabled:opacity-50 shadow-md shadow-red-900/40 transform active:scale-95">
+                            <span v-if="form.processing && form.status === 'published'"
+                                class="w-4 h-4 border-2 rounded-full border-white/30 border-t-white animate-spin"></span>
+                            <span>Terbitkan Berita</span>
+                        </button>
+                    </div>
+                    <p
+                        class="px-2 mt-2 text-[9px] font-bold text-gray-400 uppercase tracking-[0.15em] text-center italic leading-relaxed">
+                        *Aksi publikasi akan memerlukan otorisasi Editor di pembaruan mendatang.
+                    </p>
                 </div>
             </div>
         </form>
     </div>
-    <MediaPicker v-if="showMediaModal" @close="showMediaModal = false" @select="onMediaSelected" />
 
-    <Head :title="`Tambah Konten | ${appName1}${appName2}`" />
+    <MediaPicker v-if="showMediaModal" @close="showMediaModal = false" @select="onMediaSelected" />
 </template>
 
 <style lang="postcss" scoped>
@@ -290,37 +324,31 @@ onBeforeUnmount(() => {
     @apply bg-red-700;
 }
 
-:deep(.codex-editor) {
-    @apply text-gray-900 dark:text-gray-200;
+:deep(.tiptap) {
+    @apply text-gray-900 dark:text-gray-100;
+    /* Warna teks utama */
 }
 
-:deep(.ce-toolbar__content),
-:deep(.ce-block__content) {
-    max-width: 100%;
+:deep(.tiptap p) {
+    @apply text-gray-900 dark:text-gray-300 mb-4;
 }
 
-:deep(.ce-popover),
-:deep(.ce-inline-toolbar),
-:deep(.ce-conversion-toolbar) {
-    @apply bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white shadow-xl;
+:deep(.tiptap h2),
+:deep(.tiptap h3) {
+    @apply text-red-700 dark:text-red-500 font-black uppercase tracking-tight;
 }
 
-:deep(.ce-popover__item:hover),
-:deep(.ce-inline-toolbar__buttons .ce-inline-tool:hover) {
-    @apply bg-gray-100 dark:bg-gray-800;
+:deep(.tiptap a) {
+    @apply text-red-600 dark:text-red-400 underline decoration-red-500/30;
 }
 
-:deep(.ce-inline-tool),
-:deep(.ce-toolbar__plus),
-:deep(.ce-toolbar__settings-btn) {
-    @apply text-gray-700 dark:text-gray-300;
+:deep(.tiptap p.is-editor-empty:first-child::before) {
+    @apply text-gray-400 dark:text-gray-600 float-left h-0 pointer-events-none font-medium;
+    content: attr(data-placeholder);
 }
 
-:deep(.ce-paragraph[data-placeholder]:empty::before) {
-    @apply text-gray-400 dark:text-gray-600 font-medium;
-}
-
-:deep(.ce-block--selected .ce-block__content) {
-    @apply bg-red-700/10 dark:bg-red-700/30 rounded;
+:deep(.tiptap ul),
+:deep(.tiptap ol) {
+    @apply text-gray-900 dark:text-gray-300 ml-4 list-disc;
 }
 </style>

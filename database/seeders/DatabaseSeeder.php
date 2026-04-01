@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder {
             PermissionSeeder::class,
             UserSeeder::class,
             ContentSeeder::class,
+            MediaSeeder::class,
         ]);
     }
 }
