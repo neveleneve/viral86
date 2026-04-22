@@ -85,7 +85,7 @@ const appName2 = page.props.appName2;
     <div class="grid grid-cols-1 gap-3 mb-6 md:grid-cols-2 lg:grid-cols-4">
         <div class="relative">
             <select v-model="category"
-                class="w-full py-3 pl-4 pr-10 text-sm font-bold bg-white border-l-4 border-gray-200 outline-none appearance-none dark:bg-gray-900 dark:text-white dark:border-gray-700 focus:border-red-700">
+                class="w-full py-3 pl-4 pr-10 text-sm font-bold bg-white border-l-4 border-gray-200 rounded-l-lg outline-none appearance-none dark:bg-gray-900 dark:text-white dark:border-gray-700 focus:border-red-700">
                 <option value="">Semua Kategori</option>
                 <option v-for="c in categories" :key="c.id" :value="c.slug">{{ c.name }}</option>
             </select>
@@ -94,7 +94,7 @@ const appName2 = page.props.appName2;
 
         <div class="relative">
             <select v-model="tag"
-                class="w-full py-3 pl-4 pr-10 text-sm font-bold bg-white border-l-4 border-gray-200 outline-none appearance-none dark:bg-gray-900 dark:text-white dark:border-gray-700 focus:border-red-700">
+                class="w-full py-3 pl-4 pr-10 text-sm font-bold bg-white border-l-4 border-gray-200 rounded-l-lg outline-none appearance-none dark:bg-gray-900 dark:text-white dark:border-gray-700 focus:border-red-700">
                 <option value="">Semua Tag</option>
                 <option v-for="t in tags" :key="t.id" :value="t.name">{{ t.name }}</option>
             </select>
@@ -103,7 +103,7 @@ const appName2 = page.props.appName2;
 
         <div class="relative">
             <select v-model="status"
-                class="w-full py-3 pl-4 pr-10 text-sm font-bold bg-white border-l-4 border-gray-200 outline-none appearance-none dark:bg-gray-900 dark:text-white dark:border-gray-700 focus:border-red-700">
+                class="w-full py-3 pl-4 pr-10 text-sm font-bold bg-white border-l-4 border-gray-200 rounded-l-lg outline-none appearance-none dark:bg-gray-900 dark:text-white dark:border-gray-700 focus:border-red-700">
                 <option value="">Semua Status</option>
                 <option value="published">Published</option>
                 <option value="draft">Draft</option>
@@ -117,7 +117,7 @@ const appName2 = page.props.appName2;
                 <Search class="w-4 h-4" />
             </div>
             <input v-model="search" type="text" placeholder="Cari judul..."
-                class="w-full py-3 pl-4 pr-10 text-sm font-bold text-gray-900 transition-all bg-white border-l-4 border-gray-200 outline-none dark:bg-gray-900 dark:text-white focus:shadow-lg placeholder:font-normal dark:border-gray-700 focus:border-red-700">
+                class="w-full py-3 pl-4 pr-10 text-sm font-bold text-gray-900 transition-all bg-white border-l-4 border-gray-200 rounded-l-lg outline-none dark:bg-gray-900 dark:text-white focus:shadow-lg placeholder:font-normal dark:border-gray-700 focus:border-red-700">
         </div>
     </div>
     <div class="hidden overflow-hidden bg-white shadow-xl lg:block dark:bg-gray-900">

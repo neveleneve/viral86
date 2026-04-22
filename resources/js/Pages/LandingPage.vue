@@ -185,7 +185,7 @@ const swiperModules = [Navigation, Pagination, Autoplay, EffectFade]
                         </ul>
                     </div>
                     <div
-                        class="relative p-8 my-12 overflow-hidden border-l-4 border-gray-200 bg-gray-50 dark:bg-gray-900/50 dark:border-gray-800 group">
+                        class="relative p-8 my-12 overflow-hidden border border-red-200 bg-gray-50 dark:bg-gray-900/50 dark:border-red-800 group">
                         <div
                             class="absolute top-0 right-0 flex items-center p-3 text-[9px] font-black uppercase tracking-widest text-gray-400">
                             <Info class="w-3 h-3 mr-1.5 text-gray-400" />
